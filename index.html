@@ -335,7 +335,7 @@ function renderHome(){
             ${feat.grade?`<span class="tag">${feat.grade}</span>`:''}<b>${feat.name}</b><br>
             <span style="color:var(--ink-muted);">${feat.surface}${feat.distance}m・${feat.cond}</span>
           </div>`:''}
-          <div class="status">${confirmedCount}/12レース 出走馬確定 ${confirmedCount<12?'（随時更新）':''}</div>
+          <div class="status">${confirmedCount}/12レース 出走馬確定${confirmedCount<12 && !meet.past?'（随時更新）':''}</div>
         </button>`;
     });
     html += `</div>`;
