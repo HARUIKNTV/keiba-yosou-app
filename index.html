@@ -68,13 +68,14 @@ button{font-family:inherit;}
 
 /* ---- venue: race list ---- */
 .race-table{display:flex;flex-direction:column;background:var(--paper-raised);border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
-.race-row{display:grid;grid-template-columns:44px 1fr 90px 110px;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--rule);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;text-align:left;width:100%;color:inherit;}
+.race-row{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--rule);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;text-align:left;width:100%;color:inherit;}
 .race-row:last-child{border-bottom:none;}
 .race-row:hover{background:var(--paper-inset);}
 .race-row .rno{font-family:"JetBrains Mono",monospace;font-weight:900;font-size:15px;}
-.race-row .rname{font-weight:700;}
+.race-row .rmain{min-width:0;}
+.race-row .rname{font-weight:700;overflow-wrap:anywhere;}
 .race-row .rname .grade{color:var(--brand);font-weight:900;margin-left:4px;}
-.race-row .rcond{font-size:11px;color:var(--ink-muted);margin-top:2px;}
+.race-row .rcond{display:block;font-size:11px;color:var(--ink-muted);margin-top:2px;overflow-wrap:anywhere;}
 .race-row .status-badge{justify-self:end;font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;}
 .status-badge.confirmed{background:var(--good-bg);color:var(--good);}
 .status-badge.pending{background:var(--paper-inset);color:var(--ink-muted);}
@@ -95,22 +96,22 @@ button{font-family:inherit;}
 @media (max-width:920px){.layout2{grid-template-columns:1fr;}}
 
 .entry-list{display:flex;flex-direction:column;}
-.entry-row{display:grid;grid-template-columns:30px 26px 1fr 60px 46px;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--rule);}
-.entry-row.with-result{grid-template-columns:30px 26px 1fr 60px 46px 50px;}
+.entry-row{display:grid;grid-template-columns:28px 24px minmax(0,1fr) 54px 42px;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--rule);}
+.entry-row.with-result{grid-template-columns:28px 24px minmax(0,1fr) 54px 42px 46px;}
 .entry-row:last-child{border-bottom:none;}
 .entry-row.header{font-size:10.5px;color:var(--ink-muted);font-weight:700;padding-top:6px;padding-bottom:6px;background:var(--paper-inset);}
-.gate{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12px;border:1.5px solid var(--ink);}
-.mark{font-size:18px;font-weight:900;color:var(--brand);text-align:center;font-family:"Zen Kaku Gothic New",sans-serif;}
+.gate{width:24px;height:24px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:11px;border:1.5px solid var(--ink);}
+.mark{font-size:17px;font-weight:900;color:var(--brand);text-align:center;font-family:"Zen Kaku Gothic New",sans-serif;}
 .mark.blank{color:var(--rule);}
-.horse-btn{background:none;border:none;padding:0;text-align:left;cursor:pointer;color:var(--ink);}
-.horse-name{font-weight:700;font-size:14px;border-bottom:1px dashed var(--ink-muted);display:inline-block;}
+.horse-btn{background:none;border:none;padding:0;text-align:left;cursor:pointer;color:var(--ink);max-width:100%;}
+.horse-name{font-weight:700;font-size:13.5px;border-bottom:1px dashed var(--ink-muted);display:inline-block;overflow-wrap:anywhere;}
 .horse-btn:hover .horse-name{color:var(--brand);border-color:var(--brand);}
-.horse-sub{display:block;margin-top:2px;}
-.jockey-btn{background:none;border:none;padding:0;cursor:pointer;font-size:10.5px;color:var(--ink-muted);border-bottom:1px dotted var(--ink-muted);}
+.horse-sub{display:block;margin-top:2px;overflow-wrap:anywhere;}
+.jockey-btn{background:none;border:none;padding:0;cursor:pointer;font-size:10.5px;color:var(--ink-muted);border-bottom:1px dotted var(--ink-muted);max-width:100%;overflow-wrap:anywhere;text-align:left;white-space:normal;}
 .jockey-btn:hover{color:var(--brand);border-color:var(--brand);}
 .odds-col{text-align:right;}
-.odds-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:13px;}
-.pop-col{text-align:right;font-family:"JetBrains Mono",monospace;color:var(--ink-muted);font-size:11.5px;}
+.odds-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12.5px;}
+.pop-col{text-align:right;font-family:"JetBrains Mono",monospace;color:var(--ink-muted);font-size:11px;}
 .finish-pill{display:inline-block;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12px;padding:2px 7px;border-radius:10px;}
 .finish-pill.win{background:var(--good-bg);color:var(--good);}
 .finish-pill.mid{background:var(--caution-bg);color:var(--caution);}
@@ -147,10 +148,10 @@ button{font-family:inherit;}
 .strategy-card .body{padding:10px 12px;}
 .combo-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:3px 0;border-bottom:1px dotted var(--rule);}
 .combo-row:last-of-type{border-bottom:none;}
-.combo-row .label{color:var(--ink-muted);}
-.combo-row .amt{font-family:"JetBrains Mono",monospace;font-weight:700;}
-.strategy-foot{margin-top:8px;padding-top:8px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;font-size:12px;}
-.strategy-foot .total{font-weight:700;}
+.combo-row .label{color:var(--ink-muted);min-width:0;overflow-wrap:anywhere;}
+.combo-row .amt{font-family:"JetBrains Mono",monospace;font-weight:700;flex-shrink:0;}
+.strategy-foot{margin-top:8px;padding-top:8px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 8px;font-size:12px;}
+.strategy-foot .total{font-weight:700;overflow-wrap:anywhere;}
 .strategy-note{font-size:11px;color:var(--ink-muted);margin-top:6px;line-height:1.5;}
 
 .modal-backdrop{position:fixed;inset:0;background:rgba(15,13,9,.55);display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;z-index:50;}
@@ -158,14 +159,15 @@ button{font-family:inherit;}
 .stat-card{background:var(--paper-raised);border:2px solid var(--ink);border-radius:6px;max-width:600px;width:100%;box-shadow:6px 6px 0 rgba(0,0,0,0.25);}
 .stat-card-head{background:var(--turf);color:var(--turf-ink);padding:14px 16px;border-radius:4px 4px 0 0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
 .stat-card-head.jockey-card-head{background:var(--brand);color:var(--brand-ink);}
-.stat-card-head h2{margin:2px 0 2px;font-family:"Zen Kaku Gothic New",sans-serif;font-size:21px;}
-.stat-card-head .meta{font-size:11.5px;opacity:.85;}
-.stat-card-head .close{background:none;border:none;color:inherit;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;}
+.stat-card-head > div:first-child{min-width:0;}
+.stat-card-head h2{margin:2px 0 2px;font-family:"Zen Kaku Gothic New",sans-serif;font-size:21px;overflow-wrap:anywhere;}
+.stat-card-head .meta{font-size:11.5px;opacity:.85;overflow-wrap:anywhere;}
+.stat-card-head .close{flex-shrink:0;background:none;border:none;color:inherit;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;}
 .stat-card-body{padding:16px;}
 .kv-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--rule);}
 .kv-row:last-child{border-bottom:none;}
-.kv-row .k{color:var(--ink-muted);}
-.kv-row .v{font-family:"JetBrains Mono",monospace;font-weight:700;}
+.kv-row .k{color:var(--ink-muted);flex-shrink:0;}
+.kv-row .v{font-family:"JetBrains Mono",monospace;font-weight:700;text-align:right;overflow-wrap:anywhere;}
 .jockey-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:0;border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-bottom:10px;}
 .jockey-stat-cell{padding:8px 10px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--paper);}
 .jockey-stat-cell .k{font-size:10px;color:var(--ink-muted);}
@@ -176,6 +178,38 @@ button{font-family:inherit;}
 footer{text-align:center;padding:20px;font-size:11px;color:var(--ink-muted);border-top:1px solid var(--rule);line-height:1.8;}
 footer a{text-decoration:underline;}
 [hidden]{display:none!important;}
+
+/* ---- mobile ---- */
+@media (max-width:600px){
+  .wrap{padding:12px;}
+  .masthead{padding:10px 12px;}
+  .masthead-top{font-size:10px;gap:4px 10px;}
+  .crumb{overflow-wrap:anywhere;}
+  .panel-head{padding:9px 10px;font-size:14px;flex-wrap:wrap;}
+  .panel-head .sub{font-size:10px;}
+  .entry-row{grid-template-columns:24px 20px minmax(0,1fr) 46px 36px;gap:4px;padding:7px 6px;}
+  .entry-row.with-result{grid-template-columns:24px 20px minmax(0,1fr) 46px 36px 40px;}
+  .entry-row.header{font-size:9px;}
+  .gate{width:20px;height:20px;font-size:9.5px;}
+  .mark{font-size:15px;}
+  .horse-name{font-size:12.5px;}
+  .horse-sub{font-size:10px;}
+  .odds-val{font-size:11.5px;}
+  .pop-col{font-size:10px;}
+  .finish-pill{font-size:10.5px;padding:1px 5px;}
+  .race-row{padding:9px 10px;gap:6px;}
+  .race-row .rname{font-size:13px;}
+  .race-strip .name{font-size:15px;}
+  .budget-form{padding:10px;gap:8px;}
+  .field input{width:110px;font-size:14px;}
+  .chip-set button{padding:5px 8px;font-size:11px;}
+  .strategy-card .head .name{font-size:13.5px;}
+  .modal-backdrop{padding:14px 8px;}
+  .stat-card-head{padding:12px 14px;}
+  .stat-card-head h2{font-size:18px;}
+  .stat-card-body{padding:12px;}
+  .jockey-stat-grid{grid-template-columns:repeat(3,1fr);}
+}
 </style>
 </head>
 <body>
@@ -462,11 +496,10 @@ function renderVenue(id){
     html += `
       <button class="race-row" data-no="${r.no}">
         <span class="rno">${r.no}R</span>
-        <span>
+        <span class="rmain">
           <span class="rname">${r.name || '（レース詳細は近日公開）'}${r.grade?`<span class="grade">${r.grade}</span>`:''}</span>
           ${r.surface?`<span class="rcond">${r.surface}${r.distance}m・${r.cond||''}</span>`:''}
         </span>
-        <span></span>
         <span class="status-badge ${confirmed?'confirmed':'pending'}">${confirmed?'出走馬確定':'準備中'}</span>
       </button>`;
   });
