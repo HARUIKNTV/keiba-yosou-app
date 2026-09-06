@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全レース競馬予想</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --paper:#EAE6D9; --paper-raised:#F6F3E9; --paper-inset:#DFDAC9;
+  --ink:#201C16; --ink-muted:#6E6858; --rule:#C7BFA6;
+  --brand:#C1442D; --brand-ink:#FFF8EE;
+  --turf:#2F5233; --turf-ink:#EAF2E9;
+  --good:#2E7D46; --good-bg:#DEEBDF;
+  --caution:#9C7A0A; --caution-bg:#F1E6C4;
+  --warn:#B5590F; --warn-bg:#F3DFC6;
+  --bad:#AF2A3E; --bad-bg:#F2DEE0;
+  --focus:#1C63C7; --shadow: 2px 2px 0 rgba(32,28,22,0.12);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#15140F; --paper-raised:#1E1C15; --paper-inset:#0F0E0A;
+    --ink:#ECE6D6; --ink-muted:#A69C87; --rule:#3B3627;
+    --brand:#E27A5B; --brand-ink:#1B1108; --turf:#5C9068; --turf-ink:#0E1A10;
+    --good:#5CBE7A; --good-bg:#173322; --caution:#E0B646; --caution-bg:#3A2E0E;
+    --warn:#E8934C; --warn-bg:#3A2510; --bad:#E4738A; --bad-bg:#3A1620;
+    --focus:#6FA8E8; --shadow: 2px 2px 0 rgba(0,0,0,0.4);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15140F; --paper-raised:#1E1C15; --paper-inset:#0F0E0A;
+  --ink:#ECE6D6; --ink-muted:#A69C87; --rule:#3B3627;
+  --brand:#E27A5B; --brand-ink:#1B1108; --turf:#5C9068; --turf-ink:#0E1A10;
+  --good:#5CBE7A; --good-bg:#173322; --caution:#E0B646; --caution-bg:#3A2E0E;
+  --warn:#E8934C; --warn-bg:#3A2510; --bad:#E4738A; --bad-bg:#3A1620;
+  --focus:#6FA8E8; --shadow: 2px 2px 0 rgba(0,0,0,0.4);
+}
+
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP","Zen Kaku Gothic New",sans-serif;font-size:14px;line-height:1.6;}
+a{color:inherit;}
+button{font-family:inherit;}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;}
+
+.masthead{border-bottom:4px double var(--ink);padding:14px 20px;background:var(--paper-raised);}
+.masthead-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 16px;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-muted);letter-spacing:.03em;padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:10px;}
+.masthead h1{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:clamp(24px,4vw,34px);margin:0;letter-spacing:.02em;}
+.masthead h1 button{background:none;border:none;color:inherit;font:inherit;font-weight:inherit;cursor:pointer;padding:0;}
+.crumb{font-size:12px;color:var(--ink-muted);margin-top:6px;}
+.crumb button{background:none;border:none;color:var(--brand);cursor:pointer;font:inherit;padding:0;text-decoration:underline;}
+.demo-banner{margin-top:10px;background:var(--caution-bg);color:var(--caution);border:1px solid var(--caution);padding:8px 10px;font-size:12px;font-weight:700;border-radius:2px;line-height:1.6;}
+.demo-banner a{text-decoration:underline;}
+
+.wrap{max-width:1100px;margin:0 auto;padding:20px;}
+
+/* ---- home: date/venue list ---- */
+.meet-date{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:18px;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--ink);}
+.meet-date:first-child{margin-top:0;}
+.venue-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
+.venue-card{display:block;text-align:left;background:var(--paper-raised);border:1.5px solid var(--ink);border-radius:4px;padding:14px 16px;cursor:pointer;box-shadow:var(--shadow);}
+.venue-card .vn{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:19px;}
+.venue-card .mn{font-size:11px;color:var(--ink-muted);margin-top:2px;}
+.venue-card .feat{margin-top:8px;font-size:12.5px;padding-top:8px;border-top:1px dashed var(--rule);}
+.venue-card .feat .tag{display:inline-block;font-size:10px;font-weight:700;border:1px solid var(--ink);padding:1px 6px;border-radius:2px;margin-right:6px;}
+.venue-card .status{margin-top:8px;font-size:11px;color:var(--ink-muted);}
+
+/* ---- venue: race list ---- */
+.race-table{display:flex;flex-direction:column;background:var(--paper-raised);border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
+.race-row{display:grid;grid-template-columns:44px 1fr 90px 110px;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--rule);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;text-align:left;width:100%;color:inherit;}
+.race-row:last-child{border-bottom:none;}
+.race-row:hover{background:var(--paper-inset);}
+.race-row .rno{font-family:"JetBrains Mono",monospace;font-weight:900;font-size:15px;}
+.race-row .rname{font-weight:700;}
+.race-row .rname .grade{color:var(--brand);font-weight:900;margin-left:4px;}
+.race-row .rcond{font-size:11px;color:var(--ink-muted);margin-top:2px;}
+.race-row .status-badge{justify-self:end;font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;}
+.status-badge.confirmed{background:var(--good-bg);color:var(--good);}
+.status-badge.pending{background:var(--paper-inset);color:var(--ink-muted);}
+
+/* ---- race detail ---- */
+.panel{background:var(--paper-raised);border:1px solid var(--rule);border-radius:3px;}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:2px solid var(--ink);font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:15px;}
+.panel-head .sub{font-size:11px;color:var(--ink-muted);font-weight:500;font-family:"Noto Sans JP",sans-serif;}
+.race-strip{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13px;margin-top:8px;}
+.race-strip .name{font-weight:700;font-size:17px;}
+.race-strip .tag{border:1px solid var(--ink);padding:1px 8px;border-radius:2px;font-size:11px;font-weight:700;}
+.race-strip .tag.grade{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);}
+
+.pending-box{padding:40px 20px;text-align:center;color:var(--ink-muted);}
+.pending-box .big{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+
+.layout2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr);gap:18px;align-items:start;}
+@media (max-width:920px){.layout2{grid-template-columns:1fr;}}
+
+.entry-list{display:flex;flex-direction:column;}
+.entry-row{display:grid;grid-template-columns:30px 26px 1fr 60px 46px;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--rule);}
+.entry-row:last-child{border-bottom:none;}
+.entry-row.header{font-size:10.5px;color:var(--ink-muted);font-weight:700;padding-top:6px;padding-bottom:6px;background:var(--paper-inset);}
+.gate{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12px;border:1.5px solid var(--ink);}
+.mark{font-size:18px;font-weight:900;color:var(--brand);text-align:center;font-family:"Zen Kaku Gothic New",sans-serif;}
+.mark.blank{color:var(--rule);}
+.horse-btn{background:none;border:none;padding:0;text-align:left;cursor:pointer;color:var(--ink);}
+.horse-name{font-weight:700;font-size:14px;border-bottom:1px dashed var(--ink-muted);display:inline-block;}
+.horse-btn:hover .horse-name{color:var(--brand);border-color:var(--brand);}
+.horse-sub{display:block;margin-top:2px;}
+.jockey-btn{background:none;border:none;padding:0;cursor:pointer;font-size:10.5px;color:var(--ink-muted);border-bottom:1px dotted var(--ink-muted);}
+.jockey-btn:hover{color:var(--brand);border-color:var(--brand);}
+.odds-col{text-align:right;}
+.odds-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:13px;}
+.pop-col{text-align:right;font-family:"JetBrains Mono",monospace;color:var(--ink-muted);font-size:11.5px;}
+
+.legend-strip{display:flex;flex-wrap:wrap;gap:12px;padding:8px 14px;font-size:11px;color:var(--ink-muted);border-top:1px solid var(--rule);}
+.legend-strip b{color:var(--ink);}
+.ev-explain{padding:10px 14px;font-size:11.5px;color:var(--ink-muted);line-height:1.7;background:var(--paper-inset);border-top:1px solid var(--rule);}
+.ev-explain b{color:var(--ink);}
+.ev-explain code{font-family:"JetBrains Mono",monospace;background:var(--paper);padding:1px 4px;border-radius:2px;}
+
+.glossary{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0;}
+.gloss-item{padding:10px 14px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);}
+.gloss-item .t{font-weight:700;font-size:13px;}
+.gloss-item .d{font-size:11.5px;color:var(--ink-muted);margin-top:2px;}
+
+.budget-form{padding:14px;display:flex;gap:10px;align-items:flex-end;border-bottom:1px solid var(--rule);flex-wrap:wrap;}
+.field label{display:block;font-size:11px;color:var(--ink-muted);font-weight:700;margin-bottom:4px;}
+.field input{font-family:"JetBrains Mono",monospace;font-size:15px;padding:6px 8px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:2px;width:150px;}
+.chip-set{display:flex;gap:6px;flex-wrap:wrap;}
+.chip-set button{border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:6px 10px;border-radius:2px;font-size:12px;font-weight:700;cursor:pointer;}
+.chip-set button.active{background:var(--brand);border-color:var(--brand);color:var(--brand-ink);}
+
+.strategy-list{padding:12px 14px;display:flex;flex-direction:column;gap:12px;}
+.strategy-card{border:1.5px solid var(--ink);border-radius:3px;background:var(--paper);box-shadow:var(--shadow);}
+.strategy-card .head{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--rule);}
+.strategy-card .head .name{font-weight:900;font-family:"Zen Kaku Gothic New",sans-serif;font-size:14.5px;}
+.strategy-card .head .risk{font-size:10.5px;color:var(--ink-muted);}
+.ev-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;white-space:nowrap;}
+.ev-badge.good{background:var(--good-bg);color:var(--good);}
+.ev-badge.caution{background:var(--caution-bg);color:var(--caution);}
+.ev-badge.warn{background:var(--warn-bg);color:var(--warn);}
+.ev-badge.bad{background:var(--bad-bg);color:var(--bad);}
+.strategy-card .body{padding:10px 12px;}
+.combo-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:3px 0;border-bottom:1px dotted var(--rule);}
+.combo-row:last-of-type{border-bottom:none;}
+.combo-row .label{color:var(--ink-muted);}
+.combo-row .amt{font-family:"JetBrains Mono",monospace;font-weight:700;}
+.strategy-foot{margin-top:8px;padding-top:8px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;font-size:12px;}
+.strategy-foot .total{font-weight:700;}
+.strategy-note{font-size:11px;color:var(--ink-muted);margin-top:6px;line-height:1.5;}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,13,9,.55);display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;z-index:50;}
+.modal-backdrop.open{display:flex;}
+.stat-card{background:var(--paper-raised);border:2px solid var(--ink);border-radius:6px;max-width:600px;width:100%;box-shadow:6px 6px 0 rgba(0,0,0,0.25);}
+.stat-card-head{background:var(--turf);color:var(--turf-ink);padding:14px 16px;border-radius:4px 4px 0 0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.stat-card-head.jockey-card-head{background:var(--brand);color:var(--brand-ink);}
+.stat-card-head h2{margin:2px 0 2px;font-family:"Zen Kaku Gothic New",sans-serif;font-size:21px;}
+.stat-card-head .meta{font-size:11.5px;opacity:.85;}
+.stat-card-head .close{background:none;border:none;color:inherit;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;}
+.stat-card-body{padding:16px;}
+.kv-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--rule);}
+.kv-row:last-child{border-bottom:none;}
+.kv-row .k{color:var(--ink-muted);}
+.kv-row .v{font-family:"JetBrains Mono",monospace;font-weight:700;}
+.jockey-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:0;border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-bottom:10px;}
+.jockey-stat-cell{padding:8px 10px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--paper);}
+.jockey-stat-cell .k{font-size:10px;color:var(--ink-muted);}
+.jockey-stat-cell .v{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:15px;}
+.comment-line{font-size:12px;background:var(--paper-inset);padding:10px 12px;border-radius:3px;line-height:1.6;margin-top:10px;}
+.no-profile{font-size:11.5px;color:var(--ink-muted);font-style:italic;}
+
+footer{text-align:center;padding:20px;font-size:11px;color:var(--ink-muted);border-top:1px solid var(--rule);line-height:1.8;}
+footer a{text-decoration:underline;}
+[hidden]{display:none!important;}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-top">
+    <span>JRA全場・全レース対応 ／ 予想印・買い目ガイドは毎週金曜19時ごろ自動更新</span>
+    <span id="todayStr"></span>
+  </div>
+  <h1><button id="titleHome" type="button">全レース競馬予想</button></h1>
+  <div class="crumb" id="crumb"></div>
+</div>
+
+<div class="wrap">
+  <div class="demo-banner" id="topBanner">
+    このサイトは投票（賭け方）を検討する際の参考情報を提供するものです。予想印・買い目ガイドは<b>当サイト独自の簡易ロジック</b>（単勝オッズと騎手成績から機械的に算出）によるもので、専門家による予想や的中を保証するものではありません。最新の出走馬・オッズは必ず<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でご確認ください。馬券の購入は20歳になってから。
+  </div>
+  <div id="view"></div>
+</div>
+
+<footer>
+  全レース競馬予想 &mdash; 毎週金曜19時ごろ、その週末に開催されるJRA全場・全レースの出馬表とオッズを取得し自動更新します。<br>
+  出典：<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式</a>／各種公開オッズ情報。予想は参考情報であり的中を保証するものではありません。
+</footer>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="stat-card" id="statCard"></div>
+</div>
+
+<script>
+/* =========================================================
+   データモデル
+   毎週金曜19時の自動更新ジョブが MEETS を丸ごと差し替える想定。
+   horses が空配列の間は「準備中」表示になる。
+========================================================= */
+const GATE_COLORS = {
+  1:{bg:'#FFFFFF',fg:'#201C16'}, 2:{bg:'#222222',fg:'#FFFFFF'},
+  3:{bg:'#D0342C',fg:'#FFFFFF'}, 4:{bg:'#2A5CAA',fg:'#FFFFFF'},
+  5:{bg:'#F2C230',fg:'#201C16'}, 6:{bg:'#2F7D4F',fg:'#FFFFFF'},
+  7:{bg:'#E07B24',fg:'#201C16'}, 8:{bg:'#E77FA6',fg:'#201C16'}
+};
+
+function emptyRace(no){ return { no, name:null, grade:null, surface:null, distance:null, cond:null, horses:[] }; }
+function makeCard(name, meetLabel, feature){
+  const races = Array.from({length:12},(_,i)=>emptyRace(i+1));
+  if(feature){
+    races[10] = Object.assign(emptyRace(11), feature); // 11R
+  }
+  return { name, meetLabel, races };
+}
+
+// 実データ：2026年9月時点でJRA公式・各種スポーツニュースにより確認済みの開催情報
+// （出走馬・オッズは未確定のため空欄。次回自動更新で反映）
+const MEETS = [
+  { date:'2026-09-12', dateLabel:'2026年9月12日（土）', venues:[
+      { id:'nakayama-0912', ...makeCard('中山','4回中山3日', {name:'ラジオ日本賞', grade:null, surface:'ダート', distance:1200, cond:'3歳以上オープン・別定'}) },
+      { id:'hanshin-0912',  ...makeCard('阪神','4回阪神3日',  {name:'チャレンジカップ', grade:'GIII', surface:'芝', distance:2000, cond:'3歳以上オープン・ハンデ'}) },
+    ]
+  },
+  { date:'2026-09-13', dateLabel:'2026年9月13日（日）', venues:[
+      { id:'nakayama-0913', ...makeCard('中山','4回中山4日', {name:'朝日杯セントライト記念', grade:'GII', surface:'芝（外）', distance:2200, cond:'3歳オープン・馬齢'}) },
+      { id:'hanshin-0913',  ...makeCard('阪神','4回阪神4日',  {name:'関西テレビ放送賞ローズステークス', grade:'GII', surface:'芝（外）', distance:1800, cond:'3歳オープン・馬齢'}) },
+    ]
+  },
+];
+
+// 騎手データ：週次ジョブがJRAリーディング情報から取得し、登場する騎手分をここに補充する想定
+const JOCKEYS = {};
+
+/* =========================================================
+   ルーティング（#/ , #/venue/<id> , #/race/<venueId>/<no>）
+========================================================= */
+const view = document.getElementById('view');
+const crumb = document.getElementById('crumb');
+document.getElementById('titleHome').addEventListener('click', ()=> location.hash = '#/');
+
+function findVenue(id){
+  for(const m of MEETS) for(const v of m.venues) if(v.id===id) return {meet:m, venue:v};
+  return null;
+}
+function router(){
+  const hash = location.hash || '#/';
+  const parts = hash.replace(/^#\//,'').split('/').filter(Boolean);
+  if(parts[0]==='venue' && parts[1]){
+    renderVenue(parts[1]);
+  } else if(parts[0]==='race' && parts[1] && parts[2]){
+    renderRace(parts[1], Number(parts[2]));
+  } else {
+    renderHome();
+  }
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', router);
+
+/* ---------- HOME ---------- */
+function renderHome(){
+  crumb.textContent = '';
+  let html = '';
+  MEETS.forEach(meet=>{
+    html += `<div class="meet-date">${meet.dateLabel}</div><div class="venue-grid">`;
+    meet.venues.forEach(v=>{
+      const confirmedCount = v.races.filter(r=>r.horses.length>0).length;
+      const feat = v.races[10];
+      html += `
+        <button class="venue-card" data-id="${v.id}">
+          <div class="vn">${v.name}競馬場</div>
+          <div class="mn">${v.meetLabel}・全12レース</div>
+          ${feat && feat.name ? `
+          <div class="feat">
+            ${feat.grade?`<span class="tag">${feat.grade}</span>`:''}<b>${feat.name}</b><br>
+            <span style="color:var(--ink-muted);">${feat.surface}${feat.distance}m・${feat.cond}</span>
+          </div>`:''}
+          <div class="status">${confirmedCount}/12レース 出走馬確定 ${confirmedCount<12?'（随時更新）':''}</div>
+        </button>`;
+    });
+    html += `</div>`;
+  });
+  view.innerHTML = html;
+  view.querySelectorAll('.venue-card').forEach(btn=>{
+    btn.addEventListener('click', ()=> location.hash = '#/venue/'+btn.dataset.id);
+  });
+}
+
+/* ---------- VENUE ---------- */
+function renderVenue(id){
+  const found = findVenue(id);
+  if(!found){ view.innerHTML = '<p>開催情報が見つかりませんでした。</p>'; return; }
+  const { meet, venue } = found;
+  crumb.innerHTML = `<button id="crumbHome">全レース競馬予想</button> ／ ${meet.dateLabel} ${venue.name}競馬場`;
+  document.getElementById('crumbHome').addEventListener('click', ()=> location.hash = '#/');
+  let html = `
+    <div class="panel">
+      <div class="panel-head">${venue.name}競馬場<span class="sub">${meet.dateLabel}・${venue.meetLabel}</span></div>
+      <div class="race-table">`;
+  venue.races.forEach(r=>{
+    const confirmed = r.horses.length>0;
+    html += `
+      <button class="race-row" data-no="${r.no}">
+        <span class="rno">${r.no}R</span>
+        <span>
+          <span class="rname">${r.name || '（レース詳細は近日公開）'}${r.grade?`<span class="grade">${r.grade}</span>`:''}</span>
+          ${r.surface?`<span class="rcond">${r.surface}${r.distance}m・${r.cond||''}</span>`:''}
+        </span>
+        <span></span>
+        <span class="status-badge ${confirmed?'confirmed':'pending'}">${confirmed?'出走馬確定':'準備中'}</span>
+      </button>`;
+  });
+  html += `</div></div>`;
+  view.innerHTML = html;
+  view.querySelectorAll('.race-row').forEach(btn=>{
+    btn.addEventListener('click', ()=> location.hash = `#/race/${venue.id}/${btn.dataset.no}`);
+  });
+}
+
+/* ---------- RACE DETAIL ---------- */
+function round100(x){ return Math.max(100, Math.round(x/100)*100); }
+function yen(n){ return '¥'+n.toLocaleString('ja-JP'); }
+function pairOddsApprox(a,b){ return Math.round(((a.odds*b.odds)/(a.odds+b.odds))*3.2*10)/10; }
+
+function computeScored(horses){
+  return horses.map(h=>{
+    const impliedProb = 1/h.odds;
+    const jRate = (h.jockeyTop3Rate!=null) ? h.jockeyTop3Rate : 0;
+    return { ...h, impliedProb, score: impliedProb*(1+jRate) };
+  });
+}
+function computeMarks(scored){
+  const byScore = [...scored].sort((a,b)=>b.score-a.score);
+  const marks = {};
+  ['◎','○','▲','△'].forEach((sym,i)=>{ if(byScore[i]) marks[byScore[i].no]=sym; });
+  const byOdds = [...scored].sort((a,b)=>a.odds-b.odds);
+  const oddsRank={}; byOdds.forEach((h,i)=>oddsRank[h.no]=i+1);
+  const scoreRank={}; byScore.forEach((h,i)=>scoreRank[h.no]=i+1);
+  let best=null,bestGap=0;
+  scored.forEach(h=>{
+    if(scoreRank[h.no]<=4) return;
+    const gap=oddsRank[h.no]-scoreRank[h.no];
+    if(gap>bestGap){bestGap=gap;best=h;}
+  });
+  if(best && bestGap>=2) marks[best.no]='注';
+  return marks;
+}
+
+function renderRace(venueId, no){
+  const found = findVenue(venueId);
+  if(!found){ view.innerHTML = '<p>開催情報が見つかりませんでした。</p>'; return; }
+  const { meet, venue } = found;
+  const race = venue.races.find(r=>r.no===no);
+  crumb.innerHTML = `<button id="crumbHome">全レース競馬予想</button> ／ <button id="crumbVenue">${meet.dateLabel} ${venue.name}競馬場</button> ／ ${no}R`;
+  document.getElementById('crumbHome').addEventListener('click', ()=> location.hash = '#/');
+  document.getElementById('crumbVenue').addEventListener('click', ()=> location.hash = '#/venue/'+venue.id);
+
+  const header = `
+    <div class="panel-head">
+      ${no}R ${race.name || '（詳細準備中）'}
+      <span class="sub">${meet.dateLabel} ${venue.name}競馬場</span>
+    </div>
+    <div style="padding:10px 14px 0;">
+      <div class="race-strip">
+        ${race.grade?`<span class="tag grade">${race.grade}</span>`:''}
+        ${race.surface?`<span class="tag">${race.surface}${race.distance}m</span>`:''}
+        ${race.cond?`<span class="tag">${race.cond}</span>`:''}
+      </div>
+    </div>`;
+
+  if(race.horses.length===0){
+    view.innerHTML = `
+      <div class="panel">
+        ${header}
+        <div class="pending-box">
+          <div class="big">出走馬・オッズは準備中です</div>
+          JRA公式の出馬表・オッズが確定し次第、毎週金曜19時ごろの自動更新でこのページに反映されます。<br>
+          最新情報は<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でもご確認いただけます。
+        </div>
+      </div>`;
+    return;
+  }
+
+  const scored = computeScored(race.horses);
+  const marks = computeMarks(scored);
+  const popRank = [...race.horses].sort((a,b)=>a.odds-b.odds).reduce((acc,h,i)=>{acc[h.no]=i+1;return acc;},{});
+
+  view.innerHTML = `
+    <div class="layout2">
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <div class="panel">
+          ${header}
+          <div class="entry-row header">
+            <span>枠</span><span>印</span><span>馬名 / 騎手</span><span style="text-align:right;">単勝</span><span style="text-align:right;">人気</span>
+          </div>
+          <div class="entry-list" id="entryList"></div>
+          <div class="legend-strip">
+            <span><b>◎</b>本命</span><span><b>○</b>対抗</span><span><b>▲</b>単穴</span>
+            <span><b>△</b>連下</span><span><b>注</b>注意</span>
+          </div>
+          <div class="ev-explain">
+            <b>印の付け方（当サイト独自の簡易ロジック）：</b>スコア = <code>(1 / 単勝オッズ) × (1 + 騎手複勝率)</code> で算出し、上位4頭に◎○▲△、単勝人気順より大きく順位が上がった馬に注を付与しています。専門家による予想ではなく、公開されている数値から機械的に計算した参考の目安です。
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">賭け方ミニ解説<span class="sub">倍率・的中率の目安</span></div>
+          <div class="glossary" id="glossary"></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px;position:sticky;top:12px;">
+        <div class="panel">
+          <div class="panel-head">予算から買い目パターンを組む<span class="sub">100円単位</span></div>
+          <div class="budget-form">
+            <div class="field"><label for="budgetInput">予算（円）</label><input type="number" id="budgetInput" value="3000" min="100" step="100"></div>
+            <div class="chip-set" id="budgetChips">
+              <button data-v="1000">1,000</button>
+              <button data-v="3000" class="active">3,000</button>
+              <button data-v="10000">10,000</button>
+              <button data-v="30000">30,000</button>
+            </div>
+          </div>
+          <div class="strategy-list" id="strategyList"></div>
+        </div>
+      </div>
+    </div>`;
+
+  // 出走表
+  const entryList = document.getElementById('entryList');
+  race.horses.slice().sort((a,b)=>a.no-b.no).forEach(h=>{
+    const gate = GATE_COLORS[h.waku] || {bg:'#DDD',fg:'#201C16'};
+    const mark = marks[h.no] || '';
+    const row = document.createElement('div');
+    row.className = 'entry-row';
+    row.innerHTML = `
+      <span class="gate" style="background:${gate.bg};color:${gate.fg};">${h.no}</span>
+      <span class="mark ${mark?'':'blank'}">${mark||'—'}</span>
+      <span>
+        <button class="horse-btn" data-no="${h.no}"><span class="horse-name">${h.name}</span></button>
+        <span class="horse-sub"><button class="jockey-btn" data-jockey="${h.jockey}">${h.jockey}</button></span>
+      </span>
+      <span class="odds-col"><span class="odds-val">${h.odds.toFixed(1)}</span></span>
+      <span class="pop-col">${popRank[h.no]}人気</span>
+    `;
+    entryList.appendChild(row);
+  });
+  entryList.addEventListener('click', e=>{
+    const btn = e.target.closest('.horse-btn');
+    if(!btn) return;
+    openHorseCard(race.horses.find(h=>h.no===Number(btn.dataset.no)), popRank);
+  });
+
+  // グロッサリー
+  const glossaryData = [
+    {t:'単勝', d:'1着の馬を当てる。的中率は高いが配当は控えめ。'},
+    {t:'複勝', d:'3着以内（7頭立て以下は2着以内）に入れば的中。堅実派の定番。'},
+    {t:'馬連', d:'1・2着の馬の組合せを順不同で当てる。人気の中穴狙いで多用。'},
+    {t:'ワイド', d:'3着以内に入る2頭の組合せ。的中率と配当のバランス型。'},
+    {t:'馬単', d:'1・2着の馬を着順通りに当てる。馬連より高配当。'},
+    {t:'三連複', d:'1〜3着の馬の組合せを順不同で当てる。中〜大穴の主戦場。'},
+    {t:'三連単', d:'1〜3着を着順通りに的中。点数が絞れれば大穴も現実的だが的中率は最も低い。'},
+  ];
+  const gloss = document.getElementById('glossary');
+  glossaryData.forEach(g=>{
+    const el = document.createElement('div');
+    el.className = 'gloss-item';
+    el.innerHTML = `<div class="t">${g.t}</div><div class="d">${g.d}</div>`;
+    gloss.appendChild(el);
+  });
+
+  // 予算ガイド
+  function findMark(sym){ return race.horses.find(h=>marks[h.no]===sym); }
+  function buildGuide(budget){
+    const honmei=findMark('◎'), taikou=findMark('○'), tananna=findMark('▲'), chuui=findMark('注');
+    const guide = [];
+    if(honmei){
+      const winStake=round100(budget*0.6), placeStake=round100(budget*0.4);
+      guide.push({tier:'good', name:'堅実型', risk:'的中率重視・人気上位中心',
+        combos:[
+          {label:`単勝：${honmei.no} ${honmei.name}`, stake:winStake, odds:honmei.odds},
+          {label:`複勝：${honmei.no} ${honmei.name}`, stake:placeStake, odds:null},
+        ], total:winStake+placeStake,
+        note:'人気上位を中心とした買い方は、統計的に回収率が比較的安定しやすい傾向があります。'});
+    }
+    if(honmei && taikou && tananna){
+      const per=round100(budget/3);
+      guide.push({tier:'caution', name:'バランス型', risk:'ワイドBOXで的中率と配当を両立',
+        combos:[[honmei,taikou],[honmei,tananna],[taikou,tananna]].map(([a,b])=>({label:`ワイド：${a.no}-${b.no} ${a.name}/${b.name}`, stake:per, odds:pairOddsApprox(a,b)})),
+        total:per*3, note:'◎○▲の3頭でワイドBOX。3頭のうち2頭が3着以内に来れば的中します。'});
+    }
+    if(honmei && (chuui||tananna)){
+      const target = chuui||tananna;
+      const per=round100(budget*0.5);
+      guide.push({tier:'warn', name:'穴狙い型', risk:'軸は信頼、相手で勝負',
+        combos:[{label:`馬単：${honmei.no}→${target.no} ${honmei.name}→${target.name}`, stake:per, odds:pairOddsApprox(honmei,target)*1.6}],
+        total:per, note:'軸の信頼度がそのまま的中率に直結します。相手に人気薄を絡めるほど配当は伸びますが、的中率は下がります。'});
+    }
+    const longshots = race.horses.filter(h=>!marks[h.no]).sort((a,b)=>b.odds-a.odds).slice(0,1);
+    if(honmei && longshots[0]){
+      const oana = longshots[0];
+      const per = Math.max(100, round100(budget*0.3));
+      guide.push({tier:'bad', name:'大穴型', risk:'的中率は低いが破壊力重視',
+        combos:[{label:`三連単フォーメーション：${oana.no}→${honmei.no},${taikou?taikou.no:'-'}`, stake:per, odds:null}],
+        total:per, note:`人気薄の${oana.name}（単勝${oana.odds.toFixed(1)}倍）を軸に据えるパターン。的中すれば配当は大きい一方、統計的には人気薄中心の買い方ほど回収率が下がりやすい傾向（favorite-longshot bias／人気の割に売れすぎる大穴は損しやすいという経験則）が知られています。`});
+    }
+    return guide;
+  }
+  function renderGuide(budget){
+    const list = document.getElementById('strategyList');
+    list.innerHTML = '';
+    buildGuide(budget).forEach(s=>{
+      const card = document.createElement('div');
+      card.className = 'strategy-card';
+      card.innerHTML = `
+        <div class="head">
+          <div><div class="name">${s.name}</div><div class="risk">${s.risk}</div></div>
+        </div>
+        <div class="body">
+          ${s.combos.map(c=>`
+            <div class="combo-row">
+              <span class="label">${c.label}${c.odds?`<br><span class="mono" style="font-size:10.5px;">推定${c.odds.toFixed(1)}倍</span>`:''}</span>
+              <span class="amt">${yen(c.stake)}</span>
+            </div>`).join('')}
+          <div class="strategy-foot"><span>合計投資額</span><span class="total mono">${yen(s.total)}${s.total<budget?`（残り${yen(budget-s.total)}は温存）`:''}</span></div>
+          <div class="strategy-note">${s.note}</div>
+        </div>`;
+      list.appendChild(card);
+    });
+  }
+  const budgetInput = document.getElementById('budgetInput');
+  const budgetChips = document.getElementById('budgetChips');
+  budgetInput.addEventListener('input', ()=>{
+    const v = Math.max(100, Number(budgetInput.value)||0);
+    budgetChips.querySelectorAll('button').forEach(b=>b.classList.toggle('active', Number(b.dataset.v)===v));
+    renderGuide(v);
+  });
+  budgetChips.addEventListener('click', e=>{
+    const b = e.target.closest('button');
+    if(!b) return;
+    budgetInput.value = b.dataset.v;
+    budgetChips.querySelectorAll('button').forEach(x=>x.classList.toggle('active', x===b));
+    renderGuide(Number(b.dataset.v));
+  });
+  renderGuide(Number(budgetInput.value));
+}
+
+/* ---------- modals ---------- */
+const modalBackdrop = document.getElementById('modalBackdrop');
+const statCard = document.getElementById('statCard');
+function closeModal(){ modalBackdrop.classList.remove('open'); }
+modalBackdrop.addEventListener('click', e=>{ if(e.target===modalBackdrop) closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+function openHorseCard(h, popRank){
+  statCard.innerHTML = `
+    <div class="stat-card-head">
+      <div><h2>${h.name}</h2><div class="meta"><button class="jockey-btn" data-jockey="${h.jockey}" style="color:inherit;border-color:currentColor;">${h.jockey}</button>騎乗 ／ ${popRank[h.no]}人気　単勝${h.odds.toFixed(1)}倍</div></div>
+      <button class="close" id="statClose" aria-label="閉じる">&times;</button>
+    </div>
+    <div class="stat-card-body">
+      ${h.sexAge?`<div class="kv-row"><span class="k">性齢</span><span class="v">${h.sexAge}</span></div>`:''}
+      ${h.weight?`<div class="kv-row"><span class="k">斤量</span><span class="v">${h.weight}kg</span></div>`:''}
+      ${h.trainer?`<div class="kv-row"><span class="k">調教師</span><span class="v">${h.trainer}</span></div>`:''}
+      ${(!h.sexAge && !h.weight && !h.trainer) ? '<div class="no-profile">詳細プロフィールは調査中です。</div>' : ''}
+      ${h.note?`<div class="comment-line">${h.note}</div>`:''}
+    </div>`;
+  modalBackdrop.classList.add('open');
+  document.getElementById('statClose').addEventListener('click', closeModal);
+}
+function openJockeyCard(name){
+  const j = JOCKEYS[name];
+  if(!j){
+    statCard.innerHTML = `
+      <div class="stat-card-head jockey-card-head">
+        <div><h2>${name}</h2><div class="meta">騎手データは調査中です</div></div>
+        <button class="close" id="statClose" aria-label="閉じる">&times;</button>
+      </div>
+      <div class="stat-card-body"><div class="no-profile">この騎手の今シーズン成績は現時点で確認できていません。次回自動更新で反映される場合があります。</div></div>`;
+  } else {
+    statCard.innerHTML = `
+      <div class="stat-card-head jockey-card-head">
+        <div><h2>${name}</h2><div class="meta">${j.stable||''}所属 ／ JRAリーディング${j.leadingRank||'―'}位</div></div>
+        <button class="close" id="statClose" aria-label="閉じる">&times;</button>
+      </div>
+      <div class="stat-card-body">
+        <div class="jockey-stat-grid">
+          <div class="jockey-stat-cell"><div class="k">1着</div><div class="v">${j.wins}</div></div>
+          <div class="jockey-stat-cell"><div class="k">2着</div><div class="v">${j.seconds}</div></div>
+          <div class="jockey-stat-cell"><div class="k">3着</div><div class="v">${j.thirds}</div></div>
+          <div class="jockey-stat-cell"><div class="k">勝率</div><div class="v">${(j.winRate*100).toFixed(1)}%</div></div>
+          <div class="jockey-stat-cell"><div class="k">複勝率</div><div class="v">${(j.top3Rate*100).toFixed(1)}%</div></div>
+        </div>
+        ${j.note?`<div class="comment-line">${j.note}</div>`:''}
+      </div>`;
+  }
+  modalBackdrop.classList.add('open');
+  document.getElementById('statClose').addEventListener('click', closeModal);
+}
+document.body.addEventListener('click', e=>{
+  const jb = e.target.closest('.jockey-btn');
+  if(!jb) return;
+  openJockeyCard(jb.dataset.jockey);
+});
+
+document.getElementById('todayStr').textContent = new Date().toLocaleDateString('ja-JP',{year:'numeric',month:'long',day:'numeric',weekday:'short'});
+router();
+</script>
+</body>
+</html>
