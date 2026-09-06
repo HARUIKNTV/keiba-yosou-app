@@ -222,9 +222,64 @@ function makeCard(name, meetLabel, feature){
   return { name, meetLabel, races };
 }
 
+// 騎手データ：2026年JRA成績（2026/7/31時点、出典：keibadrive.com「2026年 JRAリーディングジョッキー」／JRA公式リーディング情報）
+// 週次ジョブは、その週末の出走馬に登場する騎手分をここに追記していく想定。
+const JOCKEYS = {
+  '武豊':      {stable:'栗東', leadingRank:11, wins:48, seconds:43, thirds:52, rides:353, winRate:.136, top3Rate:.405},
+  '小崎綾也':   {stable:'栗東', leadingRank:47, wins:13, seconds:11, thirds:20, rides:256, winRate:.051, top3Rate:.172},
+  '松山弘平':   {stable:'栗東', leadingRank:3,  wins:79, seconds:60, thirds:59, rides:497, winRate:.159, top3Rate:.398},
+  '田口貫太':   {stable:'栗東', leadingRank:29, wins:22, seconds:21, thirds:36, rides:397, winRate:.055, top3Rate:.199},
+  '川田将雅':   {stable:'栗東', leadingRank:5,  wins:63, seconds:51, thirds:37, rides:281, winRate:.224, top3Rate:.537},
+  '亀田温心':   {stable:'栗東', leadingRank:70, wins:6, seconds:4, thirds:5, rides:178, winRate:.034, top3Rate:.084},
+  '吉村誠之助': {stable:'栗東', leadingRank:24, wins:26, seconds:40, thirds:46, rides:521, winRate:.050, top3Rate:.215},
+  'D.レーン':   {stable:'海外', leadingRank:29, wins:22, seconds:23, thirds:14, rides:109, winRate:.202, top3Rate:.541},
+  '岩田望来':   {stable:'栗東', leadingRank:2,  wins:83, seconds:57, thirds:46, rides:445, winRate:.187, top3Rate:.418},
+  '田山旺佑':   {stable:'栗東', leadingRank:18, wins:34, seconds:36, thirds:29, rides:458, winRate:.074, top3Rate:.216},
+  '田辺裕信':   {stable:'美浦', leadingRank:35, wins:19, seconds:18, thirds:19, rides:223, winRate:.085, top3Rate:.251},
+  '酒井学':     {stable:'栗東', leadingRank:35, wins:19, seconds:16, thirds:12, rides:324, winRate:.059, top3Rate:.145},
+  '西村淳也':   {stable:'栗東', leadingRank:5,  wins:63, seconds:49, thirds:51, rides:444, winRate:.142, top3Rate:.367},
+  '幸英明':     {stable:'栗東', leadingRank:24, wins:26, seconds:33, thirds:23, rides:417, winRate:.062, top3Rate:.197},
+  'M.デムーロ': {stable:'栗東', leadingRank:70, wins:6, seconds:3, thirds:7, rides:113, winRate:.053, top3Rate:.142},
+  '池添謙一':   {stable:'栗東', leadingRank:33, wins:20, seconds:18, thirds:18, rides:265, winRate:.075, top3Rate:.211},
+};
+
 // 実データ：2026年9月時点でJRA公式・各種スポーツニュースにより確認済みの開催情報
-// （出走馬・オッズは未確定のため空欄。次回自動更新で反映）
+// （出走馬・オッズは未確定のレースは空欄。次回自動更新で反映）
+//
+// 2026/9/5・9/6開催分は「サイトにどんな情報が表示されるか」のサンプルとして、
+// 産経賞セントウルステークス（2026/9/6 阪神11R）のみ実際の確定オッズ・確定出走馬を
+// 全頭ぶん掲載（出典：JRA公式／Yahoo!スポーツナビ競馬）。他のレースは開催情報のみ。
 const MEETS = [
+  { date:'2026-09-05', dateLabel:'2026年9月5日（土）', past:true, venues:[
+      { id:'sapporo-0905',  ...makeCard('札幌','2回札幌5日', {name:'札幌2歳ステークス', grade:'GIII', surface:'芝', distance:1800, cond:'2歳オープン・馬齢'}) },
+      { id:'nakayama-0905', ...makeCard('中山','4回中山1日', {name:'京成杯オータムハンデキャップ', grade:'GIII', surface:'芝（外）', distance:1600, cond:'3歳以上オープン・ハンデ'}) },
+      { id:'hanshin-0905',  ...makeCard('阪神','4回阪神1日', {name:'エニフステークス', grade:'L', surface:'ダート', distance:1400, cond:'3歳以上オープン・ハンデ'}) },
+    ]
+  },
+  { date:'2026-09-06', dateLabel:'2026年9月6日（日）', past:true, venues:[
+      { id:'sapporo-0906',  ...makeCard('札幌','2回札幌6日', {name:'丹頂ステークス', grade:null, surface:'芝', distance:2600, cond:'3歳以上オープン・ハンデ'}) },
+      { id:'nakayama-0906', ...makeCard('中山','4回中山2日', {name:'紫苑ステークス', grade:'GII', surface:'芝', distance:2000, cond:'3歳オープン・馬齢'}) },
+      { id:'hanshin-0906',  ...makeCard('阪神','4回阪神2日', {name:'産経賞セントウルステークス', grade:'GII', surface:'芝', distance:1200, cond:'3歳以上オープン・別定', horses:[
+          {no:1, waku:1, name:'ママコチャ', jockey:'武豊', odds:10.8},
+          {no:2, waku:1, name:'クラスペディア', jockey:'小崎綾也', odds:91.4},
+          {no:3, waku:2, name:'フリッカージャブ', jockey:'松山弘平', odds:2.8},
+          {no:4, waku:2, name:'ティニア', jockey:'田口貫太', odds:170.0},
+          {no:5, waku:3, name:'ダイヤモンドノット', jockey:'川田将雅', odds:7.0},
+          {no:6, waku:3, name:'プロトポロス', jockey:'亀田温心', odds:226.5},
+          {no:7, waku:4, name:'メイショウヨゾラ', jockey:'吉村誠之助', odds:48.9},
+          {no:8, waku:4, name:'ファストネットワーク', jockey:'D.レーン', odds:4.7},
+          {no:9, waku:5, name:'ピューロマジック', jockey:'岩田望来', odds:4.6},
+          {no:10, waku:5, name:'ヤブサメ', jockey:'田山旺佑', odds:74.7},
+          {no:11, waku:6, name:'ヨシノイースター', jockey:'田辺裕信', odds:19.3},
+          {no:12, waku:6, name:'レッドモンレーヴ', jockey:'酒井学', odds:24.1},
+          {no:13, waku:7, name:'カルプスペルシュ', jockey:'西村淳也', odds:87.7},
+          {no:14, waku:7, name:'タマモブラックタイ', jockey:'幸英明', odds:141.6},
+          {no:15, waku:8, name:'ビッグシーザー', jockey:'M.デムーロ', odds:28.6},
+          {no:16, waku:8, name:'タマモイカロス', jockey:'池添謙一', odds:30.8},
+        ].map(h=>({...h, jockeyTop3Rate: (JOCKEYS[h.jockey]||{}).top3Rate}))
+      }) },
+    ]
+  },
   { date:'2026-09-12', dateLabel:'2026年9月12日（土）', venues:[
       { id:'nakayama-0912', ...makeCard('中山','4回中山3日', {name:'ラジオ日本賞', grade:null, surface:'ダート', distance:1200, cond:'3歳以上オープン・別定'}) },
       { id:'hanshin-0912',  ...makeCard('阪神','4回阪神3日',  {name:'チャレンジカップ', grade:'GIII', surface:'芝', distance:2000, cond:'3歳以上オープン・ハンデ'}) },
@@ -236,9 +291,6 @@ const MEETS = [
     ]
   },
 ];
-
-// 騎手データ：週次ジョブがJRAリーディング情報から取得し、登場する騎手分をここに補充する想定
-const JOCKEYS = {};
 
 /* =========================================================
    ルーティング（#/ , #/venue/<id> , #/race/<venueId>/<no>）
@@ -270,7 +322,7 @@ function renderHome(){
   crumb.textContent = '';
   let html = '';
   MEETS.forEach(meet=>{
-    html += `<div class="meet-date">${meet.dateLabel}</div><div class="venue-grid">`;
+    html += `<div class="meet-date">${meet.dateLabel}${meet.past?' <span class="tag" style="font-size:10px;vertical-align:middle;font-weight:700;">開催終了・表示サンプル</span>':''}</div><div class="venue-grid">`;
     meet.venues.forEach(v=>{
       const confirmedCount = v.races.filter(r=>r.horses.length>0).length;
       const feat = v.races[10];
@@ -374,6 +426,7 @@ function renderRace(venueId, no){
         ${race.surface?`<span class="tag">${race.surface}${race.distance}m</span>`:''}
         ${race.cond?`<span class="tag">${race.cond}</span>`:''}
       </div>
+      ${meet.past?`<div style="margin-top:8px;font-size:11.5px;color:var(--ink-muted);">※このレースはすでに開催・終了しています。表示内容は、サイトの印・買い目ガイドがどのように出るかのサンプルとしてご覧ください（新たに投票できる対象ではありません）。</div>`:''}
     </div>`;
 
   if(race.horses.length===0){
@@ -382,8 +435,9 @@ function renderRace(venueId, no){
         ${header}
         <div class="pending-box">
           <div class="big">出走馬・オッズは準備中です</div>
-          JRA公式の出馬表・オッズが確定し次第、毎週金曜19時ごろの自動更新でこのページに反映されます。<br>
-          最新情報は<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でもご確認いただけます。
+          ${meet.past
+            ? 'このレースの出走馬データはまだ登録されていません。'
+            : 'JRA公式の出馬表・オッズが確定し次第、毎週金曜19時ごろの自動更新でこのページに反映されます。<br>最新情報は<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でもご確認いただけます。'}
         </div>
       </div>`;
     return;
