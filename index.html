@@ -96,9 +96,11 @@ button{font-family:inherit;}
 @media (max-width:920px){.layout2{grid-template-columns:1fr;}}
 
 .entry-list{display:flex;flex-direction:column;}
-.entry-row{display:grid;grid-template-columns:28px 24px minmax(0,1fr) 54px 42px;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--rule);}
-.entry-row.with-result{grid-template-columns:28px 24px minmax(0,1fr) 54px 42px 46px;}
-.entry-row:last-child{border-bottom:none;}
+.entry-row{display:grid;grid-template-columns:28px 24px minmax(0,1fr) 54px 42px;align-items:center;gap:6px;padding:8px 10px 2px;border-bottom:1px solid transparent;}
+.entry-block{border-bottom:1px solid var(--rule);}
+.entry-block:last-child{border-bottom:none;}
+.reason-line{padding:0 10px 8px 58px;font-size:11px;color:var(--ink-muted);line-height:1.6;overflow-wrap:anywhere;}
+.reason-line b{color:var(--ink);font-weight:700;}
 .entry-row.header{font-size:10.5px;color:var(--ink-muted);font-weight:700;padding-top:6px;padding-bottom:6px;background:var(--paper-inset);}
 .gate{width:24px;height:24px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:11px;border:1.5px solid var(--ink);}
 .mark{font-size:17px;font-weight:900;color:var(--brand);text-align:center;font-family:"Zen Kaku Gothic New",sans-serif;}
@@ -112,10 +114,6 @@ button{font-family:inherit;}
 .odds-col{text-align:right;}
 .odds-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12.5px;}
 .pop-col{text-align:right;font-family:"JetBrains Mono",monospace;color:var(--ink-muted);font-size:11px;}
-.finish-pill{display:inline-block;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12px;padding:2px 7px;border-radius:10px;}
-.finish-pill.win{background:var(--good-bg);color:var(--good);}
-.finish-pill.mid{background:var(--caution-bg);color:var(--caution);}
-.finish-pill.low{background:var(--bad-bg);color:var(--bad);}
 
 .legend-strip{display:flex;flex-wrap:wrap;gap:12px;padding:8px 14px;font-size:11px;color:var(--ink-muted);border-top:1px solid var(--rule);}
 .legend-strip b{color:var(--ink);}
@@ -135,11 +133,31 @@ button{font-family:inherit;}
 .chip-set button{border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:6px 10px;border-radius:2px;font-size:12px;font-weight:700;cursor:pointer;}
 .chip-set button.active{background:var(--brand);border-color:var(--brand);color:var(--brand-ink);}
 
+.beginner-note{padding:10px 14px;font-size:12px;color:var(--ink-muted);line-height:1.7;border-bottom:1px solid var(--rule);background:var(--paper-inset);}
+.beginner-note b{color:var(--ink);}
 .strategy-list{padding:12px 14px;display:flex;flex-direction:column;gap:12px;}
-.strategy-card{border:1.5px solid var(--ink);border-radius:3px;background:var(--paper);box-shadow:var(--shadow);}
-.strategy-card .head{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--rule);}
+.strategy-card{border:1.5px solid var(--ink);border-radius:3px;background:var(--paper);box-shadow:var(--shadow);position:relative;}
+.strategy-card.reco{border-color:var(--good);}
+.reco-badge{position:absolute;top:-9px;left:10px;background:var(--good);color:var(--brand-ink);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.strategy-card .head{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--rule);gap:8px;}
 .strategy-card .head .name{font-weight:900;font-family:"Zen Kaku Gothic New",sans-serif;font-size:14.5px;}
 .strategy-card .head .risk{font-size:10.5px;color:var(--ink-muted);}
+.risk-meter{display:flex;align-items:center;gap:6px;flex-shrink:0;font-size:10px;color:var(--ink-muted);white-space:nowrap;}
+.risk-meter .bar{display:flex;gap:2px;}
+.risk-meter .dot{width:7px;height:7px;border-radius:50%;background:var(--rule);}
+.risk-meter .dot.on{background:var(--brand);}
+.for-whom{font-size:11px;color:var(--ink-muted);padding:6px 12px 0;}
+.for-whom b{color:var(--ink);}
+
+.glossary2{display:flex;flex-direction:column;}
+.gloss2-head,.gloss2-row{display:grid;grid-template-columns:1fr 52px 52px;gap:8px;padding:7px 14px;align-items:center;border-bottom:1px solid var(--rule);}
+.gloss2-head{font-size:10px;color:var(--ink-muted);font-weight:700;background:var(--paper-inset);}
+.gloss2-row:last-child{border-bottom:none;}
+.gloss2-row .name{font-weight:700;font-size:12.5px;}
+.gloss2-row .name .badge-reco{display:inline-block;margin-left:5px;font-size:9.5px;font-weight:700;color:var(--good);border:1px solid var(--good);border-radius:8px;padding:0 5px;vertical-align:middle;}
+.gloss2-row .desc{font-size:11px;color:var(--ink-muted);grid-column:1/-1;padding-top:2px;}
+.gloss2-row .lv{font-size:11px;text-align:center;font-weight:700;}
+.lv.high{color:var(--good);} .lv.mid{color:var(--caution);} .lv.low{color:var(--bad);}
 .ev-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;white-space:nowrap;}
 .ev-badge.good{background:var(--good-bg);color:var(--good);}
 .ev-badge.caution{background:var(--caution-bg);color:var(--caution);}
@@ -187,23 +205,24 @@ footer a{text-decoration:underline;}
   .crumb{overflow-wrap:anywhere;}
   .panel-head{padding:9px 10px;font-size:14px;flex-wrap:wrap;}
   .panel-head .sub{font-size:10px;}
-  .entry-row{grid-template-columns:24px 20px minmax(0,1fr) 46px 36px;gap:4px;padding:7px 6px;}
-  .entry-row.with-result{grid-template-columns:24px 20px minmax(0,1fr) 46px 36px 40px;}
+  .entry-row{grid-template-columns:24px 20px minmax(0,1fr) 46px 36px;gap:4px;padding:7px 6px 2px;}
   .entry-row.header{font-size:9px;}
+  .reason-line{padding-left:50px;font-size:10.5px;}
   .gate{width:20px;height:20px;font-size:9.5px;}
   .mark{font-size:15px;}
   .horse-name{font-size:12.5px;}
   .horse-sub{font-size:10px;}
   .odds-val{font-size:11.5px;}
   .pop-col{font-size:10px;}
-  .finish-pill{font-size:10.5px;padding:1px 5px;}
   .race-row{padding:9px 10px;gap:6px;}
   .race-row .rname{font-size:13px;}
   .race-strip .name{font-size:15px;}
   .budget-form{padding:10px;gap:8px;}
   .field input{width:110px;font-size:14px;}
   .chip-set button{padding:5px 8px;font-size:11px;}
+  .strategy-card .head{flex-wrap:wrap;}
   .strategy-card .head .name{font-size:13.5px;}
+  .gloss2-head,.gloss2-row{grid-template-columns:1fr 44px 44px;gap:6px;padding:6px 10px;}
   .modal-backdrop{padding:14px 8px;}
   .stat-card-head{padding:12px 14px;}
   .stat-card-head h2{font-size:18px;}
@@ -225,7 +244,7 @@ footer a{text-decoration:underline;}
 
 <div class="wrap">
   <div class="demo-banner" id="topBanner">
-    このサイトは投票（賭け方）を検討する際の参考情報を提供するものです。予想印・買い目ガイドは<b>当サイト独自の簡易ロジック</b>（単勝オッズと騎手成績から機械的に算出）によるもので、専門家による予想や的中を保証するものではありません。最新の出走馬・オッズは必ず<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でご確認ください。馬券の購入は20歳になってから。
+    このサイトは<b>投票前の予想検討に特化した参考サイト</b>です（レース結果・払戻情報は掲載していません）。予想印・買い目ガイドは<b>当サイト独自の透明なロジック</b>（単勝オッズ・騎手成績・コース傾向から機械的に算出）によるもので、どの数値をもとにその印が付いたかを各馬の下に表示しています。専門家による予想や的中を保証するものではありません。最新の出走馬・オッズは必ず<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でご確認ください。馬券の購入は20歳になってから。
   </div>
   <div id="view"></div>
 </div>
@@ -314,114 +333,18 @@ const JOCKEYS = {
   '北村友一':   {stable:'栗東', leadingRank:21, wins:29, seconds:42, thirds:28, rides:354, winRate:.082, top3Rate:.280},
 };
 
-// 実データ：2026年9月5日・6日にJRAで実際に開催されたレースの確定結果
-// （出典：netkeiba「結果・払戻」ページ／JRA公式）。9/12・9/13は次回自動更新まで準備中。
+// 騎手データは実在の2026年JRA成績（上記JOCKEYS）。出走馬データは毎週金曜19時ごろの自動更新ジョブが
+// その週末に実際にJRAで開催されるレースの出馬表・オッズで MEETS を差し替える想定（未確定の間は「準備中」表示）。
 function withScore(list){ return list.map(h=>({...h, jockeyTop3Rate: (JOCKEYS[h.jockey]||{}).top3Rate})); }
 const MEETS = [
-  { date:'2026-09-05', dateLabel:'2026年9月5日（土）', past:true, venues:[
-      { id:'sapporo-0905',  ...makeCard('札幌','2回札幌5日', {name:'札幌2歳ステークス', grade:'GIII', surface:'芝', distance:1800, cond:'2歳オープン・馬齢', horses: withScore([
-          {no:2, waku:2, name:'ショウナンガレオン', sexAge:'牡2', style:'先行', sire:'Flightline（米）', dam:'タングリトナ（アルゼンチン）', weight:55.0, jockey:'鮫島克駿', odds:1.1, pos:1, time:'1:50.3', margin:'-', agari:'35.9'},
-          {no:4, waku:4, name:'コスモハナミズキ', sexAge:'牝2', style:'逃げ', weight:55.0, jockey:'佐々木大輔', odds:9.3, pos:2, time:'1:51.3', margin:'6', agari:'37.3'},
-          {no:3, waku:3, name:'デザートスピリット', sexAge:'牡2', style:'差し', weight:55.0, jockey:'横山和生', odds:18.0, pos:3, time:'1:51.4', margin:'1', agari:'36.6'},
-          {no:5, waku:5, name:'ランダムナンバー', sexAge:'牡2', style:'先行', weight:55.0, jockey:'古川吉洋', odds:101.1, pos:4, time:'1:51.5', margin:'3/4', agari:'36.9'},
-          {no:8, waku:8, name:'テンカタイヘイ', sexAge:'牡2', style:'先行', weight:55.0, jockey:'丹内祐次', odds:7.9, pos:5, time:'1:51.6', margin:'クビ', agari:'37.0'},
-          {no:7, waku:7, name:'イドム', sexAge:'牡2', style:'差し', weight:55.0, jockey:'松本大輝', odds:54.9, pos:6, time:'1:51.7', margin:'3/4', agari:'36.7'},
-          {no:6, waku:6, name:'ハヤブサカツオー', sexAge:'牡2', style:'先行', weight:55.0, jockey:'吉田隼人', odds:21.8, pos:7, time:'1:51.9', margin:'1.1/4', agari:'37.3'},
-          {no:1, waku:1, name:'テングカゼ', sexAge:'牡2', style:'差し', weight:55.0, jockey:'的場勇人', odds:186.4, pos:8, time:'1:53.3', margin:'8', agari:'38.3'},
-          {no:9, waku:8, name:'ロゼハイスクール', sexAge:'牝2', style:'追込', weight:55.0, jockey:'古川奈穂', odds:204.0, pos:9, time:'1:57.6', margin:'大', agari:'42.1'},
-        ]) }) },
-      { id:'nakayama-0905', ...makeCard('中山','4回中山1日', {name:'京成杯オータムハンデキャップ', grade:'GIII', surface:'芝（外）', distance:1600, cond:'3歳以上オープン・ハンデ', horses: withScore([
-          {no:8, waku:4, name:'ピコローズ', sexAge:'牝4', style:'差し', sire:'サトノダイヤモンド', dam:'ルージュノアール', keyWin:'2026年 新潟日報賞', weight:53.0, jockey:'三浦皇成', odds:19.6, pos:1, time:'1:32.0', margin:'-', agari:'33.6'},
-          {no:7, waku:4, name:'エコロブルーム', sexAge:'牡5', style:'先行', weight:58.0, jockey:'武豊', odds:8.4, pos:2, time:'1:32.1', margin:'1/2', agari:'33.9'},
-          {no:3, waku:2, name:'ドロップオブライト', sexAge:'牝7', style:'先行', weight:56.5, jockey:'岩田康誠', odds:14.1, pos:3, time:'1:32.2', margin:'クビ', agari:'34.2'},
-          {no:6, waku:3, name:'ファンダム', sexAge:'牡4', style:'追込', weight:57.0, jockey:'戸崎圭太', odds:7.2, pos:4, time:'1:32.2', margin:'ハナ', agari:'33.5'},
-          {no:5, waku:3, name:'サイルーン', sexAge:'セ7', style:'差し', weight:57.0, jockey:'大野拓弥', odds:30.5, pos:5, time:'1:32.4', margin:'1', agari:'33.8'},
-          {no:4, waku:2, name:'フォルテアンジェロ', sexAge:'牡3', style:'追込', weight:55.0, jockey:'D.レーン', odds:4.7, pos:6, time:'1:32.5', margin:'3/4', agari:'33.4'},
-          {no:11, waku:6, name:'クランフォード', sexAge:'牝5', style:'先行', weight:55.0, jockey:'菊沢一樹', odds:18.2, pos:7, time:'1:32.6', margin:'1', agari:'34.8'},
-          {no:12, waku:6, name:'ディールメーカー', sexAge:'牡3', style:'差し', weight:54.0, jockey:'横山武史', odds:11.9, pos:8, time:'1:32.6', margin:'アタマ', agari:'34.4'},
-          {no:2, waku:1, name:'ミナデオロ', sexAge:'牡5', style:'追込', weight:56.0, jockey:'M.デムーロ', odds:11.5, pos:9, time:'1:32.6', margin:'アタマ', agari:'33.7'},
-          {no:1, waku:1, name:'クルゼイロドスル', sexAge:'牡6', style:'追込', weight:57.0, jockey:'小崎綾也', odds:71.7, pos:10, time:'1:32.7', margin:'クビ', agari:'33.8'},
-          {no:9, waku:5, name:'レザベーション', sexAge:'牡3', style:'差し', weight:55.0, jockey:'原優介', odds:5.8, pos:11, time:'1:32.7', margin:'クビ', agari:'34.3'},
-          {no:14, waku:7, name:'リラボニート', sexAge:'牝5', style:'差し', weight:54.0, jockey:'丸山元気', odds:87.8, pos:12, time:'1:32.8', margin:'1/2', agari:'34.4'},
-          {no:15, waku:8, name:'テレサ', sexAge:'牝4', style:'先行', weight:55.0, jockey:'津村明秀', odds:76.7, pos:13, time:'1:33.0', margin:'1', agari:'35.0'},
-          {no:16, waku:8, name:'ラケマーダ', sexAge:'牡6', style:'追込', weight:56.0, jockey:'杉原誠人', odds:295.8, pos:14, time:'1:33.1', margin:'クビ', agari:'34.0'},
-          {no:13, waku:7, name:'メタルスピード', sexAge:'牡6', style:'逃げ', weight:55.0, jockey:'田辺裕信', odds:34.3, pos:15, time:'1:33.4', margin:'2', agari:'35.9'},
-          {no:10, waku:5, name:'ヴァルキリーバース', sexAge:'牝4', style:'追込', weight:55.5, jockey:'C.ルメール', odds:6.2, pos:16, time:'1:33.7', margin:'1.3/4', agari:'35.0'},
-        ]) }) },
-      { id:'hanshin-0905',  ...makeCard('阪神','4回阪神1日', {name:'エニフステークス', grade:'L', surface:'ダート', distance:1400, cond:'3歳以上オープン・ハンデ', horses: withScore([
-          {no:4, waku:4, name:'ゴッドブルービー', sexAge:'牡6', style:'差し', sire:'パイロ（米）', dam:'ゴッドビラブドミー', damsire:'ブライアンズタイム', weight:55.0, jockey:'松山弘平', odds:7.0, pos:1, time:'1:23.5', margin:'-', agari:'35.6'},
-          {no:2, waku:2, name:'ノーブルロジャー', sexAge:'牡5', style:'差し', weight:58.0, jockey:'岩田望来', odds:6.8, pos:2, time:'1:23.7', margin:'1.1/4', agari:'35.8'},
-          {no:3, waku:3, name:'フェルヴェンテ', sexAge:'牡6', style:'先行', weight:55.0, jockey:'秋山稔樹', odds:19.3, pos:3, time:'1:23.7', margin:'クビ', agari:'36.1'},
-          {no:10, waku:7, name:'ルークススペイ', sexAge:'牡4', style:'先行', weight:56.0, jockey:'川田将雅', odds:4.2, pos:4, time:'1:23.9', margin:'1.1/4', agari:'36.4'},
-          {no:7, waku:6, name:'グランキングオー', sexAge:'牡4', style:'先行', weight:54.0, jockey:'幸英明', odds:11.7, pos:5, time:'1:24.1', margin:'1.1/4', agari:'36.5'},
-          {no:8, waku:6, name:'トリリオンボーイ', sexAge:'セ4', style:'追込', weight:54.0, jockey:'中井裕二', odds:21.4, pos:6, time:'1:24.2', margin:'1/2', agari:'35.8'},
-          {no:11, waku:8, name:'リジル', sexAge:'牝5', style:'先行', weight:53.0, jockey:'団野大成', odds:5.8, pos:7, time:'1:24.2', margin:'ハナ', agari:'36.7'},
-          {no:9, waku:7, name:'エスカル', sexAge:'牡5', style:'先行', weight:55.0, jockey:'吉村誠之助', odds:93.6, pos:8, time:'1:24.2', margin:'ハナ', agari:'36.5'},
-          {no:1, waku:1, name:'タイセイブレイズ', sexAge:'牡8', style:'追込', weight:55.0, jockey:'国分恭介', odds:53.6, pos:9, time:'1:24.3', margin:'クビ', agari:'36.1'},
-          {no:5, waku:5, name:'マニバドラ', sexAge:'牡6', style:'逃げ', weight:57.0, jockey:'西村淳也', odds:10.3, pos:10, time:'1:24.4', margin:'3/4', agari:'37.1'},
-          {no:6, waku:5, name:'ペイシャケイプ', sexAge:'牡4', style:'追込', weight:56.0, jockey:'横山典弘', odds:4.4, pos:11, time:'1:24.4', margin:'ハナ', agari:'36.0'},
-          {no:12, waku:8, name:'ムイ', sexAge:'牝4', style:'差し', weight:52.0, jockey:'富田暁', odds:48.3, pos:12, time:'1:25.7', margin:'8', agari:'37.7'},
-        ]) }) },
-    ]
-  },
-  { date:'2026-09-06', dateLabel:'2026年9月6日（日）', past:true, venues:[
-      { id:'sapporo-0906',  ...makeCard('札幌','2回札幌6日', {name:'丹頂ステークス', grade:null, surface:'芝', distance:2600, cond:'3歳以上オープン・ハンデ', horses: withScore([
-          {no:7, waku:5, name:'コーチェラバレー', sexAge:'牡4', style:'逃げ', sire:'キズナ', dam:'キャンプロック', damsire:'Myboycharlie（愛）', keyWin:'御堂筋ステークス（3勝クラス）', weight:54.0, jockey:'横山和生', odds:10.4, pos:1, time:'2:40.7', margin:'-', agari:'36.2'},
-          {no:12, waku:7, name:'ゴールデンスナップ', sexAge:'牝6', style:'追込', weight:55.0, jockey:'浜中俊', odds:5.8, pos:2, time:'2:41.8', margin:'7', agari:'36.4'},
-          {no:8, waku:5, name:'グランドカリナン', sexAge:'牡6', style:'追込', weight:54.0, jockey:'小林美駒', odds:39.2, pos:3, time:'2:42.1', margin:'2', agari:'36.1'},
-          {no:4, waku:3, name:'ヨヒーン', sexAge:'牝4', style:'先行', weight:53.0, jockey:'鮫島克駿', odds:12.3, pos:4, time:'2:42.2', margin:'1/2', agari:'37.1'},
-          {no:9, waku:6, name:'エコロレイズ', sexAge:'牡5', style:'追込', weight:53.0, jockey:'横山琉人', odds:20.9, pos:5, time:'2:42.3', margin:'クビ', agari:'36.7'},
-          {no:10, waku:6, name:'マイネルカンパーナ', sexAge:'牡6', style:'先行', weight:56.0, jockey:'丹内祐次', odds:16.7, pos:6, time:'2:42.4', margin:'3/4', agari:'37.5'},
-          {no:13, waku:8, name:'ホールネス', sexAge:'牝6', style:'追込', weight:55.0, jockey:'小沢大仁', odds:6.3, pos:7, time:'2:42.7', margin:'2', agari:'37.3'},
-          {no:2, waku:2, name:'サクソンジェンヌ', sexAge:'牝5', style:'差し', weight:53.0, jockey:'川又賢治', odds:21.0, pos:8, time:'2:43.2', margin:'3', agari:'38.3'},
-          {no:6, waku:4, name:'シュトルーヴェ', sexAge:'セ7', style:'差し', weight:59.0, jockey:'佐々木大輔', odds:17.5, pos:9, time:'2:43.5', margin:'1.1/2', agari:'38.3'},
-          {no:1, waku:1, name:'レクスノヴァス', sexAge:'牡4', style:'追込', weight:56.0, jockey:'横山武史', odds:4.6, pos:10, time:'2:43.5', margin:'ハナ', agari:'37.5'},
-          {no:14, waku:8, name:'ギャンブルルーム', sexAge:'牡5', style:'追込', weight:56.0, jockey:'松本大輝', odds:10.8, pos:11, time:'2:43.6', margin:'1', agari:'38.2'},
-          {no:3, waku:3, name:'パレハ', sexAge:'牝5', style:'差し', weight:54.0, jockey:'吉田隼人', odds:23.5, pos:12, time:'2:43.7', margin:'アタマ', agari:'38.3'},
-          {no:11, waku:7, name:'ブレイヴロッカー', sexAge:'セ6', style:'差し', weight:56.0, jockey:'斎藤新', odds:24.3, pos:13, time:'2:44.8', margin:'7', agari:'40.1'},
-          {no:5, waku:4, name:'ボンドロア', sexAge:'牡4', style:'先行', weight:53.0, jockey:'横山典弘', odds:8.5, pos:14, time:'2:46.6', margin:'大', agari:'41.6'},
-        ]) }) },
-      { id:'nakayama-0906', ...makeCard('中山','4回中山2日', {name:'紫苑ステークス', grade:'GII', surface:'芝', distance:2000, cond:'3歳牝馬オープン・馬齢', horses: withScore([
-          {no:4, waku:4, name:'マスターソアラ', sexAge:'牝3', style:'差し', sire:'シスキン', dam:'マスターワーク', damsire:'ダイワメジャー', keyWin:'2026年 クイーンカップ（GIII）', weight:55.0, jockey:'大野拓弥', odds:12.7, pos:1, time:'2:03.5', margin:'-', agari:'36.2'},
-          {no:2, waku:2, name:'サムシングスイート', sexAge:'牝3', style:'差し', weight:55.0, jockey:'団野大成', odds:7.2, pos:2, time:'2:03.6', margin:'1/2', agari:'36.1'},
-          {no:9, waku:7, name:'ドリームコア', sexAge:'牝3', style:'先行', weight:55.0, jockey:'C.ルメール', odds:2.5, pos:3, time:'2:03.8', margin:'1.1/4', agari:'36.7'},
-          {no:6, waku:6, name:'アストリル', sexAge:'牝3', style:'差し', weight:55.0, jockey:'M.デムーロ', odds:8.9, pos:4, time:'2:04.0', margin:'1.1/4', agari:'36.5'},
-          {no:1, waku:1, name:'ジワタネホ', sexAge:'牝3', style:'追込', weight:55.0, jockey:'三浦皇成', odds:50.7, pos:5, time:'2:04.1', margin:'クビ', agari:'36.3'},
-          {no:8, waku:7, name:'ナイスプレーアスク', sexAge:'牝3', style:'逃げ', weight:55.0, jockey:'岩田康誠', odds:31.1, pos:6, time:'2:04.7', margin:'3.1/2', agari:'38.1'},
-          {no:3, waku:3, name:'リアライズルミナス', sexAge:'牝3', style:'先行', weight:55.0, jockey:'津村明秀', odds:5.2, pos:7, time:'2:04.9', margin:'1.1/4', agari:'38.0'},
-          {no:5, waku:5, name:'ファムクラジューズ', sexAge:'牝3', style:'差し', weight:55.0, jockey:'菊沢一樹', odds:20.0, pos:8, time:'2:04.9', margin:'ハナ', agari:'37.5'},
-          {no:11, waku:8, name:'ベンヴェヌータ', sexAge:'牝3', style:'差し', weight:55.0, jockey:'石橋脩', odds:15.0, pos:9, time:'2:05.1', margin:'1', agari:'37.8'},
-          {no:10, waku:8, name:'ジッピーチューン', sexAge:'牝3', style:'差し', weight:55.0, jockey:'北村友一', odds:6.7, pos:10, time:'2:05.4', margin:'2', agari:'38.4'},
-          {no:7, waku:6, name:'ロングトールサリー', sexAge:'牝3', style:'先行', weight:55.0, jockey:'杉原誠人', odds:56.9, pos:11, time:'2:07.3', margin:'大', agari:'40.6'},
-        ]) }) },
-      { id:'hanshin-0906',  ...makeCard('阪神','4回阪神2日', {name:'産経賞セントウルステークス', grade:'GII', surface:'芝', distance:1200, cond:'3歳以上オープン・別定', horses: withScore([
-          {no:1, waku:1, name:'ママコチャ', sexAge:'牝7', style:'差し', note:'2024・2025年のセントウルSで2年連続2着。ベテラン牝馬として実績を積み重ねている。', weight:56.0, jockey:'武豊', odds:10.8, pos:3, time:'1:07.2', margin:'1.1/4', agari:'33.4'},
-          {no:2, waku:1, name:'クラスペディア', sexAge:'牡4', style:'先行', weight:57.0, jockey:'小崎綾也', odds:91.4, pos:4, time:'1:07.3', margin:'3/4', agari:'33.7'},
-          {no:3, waku:2, name:'フリッカージャブ', sexAge:'牡4', style:'先行', sire:'サートゥルナーリア', dam:'ナイキトリック', damsire:'サクラバクシンオー', keyWin:'2026年 北九州記念（GIII）', weight:57.0, jockey:'松山弘平', odds:2.8, pos:1, time:'1:06.9', margin:'-', agari:'33.7'},
-          {no:4, waku:2, name:'ティニア', sexAge:'牡6', style:'追込', weight:57.0, jockey:'田口貫太', odds:170.0, pos:5, time:'1:07.5', margin:'3/4', agari:'33.5'},
-          {no:5, waku:3, name:'ダイヤモンドノット', sexAge:'牡3', style:'差し', sire:'ブリックスアンドモルタル', dam:'エンドレスノット', damsire:'ディープインパクト', keyWin:'2025年 京王杯2歳ステークス（GII）', weight:55.0, jockey:'川田将雅', odds:7.0, pos:8, time:'1:07.7', margin:'クビ', agari:'33.7'},
-          {no:6, waku:3, name:'プロトポロス', sexAge:'牡6', style:'追込', weight:57.0, jockey:'亀田温心', odds:226.5, pos:7, time:'1:07.7', margin:'3/4', agari:'33.4'},
-          {no:7, waku:4, name:'メイショウヨゾラ', sexAge:'牝5', style:'先行', weight:55.0, jockey:'吉村誠之助', odds:48.9, pos:6, time:'1:07.6', margin:'1/2', agari:'34.1'},
-          {no:8, waku:4, name:'ファストネットワーク', sexAge:'セ6', style:'差し', sire:'Wrote（米）', dam:'Alberta（米）', damsire:'Magic Albert（米）', keyWin:'2025年 ナショナルデーカップ（GIII・香港）', weight:57.0, jockey:'D.レーン', odds:4.7, pos:15, time:'1:08.8', margin:'1/2', agari:'35.1'},
-          {no:9, waku:5, name:'ピューロマジック', sexAge:'牝5', style:'逃げ', sire:'アジアエクスプレス', dam:'メジェルダ', damsire:'ディープインパクト', keyWin:'2026年 アイビスサマーダッシュ（GIII）', weight:55.0, jockey:'岩田望来', odds:4.6, pos:2, time:'1:07.0', margin:'1', agari:'34.2'},
-          {no:10, waku:5, name:'ヤブサメ', sexAge:'牡5', style:'追込', weight:57.0, jockey:'田山旺佑', odds:74.7, pos:9, time:'1:07.8', margin:'クビ', agari:'33.7'},
-          {no:11, waku:6, name:'ヨシノイースター', sexAge:'牡8', style:'差し', weight:57.0, jockey:'田辺裕信', odds:19.3, pos:11, time:'1:08.1', margin:'1.1/2', agari:'34.2'},
-          {no:12, waku:6, name:'レッドモンレーヴ', sexAge:'牡7', style:'追込', sire:'ロードカナロア', dam:'ラストグルーヴ', damsire:'ディープインパクト', keyWin:'2023年 京王杯スプリングカップ（GII）', note:'典型的な追込馬で、展開・出遅れの巧拙が結果を大きく左右するタイプ。', weight:57.0, jockey:'酒井学', odds:24.1, pos:16, time:'1:09.5', margin:'4', agari:'32.6'},
-          {no:13, waku:7, name:'カルプスペルシュ', sexAge:'牝4', style:'追込', weight:55.0, jockey:'西村淳也', odds:87.7, pos:12, time:'1:08.2', margin:'1', agari:'34.1'},
-          {no:14, waku:7, name:'タマモブラックタイ', sexAge:'牡6', style:'追込', weight:57.0, jockey:'幸英明', odds:141.6, pos:10, time:'1:07.8', margin:'クビ', agari:'33.4'},
-          {no:15, waku:8, name:'ビッグシーザー', sexAge:'牡6', style:'差し', weight:57.0, jockey:'M.デムーロ', odds:28.6, pos:13, time:'1:08.7', margin:'2.1/2', agari:'34.8'},
-          {no:16, waku:8, name:'タマモイカロス', sexAge:'牡3', style:'追込', weight:55.0, jockey:'池添謙一', odds:30.8, pos:14, time:'1:08.7', margin:'アタマ', agari:'34.5'},
-        ]) }) },
-    ]
-  },
   { date:'2026-09-12', dateLabel:'2026年9月12日（土）', venues:[
       { id:'nakayama-0912', ...makeCard('中山','4回中山3日', {name:'ラジオ日本賞', grade:null, surface:'ダート', distance:1200, cond:'3歳以上オープン・別定'}) },
       { id:'hanshin-0912',  ...makeCard('阪神','4回阪神3日',  {name:'チャレンジカップ', grade:'GIII', surface:'芝', distance:2000, cond:'3歳以上オープン・ハンデ'}) },
     ]
   },
   { date:'2026-09-13', dateLabel:'2026年9月13日（日）', venues:[
-      { id:'nakayama-0913', ...makeCard('中山','4回中山4日', {name:'朝日杯セントライト記念', grade:'GII', surface:'芝（外）', distance:2200, cond:'3歳オープン・馬齢'}) },
-      { id:'hanshin-0913',  ...makeCard('阪神','4回阪神4日',  {name:'関西テレビ放送賞ローズステークス', grade:'GII', surface:'芝（外）', distance:1800, cond:'3歳オープン・馬齢'}) },
+      { id:'nakayama-0913', ...makeCard('中山','4回中山4日', {name:'セントライト記念', grade:'GII', surface:'芝', distance:2200, cond:'3歳オープン・馬齢'}) },
+      { id:'hanshin-0913',  ...makeCard('阪神','4回阪神4日',  {name:'ローズステークス', grade:'GII', surface:'芝', distance:1800, cond:'3歳オープン・馬齢'}) },
     ]
   },
 ];
@@ -456,7 +379,7 @@ function renderHome(){
   crumb.textContent = '';
   let html = '';
   MEETS.forEach(meet=>{
-    html += `<div class="meet-date">${meet.dateLabel}${meet.past?' <span class="tag" style="font-size:10px;vertical-align:middle;font-weight:700;">開催終了・表示サンプル</span>':''}</div><div class="venue-grid">`;
+    html += `<div class="meet-date">${meet.dateLabel}</div><div class="venue-grid">`;
     meet.venues.forEach(v=>{
       const confirmedCount = v.races.filter(r=>r.horses.length>0).length;
       const feat = v.races[10];
@@ -469,7 +392,7 @@ function renderHome(){
             ${feat.grade?`<span class="tag">${feat.grade}</span>`:''}<b>${feat.name}</b><br>
             <span style="color:var(--ink-muted);">${feat.surface}${feat.distance}m・${feat.cond}</span>
           </div>`:''}
-          <div class="status">${confirmedCount}/12レース 出走馬確定${confirmedCount<12 && !meet.past?'（随時更新）':''}</div>
+          <div class="status">${confirmedCount}/12レース 出走馬確定${confirmedCount<12?'（随時更新）':''}</div>
         </button>`;
     });
     html += `</div>`;
@@ -515,6 +438,27 @@ function round100(x){ return Math.max(100, Math.round(x/100)*100); }
 function yen(n){ return '¥'+n.toLocaleString('ja-JP'); }
 function pairOddsApprox(a,b){ return Math.round(((a.odds*b.odds)/(a.odds+b.odds))*3.2*10)/10; }
 
+// コース傾向：JRA各競馬場のコース形態（直線の長さ・コーナーのきつさ・馬場材質）から
+// 一般に言われる有利脚質の目安。個別レースの展開予想ではなく、コース自体の恒常的な特徴。
+const VENUE_TENDENCY = {
+  '中山': {turf:'直線が短くコーナーがきつく、前々で運べる先行・逃げが有利になりやすいコースです。', dirt:'直線が短く、先行・逃げが残りやすい傾向です。', favor:['逃げ','先行']},
+  '阪神': {turf:'直線が長めで差し・追込も届きやすい一方、内枠先行有利な日もあります。', dirt:'直線はやや長く、差しも十分に間に合います。', favor:['先行','差し']},
+  '東京': {turf:'直線が長く大外からの差し・追込が決まりやすい、末脚勝負のコースです。', dirt:'直線が長くパワーと末脚の両方が必要です。', favor:['差し','追込']},
+  '京都': {turf:'直線が長く高速馬場で、差し・追込も決まりやすいコースです。', dirt:'標準的で、脚質の偏りは比較的小さめです。', favor:['先行','差し']},
+  '新潟': {turf:'直線が日本一長く、外からの差し・追込が決まりやすいコースです。', dirt:'標準的な形態です。', favor:['差し','追込']},
+  '小倉': {turf:'コンパクトな小回りで、先行・逃げが残りやすいコースです。', dirt:'小回りで先行有利な傾向です。', favor:['逃げ','先行']},
+  '福島': {turf:'小回りでコーナーがきつく、先行・逃げが有利になりやすいコースです。', dirt:'小回りで先行有利な傾向です。', favor:['逃げ','先行']},
+  '札幌': {turf:'洋芝で時計がかかり、パワーのある先行・逃げが残りやすいコースです。', dirt:'先行有利な傾向です。', favor:['逃げ','先行']},
+  '函館': {turf:'洋芝の小回りで、先行・逃げが有利になりやすいコースです。', dirt:'先行有利な傾向です。', favor:['逃げ','先行']},
+  '中京': {turf:'直線が長く坂もあり、差しも決まる一方で先行力も活きるコースです。', dirt:'パワーと先行力の両方が問われます。', favor:['先行','差し']},
+};
+function courseTendency(venueName, surface){
+  const t = VENUE_TENDENCY[venueName];
+  if(!t) return null;
+  const isDirt = (surface||'').includes('ダート');
+  return { text: isDirt ? t.dirt : t.turf, favor: t.favor };
+}
+
 function computeScored(horses){
   return horses.map(h=>{
     const impliedProb = 1/h.odds;
@@ -536,7 +480,32 @@ function computeMarks(scored){
     if(gap>bestGap){bestGap=gap;best=h;}
   });
   if(best && bestGap>=2) marks[best.no]='注';
-  return marks;
+  return { marks, oddsRank, scoreRank };
+}
+
+function jockeyTier(rate){
+  if(rate==null) return '実績データなし';
+  if(rate>=.35) return 'トップクラス';
+  if(rate>=.22) return '上位クラス';
+  if(rate>=.12) return '平均的';
+  return 'やや低め';
+}
+function buildReason(h, ctx){
+  const parts = [];
+  parts.push(`支持率${(h.impliedProb*100).toFixed(1)}%（単勝${h.odds.toFixed(1)}倍・${ctx.oddsRank[h.no]}人気）`);
+  if(h.jockeyTop3Rate!=null){
+    parts.push(`騎手複勝率${(h.jockeyTop3Rate*100).toFixed(1)}%（${jockeyTier(h.jockeyTop3Rate)}）`);
+  } else {
+    parts.push('騎手成績は調査中');
+  }
+  const gap = ctx.oddsRank[h.no] - ctx.scoreRank[h.no];
+  if(gap>=2) parts.push(`人気${ctx.oddsRank[h.no]}位よりスコア${ctx.scoreRank[h.no]}位と上位 → 妙味あり`);
+  else if(gap<=-2) parts.push(`人気${ctx.oddsRank[h.no]}位よりスコア${ctx.scoreRank[h.no]}位と下位`);
+  if(h.style && ctx.tendency){
+    const fit = ctx.tendency.favor.includes(h.style);
+    parts.push(fit ? `脚質は${h.style}でコース傾向とも合致` : `脚質は${h.style}でコース傾向（${ctx.tendency.favor.join('・')}有利）とはやや逆、展開待ち`);
+  }
+  return parts.join(' ／ ');
 }
 
 function renderRace(venueId, no){
@@ -559,7 +528,6 @@ function renderRace(venueId, no){
         ${race.surface?`<span class="tag">${race.surface}${race.distance}m</span>`:''}
         ${race.cond?`<span class="tag">${race.cond}</span>`:''}
       </div>
-      ${meet.past?`<div style="margin-top:8px;font-size:11.5px;color:var(--ink-muted);">※このレースはすでに開催・終了しています。表示内容は、サイトの印・買い目ガイドがどのように出るかのサンプルとしてご覧ください（新たに投票できる対象ではありません）。</div>`:''}
     </div>`;
 
   if(race.horses.length===0){
@@ -568,16 +536,15 @@ function renderRace(venueId, no){
         ${header}
         <div class="pending-box">
           <div class="big">出走馬・オッズは準備中です</div>
-          ${meet.past
-            ? 'このレースの出走馬データはまだ登録されていません。'
-            : 'JRA公式の出馬表・オッズが確定し次第、毎週金曜19時ごろの自動更新でこのページに反映されます。<br>最新情報は<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でもご確認いただけます。'}
+          JRA公式の出馬表・オッズが確定し次第、毎週金曜19時ごろの自動更新でこのページに反映されます。<br>最新情報は<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でもご確認いただけます。
         </div>
       </div>`;
     return;
   }
 
   const scored = computeScored(race.horses);
-  const marks = computeMarks(scored);
+  const { marks, oddsRank, scoreRank } = computeMarks(scored);
+  const tendency = courseTendency(venue.name, race.surface);
   const popRank = [...race.horses].sort((a,b)=>a.odds-b.odds).reduce((acc,h,i)=>{acc[h.no]=i+1;return acc;},{});
 
   view.innerHTML = `
@@ -585,8 +552,8 @@ function renderRace(venueId, no){
       <div style="display:flex;flex-direction:column;gap:18px;">
         <div class="panel">
           ${header}
-          <div class="entry-row header${meet.past?' with-result':''}">
-            <span>枠</span><span>印</span><span>馬名 / 騎手</span><span style="text-align:right;">単勝</span><span style="text-align:right;">人気</span>${meet.past?'<span style="text-align:right;">着順</span>':''}
+          <div class="entry-row header">
+            <span>枠</span><span>印</span><span>馬名 / 騎手</span><span style="text-align:right;">単勝</span><span style="text-align:right;">人気</span>
           </div>
           <div class="entry-list" id="entryList"></div>
           <div class="legend-strip">
@@ -594,12 +561,16 @@ function renderRace(venueId, no){
             <span><b>△</b>連下</span><span><b>注</b>注意</span>
           </div>
           <div class="ev-explain">
-            <b>印の付け方（当サイト独自の簡易ロジック）：</b>スコア = <code>(1 / 単勝オッズ) × (1 + 騎手複勝率)</code> で算出し、上位4頭に◎○▲△、単勝人気順より大きく順位が上がった馬に注を付与しています。専門家による予想ではなく、公開されている数値から機械的に計算した参考の目安です。
+            <b>印の付け方（当サイト独自ロジック・完全に透明）：</b>スコア = <code>(1 / 単勝オッズ) × (1 + 騎手複勝率)</code> で算出し、上位4頭に◎○▲△、単勝人気順より大きく順位が上がった馬に注を付与しています。各馬の下に、その根拠となった支持率・騎手複勝率・コース傾向との適性を表示しています。専門家による予想ではなく、公開されている数値から機械的に計算した参考の目安です。
           </div>
+          ${tendency?`<div class="ev-explain" style="border-top:none;"><b>${venue.name}${race.surface}のコース傾向：</b>${tendency.text}</div>`:''}
         </div>
         <div class="panel">
-          <div class="panel-head">賭け方ミニ解説<span class="sub">倍率・的中率の目安</span></div>
-          <div class="glossary" id="glossary"></div>
+          <div class="panel-head">馬券の種類と選び方<span class="sub">的中率・配当の目安</span></div>
+          <div class="beginner-note">
+            <b>初めての方へ：</b>的中率と配当は基本的にトレードオフです。まずは的中率の高い<b>複勝・ワイド</b>で流れをつかみ、慣れてきたら配当の大きい馬連・三連複などに広げるのがおすすめです。下の表は◎（本命）を軸にした場合の目安です。
+          </div>
+          <div class="glossary2" id="glossary"></div>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:18px;position:sticky;top:12px;">
@@ -621,12 +592,13 @@ function renderRace(venueId, no){
 
   // 出走表
   const entryList = document.getElementById('entryList');
-  race.horses.slice().sort((a,b)=>a.no-b.no).forEach(h=>{
+  scored.slice().sort((a,b)=>a.no-b.no).forEach(h=>{
     const gate = GATE_COLORS[h.waku] || {bg:'#DDD',fg:'#201C16'};
     const mark = marks[h.no] || '';
+    const block = document.createElement('div');
+    block.className = 'entry-block';
     const row = document.createElement('div');
-    row.className = 'entry-row' + (meet.past?' with-result':'');
-    const finishTier = h.pos ? (h.pos<=3?'win':h.pos<=8?'mid':'low') : '';
+    row.className = 'entry-row';
     row.innerHTML = `
       <span class="gate" style="background:${gate.bg};color:${gate.fg};">${h.no}</span>
       <span class="mark ${mark?'':'blank'}">${mark||'—'}</span>
@@ -636,9 +608,13 @@ function renderRace(venueId, no){
       </span>
       <span class="odds-col"><span class="odds-val">${h.odds.toFixed(1)}</span></span>
       <span class="pop-col">${popRank[h.no]}人気</span>
-      ${meet.past?`<span class="pop-col">${h.pos?`<span class="finish-pill ${finishTier}">${h.pos}着</span>`:'—'}</span>`:''}
     `;
-    entryList.appendChild(row);
+    const reasonEl = document.createElement('div');
+    reasonEl.className = 'reason-line';
+    reasonEl.innerHTML = (mark?`<b>${mark}</b> `:'') + buildReason(h, {oddsRank, scoreRank, tendency});
+    block.appendChild(row);
+    block.appendChild(reasonEl);
+    entryList.appendChild(block);
   });
   entryList.addEventListener('click', e=>{
     const btn = e.target.closest('.horse-btn');
@@ -646,58 +622,69 @@ function renderRace(venueId, no){
     openHorseCard(race.horses.find(h=>h.no===Number(btn.dataset.no)), popRank);
   });
 
-  // グロッサリー
+  // 馬券の種類（的中率・配当の目安つき）
   const glossaryData = [
-    {t:'単勝', d:'1着の馬を当てる。的中率は高いが配当は控えめ。'},
-    {t:'複勝', d:'3着以内（7頭立て以下は2着以内）に入れば的中。堅実派の定番。'},
-    {t:'馬連', d:'1・2着の馬の組合せを順不同で当てる。人気の中穴狙いで多用。'},
-    {t:'ワイド', d:'3着以内に入る2頭の組合せ。的中率と配当のバランス型。'},
-    {t:'馬単', d:'1・2着の馬を着順通りに当てる。馬連より高配当。'},
-    {t:'三連複', d:'1〜3着の馬の組合せを順不同で当てる。中〜大穴の主戦場。'},
-    {t:'三連単', d:'1〜3着を着順通りに的中。点数が絞れれば大穴も現実的だが的中率は最も低い。'},
+    {t:'複勝', d:'軸馬が3着以内（7頭立て以下は2着以内）に入れば的中。最も的中率が高く、初心者の第一歩に最適。', hit:'高', pay:'低', reco:true},
+    {t:'ワイド', d:'軸馬を含む2頭が両方3着以内に入れば的中。的中率と配当のバランスが良く、◎○▲のBOXが定番。', hit:'高', pay:'低', reco:true},
+    {t:'単勝', d:'1着の馬をピンポイントで当てる。的中率は複勝より下がるが配当は上がる、本命党向け。', hit:'中', pay:'中'},
+    {t:'馬連', d:'1・2着の馬の組合せを順不同で当てる。人気の中穴狙いで多用される定番の組合せ馬券。', hit:'中', pay:'中'},
+    {t:'馬単', d:'1・2着の馬を着順通りに当てる。馬連と同じ2頭でも着順を固定する分、配当は上がり的中率は下がる。', hit:'低', pay:'中'},
+    {t:'三連複', d:'1〜3着の馬の組合せを順不同で当てる。点数が増えやすいが中〜大穴の配当が狙える。', hit:'低', pay:'高'},
+    {t:'三連単', d:'1〜3着を着順通りに的中させる、最も難易度が高い馬券。点数を絞れれば高配当も現実的。', hit:'低', pay:'高'},
   ];
   const gloss = document.getElementById('glossary');
+  gloss.innerHTML = `<div class="gloss2-head"><span>種類</span><span style="text-align:center;">的中率</span><span style="text-align:center;">配当</span></div>`;
   glossaryData.forEach(g=>{
     const el = document.createElement('div');
-    el.className = 'gloss-item';
-    el.innerHTML = `<div class="t">${g.t}</div><div class="d">${g.d}</div>`;
+    el.className = 'gloss2-row';
+    const lvClass = v => v==='高'?'high':v==='中'?'mid':'low';
+    el.innerHTML = `
+      <span class="name">${g.t}${g.reco?'<span class="badge-reco">初心者向け</span>':''}</span>
+      <span class="lv ${lvClass(g.hit)}">${g.hit}</span>
+      <span class="lv ${lvClass(g.pay)}">${g.pay}</span>
+      <span class="desc">${g.d}</span>
+    `;
     gloss.appendChild(el);
   });
 
   // 予算ガイド
-  function findMark(sym){ return race.horses.find(h=>marks[h.no]===sym); }
+  function findMark(sym){ return scored.find(h=>marks[h.no]===sym); }
   function buildGuide(budget){
     const honmei=findMark('◎'), taikou=findMark('○'), tananna=findMark('▲'), chuui=findMark('注');
     const guide = [];
     if(honmei){
       const winStake=round100(budget*0.6), placeStake=round100(budget*0.4);
-      guide.push({tier:'good', name:'堅実型', risk:'的中率重視・人気上位中心',
+      guide.push({tier:'good', name:'堅実型', risk:'的中率重視・人気上位中心', hitDots:5, reco:true,
+        forWhom:'初めての方、まず当てる感覚をつかみたい方向け。',
         combos:[
           {label:`単勝：${honmei.no} ${honmei.name}`, stake:winStake, odds:honmei.odds},
           {label:`複勝：${honmei.no} ${honmei.name}`, stake:placeStake, odds:null},
         ], total:winStake+placeStake,
-        note:'人気上位を中心とした買い方は、統計的に回収率が比較的安定しやすい傾向があります。'});
+        note:`◎の${honmei.name}は支持率${(honmei.impliedProb*100).toFixed(1)}%（単勝${honmei.odds.toFixed(1)}倍）と本レースで最も信頼度が高い1頭です。単勝・複勝は人気上位ほど回収率が安定しやすいことが知られており、軸に据えるほど手堅い買い方になります。`});
     }
     if(honmei && taikou && tananna){
       const per=round100(budget/3);
-      guide.push({tier:'caution', name:'バランス型', risk:'ワイドBOXで的中率と配当を両立',
+      guide.push({tier:'caution', name:'バランス型', risk:'ワイドBOXで的中率と配当を両立', hitDots:3,
+        forWhom:'ある程度当てながら複勝より高い配当も狙いたい方向け。',
         combos:[[honmei,taikou],[honmei,tananna],[taikou,tananna]].map(([a,b])=>({label:`ワイド：${a.no}-${b.no} ${a.name}/${b.name}`, stake:per, odds:pairOddsApprox(a,b)})),
-        total:per*3, note:'◎○▲の3頭でワイドBOX。3頭のうち2頭が3着以内に来れば的中します。'});
+        total:per*3, note:`◎○▲（${honmei.no}・${taikou.no}・${tananna.no}）の上位3頭でワイドBOXを組みます。3頭のうち2頭が3着以内に入れば的中するため、◎の単系より的中率を落とさずに配当の選択肢を増やせます。`});
     }
     if(honmei && (chuui||tananna)){
       const target = chuui||tananna;
       const per=round100(budget*0.5);
-      guide.push({tier:'warn', name:'穴狙い型', risk:'軸は信頼、相手で勝負',
+      guide.push({tier:'warn', name:'穴狙い型', risk:'軸は信頼、相手で勝負', hitDots:2,
+        forWhom:'◎の信頼度に自信があり、配当を上乗せしたい方向け。',
         combos:[{label:`馬単：${honmei.no}→${target.no} ${honmei.name}→${target.name}`, stake:per, odds:pairOddsApprox(honmei,target)*1.6}],
-        total:per, note:'軸の信頼度がそのまま的中率に直結します。相手に人気薄を絡めるほど配当は伸びますが、的中率は下がります。'});
+        total:per, note:`${target.name}は${marks[target.no]==='注'?'単勝人気より予想スコアが上回り、妙味があると判定した1頭':'◎に次ぐ評価の1頭'}です。軸（◎）の信頼度がそのまま的中率に直結する買い方で、相手に人気薄を絡めるほど配当は伸びますが的中率は下がります。`});
     }
-    const longshots = race.horses.filter(h=>!marks[h.no]).sort((a,b)=>b.odds-a.odds).slice(0,1);
+    const longshots = scored.filter(h=>!marks[h.no]).sort((a,b)=>b.odds-a.odds).slice(0,1);
     if(honmei && longshots[0]){
       const oana = longshots[0];
       const per = Math.max(100, round100(budget*0.3));
-      guide.push({tier:'bad', name:'大穴型', risk:'的中率は低いが破壊力重視',
+      guide.push({tier:'bad', name:'大穴型', risk:'的中率は低いが破壊力重視', hitDots:1,
+        forWhom:'資金の一部だけを使い、一撃の高配当を狙いたい方向け。',
         combos:[{label:`三連単フォーメーション：${oana.no}→${honmei.no},${taikou?taikou.no:'-'}`, stake:per, odds:null}],
-        total:per, note:`人気薄の${oana.name}（単勝${oana.odds.toFixed(1)}倍）を軸に据えるパターン。的中すれば配当は大きい一方、統計的には人気薄中心の買い方ほど回収率が下がりやすい傾向（favorite-longshot bias／人気の割に売れすぎる大穴は損しやすいという経験則）が知られています。`});
+        total:per, note:`人気薄の${oana.name}（単勝${oana.odds.toFixed(1)}倍）を軸に据えるパターン。的中すれば配当は大きい一方、統計的には人気薄中心の買い方ほど回収率が下がりやすい傾向（favorite-longshot bias／人気の割に売れすぎる大穴は損しやすいという経験則）が知られています。予算の一部にとどめるのが無難です。`});
     }
     return guide;
   }
@@ -706,11 +693,15 @@ function renderRace(venueId, no){
     list.innerHTML = '';
     buildGuide(budget).forEach(s=>{
       const card = document.createElement('div');
-      card.className = 'strategy-card';
+      card.className = 'strategy-card' + (s.reco?' reco':'');
+      const dots = Array.from({length:5},(_,i)=>`<span class="dot${i<s.hitDots?' on':''}"></span>`).join('');
       card.innerHTML = `
+        ${s.reco?'<span class="reco-badge">初心者におすすめ</span>':''}
         <div class="head">
           <div><div class="name">${s.name}</div><div class="risk">${s.risk}</div></div>
+          <div class="risk-meter">的中率<span class="bar">${dots}</span></div>
         </div>
+        <div class="for-whom"><b>こんな方に：</b>${s.forWhom}</div>
         <div class="body">
           ${s.combos.map(c=>`
             <div class="combo-row">
@@ -718,7 +709,7 @@ function renderRace(venueId, no){
               <span class="amt">${yen(c.stake)}</span>
             </div>`).join('')}
           <div class="strategy-foot"><span>合計投資額</span><span class="total mono">${yen(s.total)}${s.total<budget?`（残り${yen(budget-s.total)}は温存）`:''}</span></div>
-          <div class="strategy-note">${s.note}</div>
+          <div class="strategy-note"><b>根拠：</b>${s.note}</div>
         </div>`;
       list.appendChild(card);
     });
@@ -761,7 +752,7 @@ function openHorseCard(h, popRank){
       ${h.dam?`<div class="kv-row"><span class="k">母</span><span class="v">${h.dam}</span></div>`:''}
       ${h.damsire?`<div class="kv-row"><span class="k">母父</span><span class="v">${h.damsire}</span></div>`:''}
       ${h.keyWin?`<div class="kv-row"><span class="k">主な勝鞍</span><span class="v">${h.keyWin}</span></div>`:''}
-      ${h.style?`<div style="font-size:10px;color:var(--ink-muted);margin-top:-2px;">※脚質は本レースでの実際の通過順位から算出した参考値です。</div>`:''}
+      ${h.style?`<div style="font-size:10px;color:var(--ink-muted);margin-top:-2px;">※脚質は近走までのレース内容をもとにした参考値です。</div>`:''}
       ${(!h.sire && !h.keyWin) ? '<div class="no-profile">血統・過去の実績は調査中です。</div>' : ''}
       ${h.note?`<div class="comment-line">${h.note}</div>`:''}
     </div>`;
