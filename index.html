@@ -18,109 +18,150 @@
 {"@context":"https://schema.org","@type":"WebSite","name":"全レース競馬予想","url":"https://deep-yosou-shimbun-haruikintv.vercel.app/"}
 </script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 :root{
-  --paper:#EAE6D9; --paper-raised:#F6F3E9; --paper-inset:#DFDAC9;
-  --ink:#201C16; --ink-muted:#6E6858; --rule:#C7BFA6;
-  --brand:#C1442D; --brand-ink:#FFF8EE;
-  --turf:#2F5233; --turf-ink:#EAF2E9;
-  --good:#2E7D46; --good-bg:#DEEBDF;
-  --caution:#9C7A0A; --caution-bg:#F1E6C4;
-  --warn:#B5590F; --warn-bg:#F3DFC6;
-  --bad:#AF2A3E; --bad-bg:#F2DEE0;
-  --focus:#1C63C7; --shadow: 2px 2px 0 rgba(32,28,22,0.12);
+  --bg:#F0F2F6; --surface:#FFFFFF; --surface-alt:#F5F7FA;
+  --ink:#1E2230; --ink-muted:#767E8F; --rule:#E6E9F0;
+  --brand:#E23B2E; --brand-dark:#C22A1F; --brand-soft:#FDEAE8; --brand-ink:#FFFFFF;
+  --turf:#189A5A; --turf-soft:#E3F7EC;
+  --dirt:#C97A2B; --dirt-soft:#FBEDDD;
+  --info:#2E9BD6; --info-soft:#E8F5FC;
+  --gold:#F0A500; --gold-soft:#FFF3D9;
+  --good:#189A5A; --good-bg:#E3F7EC;
+  --caution:#C98A00; --caution-bg:#FFF3D6;
+  --warn:#D9711C; --warn-bg:#FDEADA;
+  --bad:#D93A4A; --bad-bg:#FDE7E9;
+  --focus:#2E6FE0;
+  --shadow: 0 1px 3px rgba(24,28,45,.06), 0 6px 16px rgba(24,28,45,.07);
+  --shadow-md: 0 10px 28px rgba(24,28,45,.14);
+  --r-lg:16px; --r-md:12px; --r-sm:8px; --r-pill:999px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#15140F; --paper-raised:#1E1C15; --paper-inset:#0F0E0A;
-    --ink:#ECE6D6; --ink-muted:#A69C87; --rule:#3B3627;
-    --brand:#E27A5B; --brand-ink:#1B1108; --turf:#5C9068; --turf-ink:#0E1A10;
-    --good:#5CBE7A; --good-bg:#173322; --caution:#E0B646; --caution-bg:#3A2E0E;
-    --warn:#E8934C; --warn-bg:#3A2510; --bad:#E4738A; --bad-bg:#3A1620;
-    --focus:#6FA8E8; --shadow: 2px 2px 0 rgba(0,0,0,0.4);
+    --bg:#0F1116; --surface:#1A1D26; --surface-alt:#20242F;
+    --ink:#EDEFF4; --ink-muted:#9AA2B3; --rule:#2B2F3C;
+    --brand:#FF6B57; --brand-dark:#E23B2E; --brand-soft:#3A1E1B; --brand-ink:#1B0E0C;
+    --turf:#3FCB84; --turf-soft:#123322;
+    --dirt:#E0A24E; --dirt-soft:#3A2712;
+    --info:#5CC2F2; --info-soft:#0F2A38;
+    --gold:#F7C948; --gold-soft:#3A2A08;
+    --good:#3FCB84; --good-bg:#123322; --caution:#F0C24A; --caution-bg:#3A2E0E;
+    --warn:#F0925A; --warn-bg:#3A2510; --bad:#F2707E; --bad-bg:#3A1620;
+    --focus:#6FA8E8;
+    --shadow: 0 2px 8px rgba(0,0,0,.35); --shadow-md: 0 12px 32px rgba(0,0,0,.5);
   }
 }
 :root[data-theme="dark"]{
-  --paper:#15140F; --paper-raised:#1E1C15; --paper-inset:#0F0E0A;
-  --ink:#ECE6D6; --ink-muted:#A69C87; --rule:#3B3627;
-  --brand:#E27A5B; --brand-ink:#1B1108; --turf:#5C9068; --turf-ink:#0E1A10;
-  --good:#5CBE7A; --good-bg:#173322; --caution:#E0B646; --caution-bg:#3A2E0E;
-  --warn:#E8934C; --warn-bg:#3A2510; --bad:#E4738A; --bad-bg:#3A1620;
-  --focus:#6FA8E8; --shadow: 2px 2px 0 rgba(0,0,0,0.4);
+  --bg:#0F1116; --surface:#1A1D26; --surface-alt:#20242F;
+  --ink:#EDEFF4; --ink-muted:#9AA2B3; --rule:#2B2F3C;
+  --brand:#FF6B57; --brand-dark:#E23B2E; --brand-soft:#3A1E1B; --brand-ink:#1B0E0C;
+  --turf:#3FCB84; --turf-soft:#123322;
+  --dirt:#E0A24E; --dirt-soft:#3A2712;
+  --info:#5CC2F2; --info-soft:#0F2A38;
+  --gold:#F7C948; --gold-soft:#3A2A08;
+  --good:#3FCB84; --good-bg:#123322; --caution:#F0C24A; --caution-bg:#3A2E0E;
+  --warn:#F0925A; --warn-bg:#3A2510; --bad:#F2707E; --bad-bg:#3A1620;
+  --focus:#6FA8E8;
+  --shadow: 0 2px 8px rgba(0,0,0,.35); --shadow-md: 0 12px 32px rgba(0,0,0,.5);
 }
 
 *{box-sizing:border-box;}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans JP","Zen Kaku Gothic New",sans-serif;font-size:14px;line-height:1.6;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",sans-serif;font-size:14px;line-height:1.6;}
 a{color:inherit;}
 button{font-family:inherit;}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px;}
 .mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;}
+.disp{font-family:"M PLUS Rounded 1c","Noto Sans JP",sans-serif;}
 
-.masthead{border-bottom:4px double var(--ink);padding:14px 20px;background:var(--paper-raised);}
-.masthead-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px 16px;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-muted);letter-spacing:.03em;padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:10px;}
-.masthead h1{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:clamp(24px,4vw,34px);margin:0;letter-spacing:.02em;}
-.masthead h1 button{background:none;border:none;color:inherit;font:inherit;font-weight:inherit;cursor:pointer;padding:0;}
-.crumb{font-size:12px;color:var(--ink-muted);margin-top:6px;}
-.crumb button{background:none;border:none;color:var(--brand);cursor:pointer;font:inherit;padding:0;text-decoration:underline;}
-.demo-banner{margin-top:10px;background:var(--caution-bg);color:var(--caution);border:1px solid var(--caution);padding:8px 10px;font-size:12px;font-weight:700;border-radius:2px;line-height:1.6;}
-.demo-banner a{text-decoration:underline;}
+.masthead{background:var(--surface);box-shadow:var(--shadow);position:sticky;top:0;z-index:20;}
+.masthead-top{background:var(--brand);color:var(--brand-ink);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 16px;font-size:11px;font-weight:700;letter-spacing:.02em;padding:6px 20px;}
+.masthead-main{padding:12px 20px;display:flex;align-items:center;gap:10px;}
+.masthead h1{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:clamp(20px,3.6vw,28px);margin:0;letter-spacing:.01em;}
+.masthead h1 button{background:none;border:none;color:var(--ink);font:inherit;font-weight:inherit;cursor:pointer;padding:0;display:flex;align-items:center;gap:8px;}
+.masthead .logo-mark{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:var(--r-sm);background:var(--brand);color:#fff;font-size:18px;flex-shrink:0;}
+.crumb{font-size:11.5px;color:var(--ink-muted);padding:0 20px 10px;overflow-wrap:anywhere;}
+.crumb button{background:none;border:none;color:var(--brand);cursor:pointer;font:inherit;padding:0;font-weight:700;}
+.demo-banner{margin:14px 0;background:var(--info-soft);color:var(--ink);border:none;border-left:4px solid var(--info);padding:12px 14px;font-size:12px;font-weight:500;border-radius:var(--r-sm);line-height:1.7;}
+.demo-banner b{color:var(--brand-dark);}
+.demo-banner a{color:var(--info);font-weight:700;text-decoration:none;}
+.demo-banner a:hover{text-decoration:underline;}
 
 .wrap{max-width:1100px;margin:0 auto;padding:20px;}
 
+/* ---- section headers ---- */
+.sec-head{display:flex;align-items:center;gap:10px;margin:26px 0 12px;}
+.sec-head:first-child{margin-top:0;}
+.sec-head .bar{width:6px;height:22px;border-radius:var(--r-pill);background:var(--brand);flex-shrink:0;}
+.sec-head .t{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:19px;}
+.sec-head .sub{font-size:11.5px;color:var(--ink-muted);font-weight:500;}
+
 /* ---- home: date/venue list ---- */
-.meet-date{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:18px;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--ink);}
+.meet-date{display:flex;align-items:center;gap:10px;margin:26px 0 12px;}
 .meet-date:first-child{margin-top:0;}
-.venue-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;}
-.venue-card{display:block;text-align:left;background:var(--paper-raised);border:1.5px solid var(--ink);border-radius:4px;padding:14px 16px;cursor:pointer;box-shadow:var(--shadow);}
-.venue-card .vn{font-family:"Zen Kaku Gothic New",sans-serif;font-weight:900;font-size:19px;}
+.meet-date .bar{width:6px;height:22px;border-radius:var(--r-pill);background:var(--brand);flex-shrink:0;}
+.meet-date .t{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:19px;}
+.venue-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
+.venue-card{display:block;text-align:left;background:var(--surface);border:none;border-radius:var(--r-lg);padding:0;cursor:pointer;box-shadow:var(--shadow);overflow:hidden;transition:transform .15s ease, box-shadow .15s ease;}
+.venue-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.venue-card .accent{height:6px;background:var(--brand);}
+.venue-card .body{padding:14px 16px 16px;}
+.venue-card .vn{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:19px;display:flex;align-items:center;gap:6px;}
 .venue-card .mn{font-size:11px;color:var(--ink-muted);margin-top:2px;}
-.venue-card .feat{margin-top:8px;font-size:12.5px;padding-top:8px;border-top:1px dashed var(--rule);}
-.venue-card .feat .tag{display:inline-block;font-size:10px;font-weight:700;border:1px solid var(--ink);padding:1px 6px;border-radius:2px;margin-right:6px;}
-.venue-card .status{margin-top:8px;font-size:11px;color:var(--ink-muted);}
+.venue-card .feat{margin-top:10px;font-size:12.5px;padding-top:10px;border-top:1px dashed var(--rule);}
+.venue-card .feat .tag{display:inline-block;font-size:10px;font-weight:700;background:var(--gold-soft);color:var(--gold);padding:2px 8px;border-radius:var(--r-pill);margin-right:6px;}
+.venue-card .status{margin-top:10px;font-size:11px;color:var(--ink-muted);font-weight:500;}
 
 /* ---- venue: race list ---- */
-.race-table{display:flex;flex-direction:column;background:var(--paper-raised);border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
-.race-row{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--rule);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;text-align:left;width:100%;color:inherit;}
+.race-table{display:flex;flex-direction:column;background:var(--surface);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;}
+.race-row{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:10px;align-items:center;padding:13px 16px;border-bottom:1px solid var(--rule);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;text-align:left;width:100%;color:inherit;}
 .race-row:last-child{border-bottom:none;}
-.race-row:hover{background:var(--paper-inset);}
-.race-row .rno{font-family:"JetBrains Mono",monospace;font-weight:900;font-size:15px;}
+.race-row:hover{background:var(--surface-alt);}
+.race-row .rno{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:14px;color:#fff;background:var(--ink);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;height:28px;}
 .race-row .rmain{min-width:0;}
 .race-row .rname{font-weight:700;overflow-wrap:anywhere;}
-.race-row .rname .grade{color:var(--brand);font-weight:900;margin-left:4px;}
-.race-row .rcond{display:block;font-size:11px;color:var(--ink-muted);margin-top:2px;overflow-wrap:anywhere;}
-.race-row .status-badge{justify-self:end;font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;}
+.race-row .rname .grade{color:#fff;background:var(--brand);font-weight:700;font-size:10px;margin-left:6px;padding:1px 7px;border-radius:var(--r-pill);}
+.race-row .rcond{display:block;font-size:11px;color:var(--ink-muted);margin-top:3px;overflow-wrap:anywhere;}
+.race-row .status-badge{justify-self:end;font-size:11px;font-weight:700;padding:4px 11px;border-radius:var(--r-pill);white-space:nowrap;}
 .status-badge.confirmed{background:var(--good-bg);color:var(--good);}
-.status-badge.pending{background:var(--paper-inset);color:var(--ink-muted);}
+.status-badge.pending{background:var(--surface-alt);color:var(--ink-muted);}
 
 /* ---- race detail ---- */
-.panel{background:var(--paper-raised);border:1px solid var(--rule);border-radius:3px;}
-.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:2px solid var(--ink);font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700;font-size:15px;}
+.panel{background:var(--surface);border:none;border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;background:var(--surface-alt);font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:15px;}
 .panel-head .sub{font-size:11px;color:var(--ink-muted);font-weight:500;font-family:"Noto Sans JP",sans-serif;}
-.race-strip{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13px;margin-top:8px;}
-.race-strip .name{font-weight:700;font-size:17px;}
-.race-strip .tag{border:1px solid var(--ink);padding:1px 8px;border-radius:2px;font-size:11px;font-weight:700;}
-.race-strip .tag.grade{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);}
+.race-strip{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;margin-top:10px;}
+.race-strip .name{font-weight:800;font-size:17px;font-family:"M PLUS Rounded 1c",sans-serif;}
+.race-strip .tag{background:var(--surface-alt);color:var(--ink-muted);padding:3px 10px;border-radius:var(--r-pill);font-size:11px;font-weight:700;}
+.race-strip .tag.grade{background:var(--brand);color:var(--brand-ink);}
+.race-strip .tag.turf{background:var(--turf-soft);color:var(--turf);}
+.race-strip .tag.dirt{background:var(--dirt-soft);color:var(--dirt);}
 
-.pending-box{padding:40px 20px;text-align:center;color:var(--ink-muted);}
-.pending-box .big{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.pending-box{padding:44px 20px;text-align:center;color:var(--ink-muted);}
+.pending-box .big{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:8px;font-family:"M PLUS Rounded 1c",sans-serif;}
 
 .layout2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,1fr);gap:18px;align-items:start;}
 @media (max-width:920px){.layout2{grid-template-columns:1fr;}}
 
 .entry-list{display:flex;flex-direction:column;}
-.entry-row{display:grid;grid-template-columns:28px 24px minmax(0,1fr) 54px 42px;align-items:center;gap:6px;padding:8px 10px 2px;border-bottom:1px solid transparent;}
+.entry-row{display:grid;grid-template-columns:30px 30px minmax(0,1fr) 54px 42px;align-items:center;gap:8px;padding:10px 14px 3px;border-bottom:1px solid transparent;}
 .entry-block{border-bottom:1px solid var(--rule);}
+.entry-block:hover{background:var(--surface-alt);}
 .entry-block:last-child{border-bottom:none;}
-.reason-line{padding:0 10px 8px 58px;font-size:11px;color:var(--ink-muted);line-height:1.6;overflow-wrap:anywhere;}
+.reason-line{padding:0 14px 10px 68px;font-size:11px;color:var(--ink-muted);line-height:1.6;overflow-wrap:anywhere;}
 .reason-line b{color:var(--ink);font-weight:700;}
-.entry-row.header{font-size:10.5px;color:var(--ink-muted);font-weight:700;padding-top:6px;padding-bottom:6px;background:var(--paper-inset);}
-.gate{width:24px;height:24px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:11px;border:1.5px solid var(--ink);}
-.mark{font-size:17px;font-weight:900;color:var(--brand);text-align:center;font-family:"Zen Kaku Gothic New",sans-serif;}
-.mark.blank{color:var(--rule);}
+.entry-row.header{font-size:10.5px;color:var(--ink-muted);font-weight:700;padding:10px 14px;background:var(--surface-alt);}
+.gate{width:26px;height:26px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:11px;border:1.5px solid rgba(0,0,0,.15);}
+.mark{width:26px;height:26px;border-radius:50%;font-size:13px;font-weight:900;color:var(--ink-muted);background:var(--surface-alt);text-align:center;line-height:26px;font-family:"M PLUS Rounded 1c",sans-serif;}
+.mark.blank{color:var(--rule);background:transparent;}
+.mark.m-hon{background:var(--brand);color:#fff;}
+.mark.m-tai{background:var(--info);color:#fff;}
+.mark.m-tan{background:var(--turf);color:#fff;}
+.mark.m-ren{background:var(--surface-alt);color:var(--ink-muted);border:1.5px solid var(--rule);}
+.mark.m-chu{background:var(--gold);color:#fff;}
 .horse-btn{background:none;border:none;padding:0;text-align:left;cursor:pointer;color:var(--ink);max-width:100%;}
-.horse-name{font-weight:700;font-size:13.5px;border-bottom:1px dashed var(--ink-muted);display:inline-block;overflow-wrap:anywhere;}
-.horse-btn:hover .horse-name{color:var(--brand);border-color:var(--brand);}
+.horse-name{font-weight:700;font-size:13.5px;display:inline-block;overflow-wrap:anywhere;}
+.horse-btn:hover .horse-name{color:var(--brand);}
 .horse-sub{display:block;margin-top:2px;overflow-wrap:anywhere;}
 .jockey-btn{background:none;border:none;padding:0;cursor:pointer;font-size:10.5px;color:var(--ink-muted);border-bottom:1px dotted var(--ink-muted);max-width:100%;overflow-wrap:anywhere;text-align:left;white-space:normal;}
 .jockey-btn:hover{color:var(--brand);border-color:var(--brand);}
@@ -128,136 +169,157 @@ button{font-family:inherit;}
 .odds-val{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12.5px;}
 .pop-col{text-align:right;font-family:"JetBrains Mono",monospace;color:var(--ink-muted);font-size:11px;}
 
-.legend-strip{display:flex;flex-wrap:wrap;gap:12px;padding:8px 14px;font-size:11px;color:var(--ink-muted);border-top:1px solid var(--rule);}
-.legend-strip b{color:var(--ink);}
-.ev-explain{padding:10px 14px;font-size:11.5px;color:var(--ink-muted);line-height:1.7;background:var(--paper-inset);border-top:1px solid var(--rule);}
+.legend-strip{display:flex;flex-wrap:wrap;gap:10px;padding:12px 14px;font-size:11px;color:var(--ink-muted);background:var(--surface-alt);}
+.legend-strip span{display:flex;align-items:center;gap:4px;}
+.legend-strip b{color:#fff;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;background:var(--ink-muted);}
+.legend-strip b.m-hon{background:var(--brand);}
+.legend-strip b.m-tai{background:var(--info);}
+.legend-strip b.m-tan{background:var(--turf);}
+.legend-strip b.m-ren{background:var(--surface-alt);border:1.5px solid var(--rule);}
+.legend-strip b.m-chu{background:var(--gold);}
+.ev-explain{padding:12px 14px;font-size:11.5px;color:var(--ink-muted);line-height:1.7;background:var(--surface);border-top:1px solid var(--rule);}
 .ev-explain b{color:var(--ink);}
-.ev-explain code{font-family:"JetBrains Mono",monospace;background:var(--paper);padding:1px 4px;border-radius:2px;}
+.ev-explain code{font-family:"JetBrains Mono",monospace;background:var(--surface-alt);padding:1px 5px;border-radius:4px;}
+.ev-explain a{color:var(--brand);font-weight:700;text-decoration:none;}
+.ev-explain a:hover{text-decoration:underline;}
 
 .glossary{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0;}
 .gloss-item{padding:10px 14px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);}
 .gloss-item .t{font-weight:700;font-size:13px;}
 .gloss-item .d{font-size:11.5px;color:var(--ink-muted);margin-top:2px;}
 
-.budget-form{padding:14px;display:flex;gap:10px;align-items:flex-end;border-bottom:1px solid var(--rule);flex-wrap:wrap;}
-.field label{display:block;font-size:11px;color:var(--ink-muted);font-weight:700;margin-bottom:4px;}
-.field input{font-family:"JetBrains Mono",monospace;font-size:15px;padding:6px 8px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:2px;width:150px;}
+.budget-form{padding:16px;display:flex;gap:10px;align-items:flex-end;border-bottom:1px solid var(--rule);flex-wrap:wrap;}
+.field label{display:block;font-size:11px;color:var(--ink-muted);font-weight:700;margin-bottom:5px;}
+.field input{font-family:"JetBrains Mono",monospace;font-size:15px;padding:8px 10px;border:1.5px solid var(--rule);background:var(--surface-alt);color:var(--ink);border-radius:var(--r-sm);width:150px;}
+.field input:focus{border-color:var(--brand);}
 .chip-set{display:flex;gap:6px;flex-wrap:wrap;}
-.chip-set button{border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);padding:6px 10px;border-radius:2px;font-size:12px;font-weight:700;cursor:pointer;}
+.chip-set button{border:1.5px solid var(--rule);background:var(--surface-alt);color:var(--ink);padding:7px 12px;border-radius:var(--r-pill);font-size:12px;font-weight:700;cursor:pointer;}
 .chip-set button.active{background:var(--brand);border-color:var(--brand);color:var(--brand-ink);}
 
-.beginner-note{padding:10px 14px;font-size:12px;color:var(--ink-muted);line-height:1.7;border-bottom:1px solid var(--rule);background:var(--paper-inset);}
-.beginner-note b{color:var(--ink);}
-.strategy-list{padding:12px 14px;display:flex;flex-direction:column;gap:12px;}
-.strategy-card{border:1.5px solid var(--ink);border-radius:3px;background:var(--paper);box-shadow:var(--shadow);position:relative;}
-.strategy-card.reco{border-color:var(--good);}
-.reco-badge{position:absolute;top:-9px;left:10px;background:var(--good);color:var(--brand-ink);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
-.strategy-card .head{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--rule);gap:8px;}
-.strategy-card .head .name{font-weight:900;font-family:"Zen Kaku Gothic New",sans-serif;font-size:14.5px;}
+.beginner-note{padding:12px 14px;font-size:12px;color:var(--ink);line-height:1.7;background:var(--gold-soft);border-radius:var(--r-sm);margin:12px 14px 0;}
+.beginner-note b{color:var(--dirt);}
+.strategy-list{padding:14px;display:flex;flex-direction:column;gap:14px;}
+.strategy-card{border:none;border-radius:var(--r-md);background:var(--surface);box-shadow:var(--shadow);position:relative;border-top:5px solid var(--ink-muted);}
+.strategy-card.tier-good{border-top-color:var(--good);}
+.strategy-card.tier-caution{border-top-color:var(--info);}
+.strategy-card.tier-warn{border-top-color:var(--dirt);}
+.strategy-card.tier-bad{border-top-color:var(--brand);}
+.strategy-card.reco{box-shadow:var(--shadow-md);}
+.reco-badge{position:absolute;top:-11px;left:14px;background:var(--good);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:var(--r-pill);box-shadow:var(--shadow);}
+.strategy-card .head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px 6px;gap:8px;}
+.strategy-card .head .name{font-weight:800;font-family:"M PLUS Rounded 1c",sans-serif;font-size:15px;}
 .strategy-card .head .risk{font-size:10.5px;color:var(--ink-muted);}
 .risk-meter{display:flex;align-items:center;gap:6px;flex-shrink:0;font-size:10px;color:var(--ink-muted);white-space:nowrap;}
 .risk-meter .bar{display:flex;gap:2px;}
 .risk-meter .dot{width:7px;height:7px;border-radius:50%;background:var(--rule);}
 .risk-meter .dot.on{background:var(--brand);}
-.for-whom{font-size:11px;color:var(--ink-muted);padding:6px 12px 0;}
+.for-whom{font-size:11px;color:var(--ink-muted);padding:2px 14px 0;}
 .for-whom b{color:var(--ink);}
 
 .glossary2{display:flex;flex-direction:column;}
-.gloss2-head,.gloss2-row{display:grid;grid-template-columns:1fr 52px 52px;gap:8px;padding:7px 14px;align-items:center;border-bottom:1px solid var(--rule);}
-.gloss2-head{font-size:10px;color:var(--ink-muted);font-weight:700;background:var(--paper-inset);}
+.gloss2-head,.gloss2-row{display:grid;grid-template-columns:1fr 52px 52px;gap:8px;padding:9px 14px;align-items:center;border-bottom:1px solid var(--rule);}
+.gloss2-head{font-size:10px;color:var(--ink-muted);font-weight:700;background:var(--surface-alt);}
 .gloss2-row:last-child{border-bottom:none;}
 .gloss2-row .name{font-weight:700;font-size:12.5px;}
-.gloss2-row .name .badge-reco{display:inline-block;margin-left:5px;font-size:9.5px;font-weight:700;color:var(--good);border:1px solid var(--good);border-radius:8px;padding:0 5px;vertical-align:middle;}
-.gloss2-row .desc{font-size:11px;color:var(--ink-muted);grid-column:1/-1;padding-top:2px;}
+.gloss2-row .name .badge-reco{display:inline-block;margin-left:5px;font-size:9px;font-weight:700;color:var(--good);background:var(--good-bg);border-radius:var(--r-pill);padding:1px 6px;vertical-align:middle;}
+.gloss2-row .desc{font-size:11px;color:var(--ink-muted);grid-column:1/-1;padding-top:3px;}
 .gloss2-row .lv{font-size:11px;text-align:center;font-weight:700;}
 .lv.high{color:var(--good);} .lv.mid{color:var(--caution);} .lv.low{color:var(--bad);}
-.ev-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;white-space:nowrap;}
+.ev-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:var(--r-pill);white-space:nowrap;}
 .ev-badge.good{background:var(--good-bg);color:var(--good);}
 .ev-badge.caution{background:var(--caution-bg);color:var(--caution);}
 .ev-badge.warn{background:var(--warn-bg);color:var(--warn);}
 .ev-badge.bad{background:var(--bad-bg);color:var(--bad);}
-.strategy-card .body{padding:10px 12px;}
-.combo-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:3px 0;border-bottom:1px dotted var(--rule);}
+.strategy-card .body{padding:10px 14px 14px;}
+.combo-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--rule);}
 .combo-row:last-of-type{border-bottom:none;}
 .combo-row .label{color:var(--ink-muted);min-width:0;overflow-wrap:anywhere;}
-.combo-row .amt{font-family:"JetBrains Mono",monospace;font-weight:700;flex-shrink:0;}
-.strategy-foot{margin-top:8px;padding-top:8px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 8px;font-size:12px;}
+.combo-row .amt{font-family:"JetBrains Mono",monospace;font-weight:700;flex-shrink:0;color:var(--ink);}
+.strategy-foot{margin-top:10px;padding-top:10px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 8px;font-size:12px;}
 .strategy-foot .total{font-weight:700;overflow-wrap:anywhere;}
-.strategy-note{font-size:11px;color:var(--ink-muted);margin-top:6px;line-height:1.5;}
+.strategy-note{font-size:11px;color:var(--ink-muted);margin-top:8px;line-height:1.5;}
 
-.modal-backdrop{position:fixed;inset:0;background:rgba(15,13,9,.55);display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;z-index:50;}
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,17,22,.6);display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;z-index:50;}
 .modal-backdrop.open{display:flex;}
-.stat-card{background:var(--paper-raised);border:2px solid var(--ink);border-radius:6px;max-width:600px;width:100%;box-shadow:6px 6px 0 rgba(0,0,0,0.25);}
-.stat-card-head{background:var(--turf);color:var(--turf-ink);padding:14px 16px;border-radius:4px 4px 0 0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
-.stat-card-head.jockey-card-head{background:var(--brand);color:var(--brand-ink);}
+.stat-card{background:var(--surface);border:none;border-radius:var(--r-lg);max-width:600px;width:100%;box-shadow:var(--shadow-md);overflow:hidden;}
+.stat-card-head{background:var(--brand);color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.stat-card-head.jockey-card-head{background:var(--ink);}
 .stat-card-head > div:first-child{min-width:0;}
-.stat-card-head h2{margin:2px 0 2px;font-family:"Zen Kaku Gothic New",sans-serif;font-size:21px;overflow-wrap:anywhere;}
-.stat-card-head .meta{font-size:11.5px;opacity:.85;overflow-wrap:anywhere;}
-.stat-card-head .close{flex-shrink:0;background:none;border:none;color:inherit;font-size:20px;cursor:pointer;line-height:1;padding:2px 6px;}
-.stat-card-body{padding:16px;}
-.kv-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--rule);}
+.stat-card-head h2{margin:2px 0 2px;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:21px;overflow-wrap:anywhere;}
+.stat-card-head .meta{font-size:11.5px;opacity:.9;overflow-wrap:anywhere;}
+.stat-card-head .close{flex-shrink:0;background:rgba(255,255,255,.2);border:none;color:inherit;font-size:18px;cursor:pointer;line-height:1;padding:4px 9px;border-radius:50%;}
+.stat-card-body{padding:18px;}
+.kv-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:6px 0;border-bottom:1px dotted var(--rule);}
 .kv-row:last-child{border-bottom:none;}
 .kv-row .k{color:var(--ink-muted);flex-shrink:0;}
 .kv-row .v{font-family:"JetBrains Mono",monospace;font-weight:700;text-align:right;overflow-wrap:anywhere;}
-.jockey-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:0;border:1px solid var(--rule);border-radius:3px;overflow:hidden;margin-bottom:10px;}
-.jockey-stat-cell{padding:8px 10px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--paper);}
+.jockey-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-bottom:12px;}
+.jockey-stat-cell{padding:10px;border-radius:var(--r-sm);background:var(--surface-alt);text-align:center;}
 .jockey-stat-cell .k{font-size:10px;color:var(--ink-muted);}
-.jockey-stat-cell .v{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:15px;}
-.comment-line{font-size:12px;background:var(--paper-inset);padding:10px 12px;border-radius:3px;line-height:1.6;margin-top:10px;}
+.jockey-stat-cell .v{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:16px;}
+.comment-line{font-size:12px;background:var(--surface-alt);padding:12px 14px;border-radius:var(--r-sm);line-height:1.6;margin-top:12px;}
 .no-profile{font-size:11.5px;color:var(--ink-muted);font-style:italic;}
 
-.track-note{padding:10px 14px;font-size:12px;color:var(--ink-muted);line-height:1.7;border-bottom:1px solid var(--rule);background:var(--paper-inset);}
-.track-note b{color:var(--ink);}
-.track-table{display:flex;flex-direction:column;}
-.track-head,.track-row{display:grid;grid-template-columns:64px 1fr 70px 70px;gap:8px;padding:9px 14px;align-items:center;border-bottom:1px solid var(--rule);}
-.track-head{font-size:10.5px;color:var(--ink-muted);font-weight:700;background:var(--paper-inset);}
+.stat-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;padding:14px;}
+.stat-tile{background:var(--surface-alt);border-radius:var(--r-md);padding:12px 10px;text-align:center;}
+.stat-tile .m{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:14px;color:#fff;margin:0 auto 6px;}
+.stat-tile .lbl{font-size:10px;color:var(--ink-muted);font-weight:700;}
+.stat-tile .big{font-family:"M PLUS Rounded 1c",sans-serif;font-size:22px;font-weight:900;margin-top:4px;}
+.stat-tile .cap{font-size:9.5px;color:var(--ink-muted);}
+.track-note{padding:12px 14px;font-size:12px;color:var(--ink);line-height:1.7;background:var(--brand-soft);border-radius:var(--r-sm);margin:14px;}
+.track-note b{color:var(--brand-dark);}
+.track-table{display:flex;flex-direction:column;margin:0 14px 14px;background:var(--surface-alt);border-radius:var(--r-md);overflow:hidden;}
+.track-head,.track-row{display:grid;grid-template-columns:64px 1fr 70px 70px;gap:8px;padding:10px 14px;align-items:center;border-bottom:1px solid var(--rule);}
+.track-head{font-size:10.5px;color:var(--ink-muted);font-weight:700;}
 .track-row:last-child{border-bottom:none;}
-.track-row .m{font-size:18px;font-weight:900;font-family:"Zen Kaku Gothic New",sans-serif;color:var(--brand);}
+.track-row .m{font-size:16px;font-weight:900;font-family:"M PLUS Rounded 1c",sans-serif;color:var(--brand);}
 .track-row .lbl{font-size:11px;color:var(--ink-muted);}
 .track-row .rate{font-family:"JetBrains Mono",monospace;font-weight:700;text-align:right;}
 .track-row .rate.na{color:var(--ink-muted);font-family:inherit;font-weight:400;}
-.track-row.baseline{background:var(--paper-inset);}
-.track-detail{padding:6px 14px 14px;}
+.track-row.baseline{background:var(--surface);}
+.track-detail{padding:0 14px 14px;}
 .track-detail table{width:100%;border-collapse:collapse;font-size:11.5px;}
-.track-detail th,.track-detail td{padding:6px 8px;border-bottom:1px solid var(--rule);text-align:center;}
+.track-detail th,.track-detail td{padding:7px 8px;border-bottom:1px solid var(--rule);text-align:center;}
 .track-detail th{color:var(--ink-muted);font-weight:700;font-size:10.5px;}
 .track-detail td:first-child,.track-detail th:first-child{text-align:left;}
-footer{text-align:center;padding:20px;font-size:11px;color:var(--ink-muted);border-top:1px solid var(--rule);line-height:1.8;}
-footer a{text-decoration:underline;}
+footer{text-align:center;padding:26px 20px;font-size:11px;color:var(--ink-muted);line-height:1.8;margin-top:20px;border-top:1px solid var(--rule);}
+footer a{color:var(--brand);text-decoration:none;font-weight:700;}
+footer a:hover{text-decoration:underline;}
 [hidden]{display:none!important;}
 
 /* ---- mobile ---- */
 @media (max-width:600px){
   .wrap{padding:12px;}
-  .masthead{padding:10px 12px;}
-  .masthead-top{font-size:10px;gap:4px 10px;}
-  .crumb{overflow-wrap:anywhere;}
-  .panel-head{padding:9px 10px;font-size:14px;flex-wrap:wrap;}
+  .masthead-top{padding:5px 12px;font-size:9.5px;}
+  .masthead-main{padding:10px 12px;}
+  .crumb{padding:0 12px 8px;}
+  .panel-head{padding:11px 12px;font-size:14px;flex-wrap:wrap;}
   .panel-head .sub{font-size:10px;}
-  .entry-row{grid-template-columns:24px 20px minmax(0,1fr) 46px 36px;gap:4px;padding:7px 6px 2px;}
-  .entry-row.header{font-size:9px;}
-  .reason-line{padding-left:50px;font-size:10.5px;}
-  .gate{width:20px;height:20px;font-size:9.5px;}
-  .mark{font-size:15px;}
+  .entry-row{grid-template-columns:26px 26px minmax(0,1fr) 46px 36px;gap:5px;padding:9px 10px 2px;}
+  .entry-row.header{font-size:9px;padding:8px 10px;}
+  .reason-line{padding:0 10px 8px 62px;font-size:10.5px;}
+  .gate{width:22px;height:22px;font-size:9.5px;}
+  .mark{width:22px;height:22px;line-height:22px;font-size:11px;}
   .horse-name{font-size:12.5px;}
   .horse-sub{font-size:10px;}
   .odds-val{font-size:11.5px;}
   .pop-col{font-size:10px;}
-  .race-row{padding:9px 10px;gap:6px;}
+  .race-row{padding:11px 12px;gap:6px;}
   .race-row .rname{font-size:13px;}
   .race-strip .name{font-size:15px;}
-  .budget-form{padding:10px;gap:8px;}
+  .budget-form{padding:12px;gap:8px;}
   .field input{width:110px;font-size:14px;}
-  .chip-set button{padding:5px 8px;font-size:11px;}
+  .chip-set button{padding:6px 10px;font-size:11px;}
   .strategy-card .head{flex-wrap:wrap;}
   .strategy-card .head .name{font-size:13.5px;}
-  .gloss2-head,.gloss2-row{grid-template-columns:1fr 44px 44px;gap:6px;padding:6px 10px;}
-  .track-head,.track-row{grid-template-columns:44px 1fr 56px 56px;gap:6px;padding:7px 10px;}
-  .track-detail{padding:4px 10px 10px;font-size:10.5px;}
+  .gloss2-head,.gloss2-row{grid-template-columns:1fr 44px 44px;gap:6px;padding:7px 12px;}
+  .stat-tiles{grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;}
+  .track-head,.track-row{grid-template-columns:44px 1fr 56px 56px;gap:6px;padding:8px 12px;}
+  .track-detail{padding:0 10px 10px;font-size:10.5px;}
   .modal-backdrop{padding:14px 8px;}
-  .stat-card-head{padding:12px 14px;}
+  .stat-card-head{padding:14px 16px;}
   .stat-card-head h2{font-size:18px;}
-  .stat-card-body{padding:12px;}
+  .stat-card-body{padding:14px;}
   .jockey-stat-grid{grid-template-columns:repeat(3,1fr);}
 }
 </style>
@@ -269,7 +331,9 @@ footer a{text-decoration:underline;}
     <span>JRA全場・全レース対応 ／ 予想印・買い目ガイドは毎週金曜19時ごろ自動更新</span>
     <span id="todayStr"></span>
   </div>
-  <h1><button id="titleHome" type="button">全レース競馬予想</button></h1>
+  <div class="masthead-main">
+    <h1><button id="titleHome" type="button"><span class="logo-mark">🏇</span>全レース競馬予想</button></h1>
+  </div>
   <div class="crumb" id="crumb"></div>
 </div>
 
@@ -303,6 +367,7 @@ const GATE_COLORS = {
   5:{bg:'#F2C230',fg:'#201C16'}, 6:{bg:'#2F7D4F',fg:'#FFFFFF'},
   7:{bg:'#E07B24',fg:'#201C16'}, 8:{bg:'#E77FA6',fg:'#201C16'}
 };
+const MARK_CLASS = {'◎':'m-hon', '○':'m-tai', '▲':'m-tan', '△':'m-ren', '注':'m-chu'};
 
 function emptyRace(no){ return { no, name:null, grade:null, surface:null, distance:null, cond:null, horses:[] }; }
 function makeCard(name, meetLabel, feature){
@@ -471,21 +536,27 @@ function renderHome(){
   setMeta('全レース競馬予想｜JRA全場・全レースの予想印と買い目ガイド',
     'JRA全場・全レースを対象に、単勝オッズと騎手成績・コース傾向から算出した予想印（◎○▲△注）と、予算に応じた買い目パターンを毎週金曜に自動更新。根拠を全て開示する透明な予想サイトです。', '/');
   let html = '';
+  const ACCENTS = ['var(--brand)','var(--info)','var(--turf)','var(--gold)','var(--dirt)'];
+  let vi = 0;
   MEETS.forEach(meet=>{
-    html += `<div class="meet-date">${meet.dateLabel}</div><div class="venue-grid">`;
+    html += `<div class="meet-date"><span class="bar"></span><span class="t">${meet.dateLabel}</span></div><div class="venue-grid">`;
     meet.venues.forEach(v=>{
       const confirmedCount = v.races.filter(r=>r.horses.length>0).length;
       const feat = v.races[10];
+      const accent = ACCENTS[vi++ % ACCENTS.length];
       html += `
         <button class="venue-card" data-id="${v.id}">
-          <div class="vn">${v.name}競馬場</div>
-          <div class="mn">${v.meetLabel}・全12レース</div>
-          ${feat && feat.name ? `
-          <div class="feat">
-            ${feat.grade?`<span class="tag">${feat.grade}</span>`:''}<b>${feat.name}</b><br>
-            <span style="color:var(--ink-muted);">${feat.surface}${feat.distance}m・${feat.cond}</span>
-          </div>`:''}
-          <div class="status">${confirmedCount}/12レース 出走馬確定${confirmedCount<12?'（随時更新）':''}</div>
+          <div class="accent" style="background:${accent};"></div>
+          <div class="body">
+            <div class="vn">🏟️ ${v.name}競馬場</div>
+            <div class="mn">${v.meetLabel}・全12レース</div>
+            ${feat && feat.name ? `
+            <div class="feat">
+              ${feat.grade?`<span class="tag">${feat.grade}</span>`:''}<b>${feat.name}</b><br>
+              <span style="color:var(--ink-muted);">${feat.surface}${feat.distance}m・${feat.cond}</span>
+            </div>`:''}
+            <div class="status">${confirmedCount}/12レース 出走馬確定${confirmedCount<12?'（随時更新）':''}</div>
+          </div>
         </button>`;
     });
     html += `</div>`;
@@ -628,7 +699,7 @@ function renderRace(venueId, no){
     <div style="padding:10px 14px 0;">
       <div class="race-strip">
         ${race.grade?`<span class="tag grade">${race.grade}</span>`:''}
-        ${race.surface?`<span class="tag">${race.surface}${race.distance}m</span>`:''}
+        ${race.surface?`<span class="tag ${race.surface.includes('ダート')?'dirt':'turf'}">${race.surface}${race.distance}m</span>`:''}
         ${race.cond?`<span class="tag">${race.cond}</span>`:''}
       </div>
     </div>`;
@@ -660,8 +731,8 @@ function renderRace(venueId, no){
           </div>
           <div class="entry-list" id="entryList"></div>
           <div class="legend-strip">
-            <span><b>◎</b>本命</span><span><b>○</b>対抗</span><span><b>▲</b>単穴</span>
-            <span><b>△</b>連下</span><span><b>注</b>注意</span>
+            <span><b class="m-hon">◎</b>本命</span><span><b class="m-tai">○</b>対抗</span><span><b class="m-tan">▲</b>単穴</span>
+            <span><b class="m-ren" style="color:var(--ink-muted);">△</b>連下</span><span><b class="m-chu">注</b>注意</span>
           </div>
           <div class="ev-explain">
             <b>印の付け方（当サイト独自ロジック・完全に透明）：</b>スコア = <code>(1 / 単勝オッズ) × (1 + 騎手複勝率) × コース適性係数</code> で算出し、上位4頭に◎○▲△、単勝人気順より大きく順位が上がった馬に注を付与しています。コース適性係数は、脚質がそのコースの有利脚質と一致する場合1.06倍、逆行する場合0.96倍という小さな補正で、単勝人気だけでは見えない差を反映させています。各馬の下に、その根拠となった支持率・騎手複勝率・コース適性を表示しています。専門家による予想ではなく、公開されている数値から機械的に計算した参考の目安です。<a href="/track-record" class="js-nav" data-path="/track-record">→ このロジックの実績を検証</a>
@@ -704,7 +775,7 @@ function renderRace(venueId, no){
     row.className = 'entry-row';
     row.innerHTML = `
       <span class="gate" style="background:${gate.bg};color:${gate.fg};">${h.no}</span>
-      <span class="mark ${mark?'':'blank'}">${mark||'—'}</span>
+      <span class="mark ${mark?(MARK_CLASS[mark]||''):'blank'}">${mark||'—'}</span>
       <span>
         <button class="horse-btn" data-no="${h.no}"><span class="horse-name">${h.name}</span></button>
         <span class="horse-sub"><button class="jockey-btn" data-jockey="${h.jockey}">${h.jockey}</button></span>
@@ -796,7 +867,7 @@ function renderRace(venueId, no){
     list.innerHTML = '';
     buildGuide(budget).forEach(s=>{
       const card = document.createElement('div');
-      card.className = 'strategy-card' + (s.reco?' reco':'');
+      card.className = 'strategy-card tier-'+s.tier + (s.reco?' reco':'');
       const dots = Array.from({length:5},(_,i)=>`<span class="dot${i<s.hitDots?' on':''}"></span>`).join('');
       card.innerHTML = `
         ${s.reco?'<span class="reco-badge">初心者におすすめ</span>':''}
@@ -850,6 +921,18 @@ function renderTrackRecord(){
         <b>これは何か：</b>当サイトの予想印（◎○▲△注）は <code style="font-family:'JetBrains Mono',monospace;">score = (1/単勝オッズ)×(1+騎手複勝率)×コース適性係数</code> という現行ロジックで機械的に算出しています。このページは、そのロジックを実際に開催済みのJRAレースへ後から当てはめ（バックテスト）、各印が実際に何着だったかを集計した結果です。<b>個々の馬の着順など生データは保持せず、集計された的中率のみを公開</b>しています。数値は毎週の自動更新のたびに検証レース数を積み増して更新されます。
         <br><br>
         <b>現時点の注意点：</b>検証数はまだ${tr.totalRaces}レースと少なく、統計的な信頼性は限定的です。また、このサンプルでは◎（本命）は単勝1番人気と全レースで一致しており、現行ロジックは「人気を大きく裏切る大穴を当てにいく」ものではなく「市場の支持率を土台に、騎手成績とコース適性で微調整する」堅実型の設計であることが確認できます。過去の的中率は将来の的中を保証するものではありません。
+      </div>
+      <div class="stat-tiles">
+        ${syms.map(s=>{
+          const m = tr.marks[s];
+          const na = m.win==null;
+          return `<div class="stat-tile">
+            <div class="m ${MARK_CLASS[s]}">${s}</div>
+            <div class="lbl">${m.label}</div>
+            <div class="big">${na?'—':m.place3+'%'}</div>
+            <div class="cap">複勝的中率</div>
+          </div>`;
+        }).join('')}
       </div>
       <div class="track-table">
         <div class="track-head"><span>印</span><span>内容</span><span style="text-align:right;">単勝的中率</span><span style="text-align:right;">複勝的中率</span></div>
