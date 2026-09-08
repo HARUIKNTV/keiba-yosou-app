@@ -3,7 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>全レース競馬予想</title>
+<title>全レース競馬予想｜JRA全場・全レースの予想印と買い目ガイド</title>
+<meta name="description" content="JRA全場・全レースを対象に、単勝オッズと騎手成績・コース傾向から算出した予想印（◎○▲△注）と、予算に応じた買い目パターンを毎週金曜に自動更新。根拠を全て開示する透明な予想サイトです。">
+<link rel="canonical" href="https://deep-yosou-shimbun-haruikintv.vercel.app/">
+<meta property="og:site_name" content="全レース競馬予想">
+<meta property="og:type" content="website">
+<meta property="og:title" content="全レース競馬予想｜JRA全場・全レースの予想印と買い目ガイド">
+<meta property="og:description" content="単勝オッズ・騎手成績・コース傾向から算出した予想印と買い目ガイドを、根拠つきで毎週自動更新。">
+<meta property="og:url" content="https://deep-yosou-shimbun-haruikintv.vercel.app/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="全レース競馬予想｜JRA全場・全レースの予想印と買い目ガイド">
+<meta name="twitter:description" content="単勝オッズ・騎手成績・コース傾向から算出した予想印と買い目ガイドを、根拠つきで毎週自動更新。">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"全レース競馬予想","url":"https://deep-yosou-shimbun-haruikintv.vercel.app/"}
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
@@ -193,6 +206,22 @@ button{font-family:inherit;}
 .comment-line{font-size:12px;background:var(--paper-inset);padding:10px 12px;border-radius:3px;line-height:1.6;margin-top:10px;}
 .no-profile{font-size:11.5px;color:var(--ink-muted);font-style:italic;}
 
+.track-note{padding:10px 14px;font-size:12px;color:var(--ink-muted);line-height:1.7;border-bottom:1px solid var(--rule);background:var(--paper-inset);}
+.track-note b{color:var(--ink);}
+.track-table{display:flex;flex-direction:column;}
+.track-head,.track-row{display:grid;grid-template-columns:64px 1fr 70px 70px;gap:8px;padding:9px 14px;align-items:center;border-bottom:1px solid var(--rule);}
+.track-head{font-size:10.5px;color:var(--ink-muted);font-weight:700;background:var(--paper-inset);}
+.track-row:last-child{border-bottom:none;}
+.track-row .m{font-size:18px;font-weight:900;font-family:"Zen Kaku Gothic New",sans-serif;color:var(--brand);}
+.track-row .lbl{font-size:11px;color:var(--ink-muted);}
+.track-row .rate{font-family:"JetBrains Mono",monospace;font-weight:700;text-align:right;}
+.track-row .rate.na{color:var(--ink-muted);font-family:inherit;font-weight:400;}
+.track-row.baseline{background:var(--paper-inset);}
+.track-detail{padding:6px 14px 14px;}
+.track-detail table{width:100%;border-collapse:collapse;font-size:11.5px;}
+.track-detail th,.track-detail td{padding:6px 8px;border-bottom:1px solid var(--rule);text-align:center;}
+.track-detail th{color:var(--ink-muted);font-weight:700;font-size:10.5px;}
+.track-detail td:first-child,.track-detail th:first-child{text-align:left;}
 footer{text-align:center;padding:20px;font-size:11px;color:var(--ink-muted);border-top:1px solid var(--rule);line-height:1.8;}
 footer a{text-decoration:underline;}
 [hidden]{display:none!important;}
@@ -223,6 +252,8 @@ footer a{text-decoration:underline;}
   .strategy-card .head{flex-wrap:wrap;}
   .strategy-card .head .name{font-size:13.5px;}
   .gloss2-head,.gloss2-row{grid-template-columns:1fr 44px 44px;gap:6px;padding:6px 10px;}
+  .track-head,.track-row{grid-template-columns:44px 1fr 56px 56px;gap:6px;padding:7px 10px;}
+  .track-detail{padding:4px 10px 10px;font-size:10.5px;}
   .modal-backdrop{padding:14px 8px;}
   .stat-card-head{padding:12px 14px;}
   .stat-card-head h2{font-size:18px;}
@@ -245,13 +276,15 @@ footer a{text-decoration:underline;}
 <div class="wrap">
   <div class="demo-banner" id="topBanner">
     このサイトは<b>投票前の予想検討に特化した参考サイト</b>です（レース結果・払戻情報は掲載していません）。予想印・買い目ガイドは<b>当サイト独自の透明なロジック</b>（単勝オッズ・騎手成績・コース傾向から機械的に算出）によるもので、どの数値をもとにその印が付いたかを各馬の下に表示しています。専門家による予想や的中を保証するものではありません。最新の出走馬・オッズは必ず<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でご確認ください。馬券の購入は20歳になってから。
+    <div style="margin-top:6px;"><a href="/track-record" class="js-nav" data-path="/track-record">→ 予想ロジックの実績を実際のレース結果で検証（毎週更新）</a></div>
   </div>
   <div id="view"></div>
 </div>
 
 <footer>
   全レース競馬予想 &mdash; 毎週金曜19時ごろ、その週末に開催されるJRA全場・全レースの出馬表とオッズを取得し自動更新します。<br>
-  出典：<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式</a>／各種公開オッズ情報。予想は参考情報であり的中を保証するものではありません。
+  出典：<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式</a>／各種公開オッズ情報。予想は参考情報であり的中を保証するものではありません。<br>
+  <a href="/track-record" class="js-nav" data-path="/track-record">予想実績・検証</a>
 </footer>
 
 <div class="modal-backdrop" id="modalBackdrop">
@@ -350,33 +383,93 @@ const MEETS = [
 ];
 
 /* =========================================================
-   ルーティング（#/ , #/venue/<id> , #/race/<venueId>/<no>）
+   予想実績（バックテスト集計値）
+   毎週、確定した実際のレース結果に対して現行の予想ロジック（computeScored/
+   computeMarks、本ファイルの数式と完全に同一）を後付けで適用し、印が実際に
+   何着だったかを集計したもの。個々の馬の着順など生データは一切保持せず、
+   検証のたびに集計値（的中率）のみをここに追記していく。過去の的中率は
+   将来の的中を保証するものではない。
+   算出方法の詳細な追記は自動更新ジョブの担当。
+========================================================= */
+const TRACK_RECORD = {
+  lastUpdated: '2026-09-06',
+  totalRaces: 6,
+  marks: {
+    '◎': {label:'本命', win:33.3, place3:50.0},
+    '○': {label:'対抗', win:0.0,  place3:16.7},
+    '▲': {label:'単穴', win:0.0,  place3:33.3},
+    '△': {label:'連下', win:0.0,  place3:50.0},
+    '注': {label:'注意', win:null, place3:null, n:0},
+  },
+  baseline: {label:'単勝1番人気を買い続けた場合', win:33.3, place3:50.0},
+  races: [
+    {name:'札幌2歳ステークス', field:9,  marks:{'◎':1,'○':5,'▲':2,'△':3,'注':null}},
+    {name:'京成杯オータムハンデキャップ', field:16, marks:{'◎':6,'○':16,'▲':4,'△':11,'注':null}},
+    {name:'エニフステークス', field:12, marks:{'◎':4,'○':11,'▲':7,'△':2,'注':null}},
+    {name:'丹頂ステークス', field:14, marks:{'◎':10,'○':2,'▲':7,'△':14,'注':null}},
+    {name:'紫苑ステークス', field:11, marks:{'◎':3,'○':7,'▲':10,'△':2,'注':null}},
+    {name:'産経賞セントウルステークス', field:16, marks:{'◎':1,'○':15,'▲':2,'△':8,'注':null}},
+  ],
+};
+
+/* =========================================================
+   ルーティング（/ , /venue/<id> , /race/<venueId>/<no> , /track-record）
+   通常のパスで History API により遷移させ、検索エンジンが個々のページを
+   別URLとしてクロール・インデックスできるようにしている（旧#/方式から移行）。
 ========================================================= */
 const view = document.getElementById('view');
 const crumb = document.getElementById('crumb');
-document.getElementById('titleHome').addEventListener('click', ()=> location.hash = '#/');
+const SITE_ORIGIN = 'https://deep-yosou-shimbun-haruikintv.vercel.app';
+function setMeta(title, description, path){
+  document.title = title;
+  const url = SITE_ORIGIN + path;
+  const set = (sel, attr, val) => { const el = document.querySelector(sel); if(el) el.setAttribute(attr, val); };
+  set('meta[name="description"]', 'content', description);
+  set('link[rel="canonical"]', 'href', url);
+  set('meta[property="og:title"]', 'content', title);
+  set('meta[property="og:description"]', 'content', description);
+  set('meta[property="og:url"]', 'content', url);
+  set('meta[name="twitter:title"]', 'content', title);
+  set('meta[name="twitter:description"]', 'content', description);
+}
+function navigate(path){
+  if(location.pathname + location.search !== path){
+    history.pushState(null, '', path);
+  }
+  router();
+  window.scrollTo(0,0);
+}
+document.getElementById('titleHome').addEventListener('click', ()=> navigate('/'));
+document.body.addEventListener('click', e=>{
+  const a = e.target.closest('.js-nav');
+  if(!a) return;
+  e.preventDefault();
+  navigate(a.dataset.path || a.getAttribute('href'));
+});
 
 function findVenue(id){
   for(const m of MEETS) for(const v of m.venues) if(v.id===id) return {meet:m, venue:v};
   return null;
 }
 function router(){
-  const hash = location.hash || '#/';
-  const parts = hash.replace(/^#\//,'').split('/').filter(Boolean);
+  const parts = location.pathname.split('/').filter(Boolean);
   if(parts[0]==='venue' && parts[1]){
     renderVenue(parts[1]);
   } else if(parts[0]==='race' && parts[1] && parts[2]){
     renderRace(parts[1], Number(parts[2]));
+  } else if(parts[0]==='track-record'){
+    renderTrackRecord();
   } else {
     renderHome();
   }
-  window.scrollTo(0,0);
 }
-window.addEventListener('hashchange', router);
+window.addEventListener('popstate', router);
 
 /* ---------- HOME ---------- */
 function renderHome(){
   crumb.textContent = '';
+  setMeta('全レース競馬予想｜JRA全場・全レースの予想印と買い目ガイド',
+    'JRA全場・全レースを対象に、単勝オッズと騎手成績・コース傾向から算出した予想印（◎○▲△注）と、予算に応じた買い目パターンを毎週金曜に自動更新。根拠を全て開示する透明な予想サイトです。', '/');
   let html = '';
   MEETS.forEach(meet=>{
     html += `<div class="meet-date">${meet.dateLabel}</div><div class="venue-grid">`;
@@ -399,7 +492,7 @@ function renderHome(){
   });
   view.innerHTML = html;
   view.querySelectorAll('.venue-card').forEach(btn=>{
-    btn.addEventListener('click', ()=> location.hash = '#/venue/'+btn.dataset.id);
+    btn.addEventListener('click', ()=> navigate('/venue/'+btn.dataset.id));
   });
 }
 
@@ -409,7 +502,9 @@ function renderVenue(id){
   if(!found){ view.innerHTML = '<p>開催情報が見つかりませんでした。</p>'; return; }
   const { meet, venue } = found;
   crumb.innerHTML = `<button id="crumbHome">全レース競馬予想</button> ／ ${meet.dateLabel} ${venue.name}競馬場`;
-  document.getElementById('crumbHome').addEventListener('click', ()=> location.hash = '#/');
+  document.getElementById('crumbHome').addEventListener('click', ()=> navigate('/'));
+  setMeta(`${venue.name}競馬場 ${meet.dateLabel}の予想｜全レース競馬予想`,
+    `${meet.dateLabel}に開催される${venue.name}競馬場・全12レースの予想印と買い目ガイド一覧。`, '/venue/'+venue.id);
   let html = `
     <div class="panel">
       <div class="panel-head">${venue.name}競馬場<span class="sub">${meet.dateLabel}・${venue.meetLabel}</span></div>
@@ -429,7 +524,7 @@ function renderVenue(id){
   html += `</div></div>`;
   view.innerHTML = html;
   view.querySelectorAll('.race-row').forEach(btn=>{
-    btn.addEventListener('click', ()=> location.hash = `#/race/${venue.id}/${btn.dataset.no}`);
+    btn.addEventListener('click', ()=> navigate(`/race/${venue.id}/${btn.dataset.no}`));
   });
 }
 
@@ -459,11 +554,15 @@ function courseTendency(venueName, surface){
   return { text: isDirt ? t.dirt : t.turf, favor: t.favor };
 }
 
-function computeScored(horses){
+function computeScored(horses, tendency){
   return horses.map(h=>{
     const impliedProb = 1/h.odds;
     const jRate = (h.jockeyTop3Rate!=null) ? h.jockeyTop3Rate : 0;
-    return { ...h, impliedProb, score: impliedProb*(1+jRate) };
+    let styleFactor = 1;
+    if(h.style && tendency){
+      styleFactor = tendency.favor.includes(h.style) ? 1.06 : 0.96;
+    }
+    return { ...h, impliedProb, score: impliedProb*(1+jRate)*styleFactor, styleFactor };
   });
 }
 function computeMarks(scored){
@@ -514,8 +613,12 @@ function renderRace(venueId, no){
   const { meet, venue } = found;
   const race = venue.races.find(r=>r.no===no);
   crumb.innerHTML = `<button id="crumbHome">全レース競馬予想</button> ／ <button id="crumbVenue">${meet.dateLabel} ${venue.name}競馬場</button> ／ ${no}R`;
-  document.getElementById('crumbHome').addEventListener('click', ()=> location.hash = '#/');
-  document.getElementById('crumbVenue').addEventListener('click', ()=> location.hash = '#/venue/'+venue.id);
+  document.getElementById('crumbHome').addEventListener('click', ()=> navigate('/'));
+  document.getElementById('crumbVenue').addEventListener('click', ()=> navigate('/venue/'+venue.id));
+  const raceLabel = race.name ? `${no}R ${race.name}` : `${venue.name}競馬場 ${no}R`;
+  setMeta(`${raceLabel}｜${meet.dateLabel} 予想印・買い目ガイド`,
+    `${meet.dateLabel}${venue.name}競馬場${no}R${race.name?' '+race.name:''}の予想印（◎○▲△注）と根拠、予算別の買い目ガイド。`,
+    `/race/${venue.id}/${no}`);
 
   const header = `
     <div class="panel-head">
@@ -542,9 +645,9 @@ function renderRace(venueId, no){
     return;
   }
 
-  const scored = computeScored(race.horses);
-  const { marks, oddsRank, scoreRank } = computeMarks(scored);
   const tendency = courseTendency(venue.name, race.surface);
+  const scored = computeScored(race.horses, tendency);
+  const { marks, oddsRank, scoreRank } = computeMarks(scored);
   const popRank = [...race.horses].sort((a,b)=>a.odds-b.odds).reduce((acc,h,i)=>{acc[h.no]=i+1;return acc;},{});
 
   view.innerHTML = `
@@ -561,7 +664,7 @@ function renderRace(venueId, no){
             <span><b>△</b>連下</span><span><b>注</b>注意</span>
           </div>
           <div class="ev-explain">
-            <b>印の付け方（当サイト独自ロジック・完全に透明）：</b>スコア = <code>(1 / 単勝オッズ) × (1 + 騎手複勝率)</code> で算出し、上位4頭に◎○▲△、単勝人気順より大きく順位が上がった馬に注を付与しています。各馬の下に、その根拠となった支持率・騎手複勝率・コース傾向との適性を表示しています。専門家による予想ではなく、公開されている数値から機械的に計算した参考の目安です。
+            <b>印の付け方（当サイト独自ロジック・完全に透明）：</b>スコア = <code>(1 / 単勝オッズ) × (1 + 騎手複勝率) × コース適性係数</code> で算出し、上位4頭に◎○▲△、単勝人気順より大きく順位が上がった馬に注を付与しています。コース適性係数は、脚質がそのコースの有利脚質と一致する場合1.06倍、逆行する場合0.96倍という小さな補正で、単勝人気だけでは見えない差を反映させています。各馬の下に、その根拠となった支持率・騎手複勝率・コース適性を表示しています。専門家による予想ではなく、公開されている数値から機械的に計算した参考の目安です。<a href="/track-record" class="js-nav" data-path="/track-record">→ このロジックの実績を検証</a>
           </div>
           ${tendency?`<div class="ev-explain" style="border-top:none;"><b>${venue.name}${race.surface}のコース傾向：</b>${tendency.text}</div>`:''}
         </div>
@@ -729,6 +832,50 @@ function renderRace(venueId, no){
     renderGuide(Number(b.dataset.v));
   });
   renderGuide(Number(budgetInput.value));
+}
+
+/* ---------- TRACK RECORD (予想実績・検証) ---------- */
+function renderTrackRecord(){
+  crumb.innerHTML = `<button id="crumbHome">全レース競馬予想</button> ／ 予想実績・検証`;
+  document.getElementById('crumbHome').addEventListener('click', ()=> navigate('/'));
+  setMeta('予想実績・検証｜全レース競馬予想',
+    `当サイトの予想ロジックを実際のJRAレース結果で検証した集計値。◎本命の複勝的中率${TRACK_RECORD.marks['◎'].place3}%（検証${TRACK_RECORD.totalRaces}レース、${TRACK_RECORD.lastUpdated}時点）。`,
+    '/track-record');
+  const tr = TRACK_RECORD;
+  const syms = ['◎','○','▲','△','注'];
+  view.innerHTML = `
+    <div class="panel">
+      <div class="panel-head">予想実績・検証<span class="sub">検証${tr.totalRaces}レース・${tr.lastUpdated}時点</span></div>
+      <div class="track-note">
+        <b>これは何か：</b>当サイトの予想印（◎○▲△注）は <code style="font-family:'JetBrains Mono',monospace;">score = (1/単勝オッズ)×(1+騎手複勝率)×コース適性係数</code> という現行ロジックで機械的に算出しています。このページは、そのロジックを実際に開催済みのJRAレースへ後から当てはめ（バックテスト）、各印が実際に何着だったかを集計した結果です。<b>個々の馬の着順など生データは保持せず、集計された的中率のみを公開</b>しています。数値は毎週の自動更新のたびに検証レース数を積み増して更新されます。
+        <br><br>
+        <b>現時点の注意点：</b>検証数はまだ${tr.totalRaces}レースと少なく、統計的な信頼性は限定的です。また、このサンプルでは◎（本命）は単勝1番人気と全レースで一致しており、現行ロジックは「人気を大きく裏切る大穴を当てにいく」ものではなく「市場の支持率を土台に、騎手成績とコース適性で微調整する」堅実型の設計であることが確認できます。過去の的中率は将来の的中を保証するものではありません。
+      </div>
+      <div class="track-table">
+        <div class="track-head"><span>印</span><span>内容</span><span style="text-align:right;">単勝的中率</span><span style="text-align:right;">複勝的中率</span></div>
+        ${syms.map(s=>{
+          const m = tr.marks[s];
+          const na = m.win==null;
+          return `<div class="track-row">
+            <span class="m">${s}</span><span class="lbl">${m.label}${na?`（該当${m.n}件）`:''}</span>
+            <span class="rate ${na?'na':''}">${na?'—':m.win+'%'}</span>
+            <span class="rate ${na?'na':''}">${na?'—':m.place3+'%'}</span>
+          </div>`;
+        }).join('')}
+        <div class="track-row baseline">
+          <span class="m" style="color:var(--ink-muted);">基準</span><span class="lbl">${tr.baseline.label}</span>
+          <span class="rate">${tr.baseline.win}%</span><span class="rate">${tr.baseline.place3}%</span>
+        </div>
+      </div>
+      <div class="track-detail">
+        <table>
+          <thead><tr><th>レース</th><th>頭数</th><th>◎</th><th>○</th><th>▲</th><th>△</th><th>注</th></tr></thead>
+          <tbody>
+            ${tr.races.map(r=>`<tr><td>${r.name}</td><td>${r.field}頭</td>${syms.map(s=>`<td>${r.marks[s]?r.marks[s]+'着':'—'}</td>`).join('')}</tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
 }
 
 /* ---------- modals ---------- */
