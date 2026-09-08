@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>全レース競馬予想｜JRA全場・全レースの予想印と買い目ガイド</title>
+<title>競馬予想｜JRA全場・全レースの予想印と買い目ガイド</title>
 <meta name="description" content="JRA全場・全レースを対象に、単勝オッズと騎手成績・コース傾向から算出した予想印（◎○▲△注）と、予算に応じた買い目パターンを毎週金曜に自動更新。根拠を全て開示する透明な予想サイトです。">
 <link rel="canonical" href="https://deep-yosou-shimbun-haruikintv.vercel.app/">
-<meta property="og:site_name" content="全レース競馬予想">
+<meta name="robots" content="index,follow">
+<meta property="og:site_name" content="競馬予想">
 <meta property="og:type" content="website">
-<meta property="og:title" content="全レース競馬予想｜JRA全場・全レースの予想印と買い目ガイド">
+<meta property="og:title" content="競馬予想｜JRA全場・全レースの予想印と買い目ガイド">
 <meta property="og:description" content="単勝オッズ・騎手成績・コース傾向から算出した予想印と買い目ガイドを、根拠つきで毎週自動更新。">
 <meta property="og:url" content="https://deep-yosou-shimbun-haruikintv.vercel.app/">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="全レース競馬予想｜JRA全場・全レースの予想印と買い目ガイド">
+<meta name="twitter:title" content="競馬予想｜JRA全場・全レースの予想印と買い目ガイド">
 <meta name="twitter:description" content="単勝オッズ・騎手成績・コース傾向から算出した予想印と買い目ガイドを、根拠つきで毎週自動更新。">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"全レース競馬予想","url":"https://deep-yosou-shimbun-haruikintv.vercel.app/"}
+{"@context":"https://schema.org","@type":"WebSite","name":"競馬予想","url":"https://deep-yosou-shimbun-haruikintv.vercel.app/"}
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
@@ -101,6 +102,9 @@ button{font-family:inherit;}
 .meet-date:first-child{margin-top:0;}
 .meet-date .bar{width:6px;height:22px;border-radius:var(--r-pill);background:var(--brand);flex-shrink:0;}
 .meet-date .t{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:19px;}
+.demo-badge{font-size:10.5px;font-weight:700;color:var(--gold);background:var(--gold-soft);padding:3px 10px;border-radius:var(--r-pill);}
+.demo-note{margin:0 0 14px;background:var(--gold-soft);color:var(--ink);border-left:4px solid var(--gold);padding:10px 14px;font-size:12px;font-weight:500;border-radius:var(--r-sm);line-height:1.7;}
+.demo-note b{color:var(--dirt);}
 .venue-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;}
 .venue-card{display:block;text-align:left;background:var(--surface);border:none;border-radius:var(--r-lg);padding:0;cursor:pointer;box-shadow:var(--shadow);overflow:hidden;transition:transform .15s ease, box-shadow .15s ease;}
 .venue-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
@@ -332,7 +336,7 @@ footer a:hover{text-decoration:underline;}
     <span id="todayStr"></span>
   </div>
   <div class="masthead-main">
-    <h1><button id="titleHome" type="button"><span class="logo-mark">🏇</span>全レース競馬予想</button></h1>
+    <h1><button id="titleHome" type="button"><span class="logo-mark">🏇</span>競馬予想</button></h1>
   </div>
   <div class="crumb" id="crumb"></div>
 </div>
@@ -346,7 +350,7 @@ footer a:hover{text-decoration:underline;}
 </div>
 
 <footer>
-  全レース競馬予想 &mdash; 毎週金曜19時ごろ、その週末に開催されるJRA全場・全レースの出馬表とオッズを取得し自動更新します。<br>
+  競馬予想 &mdash; 毎週金曜19時ごろ、その週末に開催されるJRA全場・全レースの出馬表とオッズを取得し自動更新します。<br>
   出典：<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式</a>／各種公開オッズ情報。予想は参考情報であり的中を保証するものではありません。<br>
   <a href="/track-record" class="js-nav" data-path="/track-record">予想実績・検証</a>
 </footer>
@@ -445,6 +449,52 @@ const MEETS = [
       { id:'hanshin-0913',  ...makeCard('阪神','4回阪神4日',  {name:'ローズステークス', grade:'GII', surface:'芝', distance:1800, cond:'3歳オープン・馬齢'}) },
     ]
   },
+  { date:'2026-09-05', dateLabel:'2026年9月5日（土）', demo:true, venues:[
+      { id:'sapporo-0905',  ...makeCard('札幌','2回札幌5日', {name:'札幌2歳ステークス', grade:'GIII', surface:'芝', distance:1800, cond:'2歳オープン・馬齢', horses: withScore([
+          {no:2, waku:2, name:'ショウナンガレオン', sexAge:'牡2', style:'先行', sire:'Flightline（米）', dam:'タングリトナ（アルゼンチン）', weight:55.0, jockey:'鮫島克駿', odds:1.1},
+          {no:4, waku:4, name:'コスモハナミズキ', sexAge:'牝2', style:'逃げ', weight:55.0, jockey:'佐々木大輔', odds:9.3},
+          {no:3, waku:3, name:'デザートスピリット', sexAge:'牡2', style:'差し', weight:55.0, jockey:'横山和生', odds:18.0},
+          {no:5, waku:5, name:'ランダムナンバー', sexAge:'牡2', style:'先行', weight:55.0, jockey:'古川吉洋', odds:101.1},
+          {no:8, waku:8, name:'テンカタイヘイ', sexAge:'牡2', style:'先行', weight:55.0, jockey:'丹内祐次', odds:7.9},
+          {no:7, waku:7, name:'イドム', sexAge:'牡2', style:'差し', weight:55.0, jockey:'松本大輝', odds:54.9},
+          {no:6, waku:6, name:'ハヤブサカツオー', sexAge:'牡2', style:'先行', weight:55.0, jockey:'吉田隼人', odds:21.8},
+          {no:1, waku:1, name:'テングカゼ', sexAge:'牡2', style:'差し', weight:55.0, jockey:'的場勇人', odds:186.4},
+          {no:9, waku:8, name:'ロゼハイスクール', sexAge:'牝2', style:'追込', weight:55.0, jockey:'古川奈穂', odds:204.0},
+        ]) }) },
+      { id:'nakayama-0905', ...makeCard('中山','4回中山1日', {name:'京成杯オータムハンデキャップ', grade:'GIII', surface:'芝（外）', distance:1600, cond:'3歳以上オープン・ハンデ', horses: withScore([
+          {no:8, waku:4, name:'ピコローズ', sexAge:'牝4', style:'差し', sire:'サトノダイヤモンド', dam:'ルージュノアール', keyWin:'2026年 新潟日報賞', weight:53.0, jockey:'三浦皇成', odds:19.6},
+          {no:7, waku:4, name:'エコロブルーム', sexAge:'牡5', style:'先行', weight:58.0, jockey:'武豊', odds:8.4},
+          {no:3, waku:2, name:'ドロップオブライト', sexAge:'牝7', style:'先行', weight:56.5, jockey:'岩田康誠', odds:14.1},
+          {no:6, waku:3, name:'ファンダム', sexAge:'牡4', style:'追込', weight:57.0, jockey:'戸崎圭太', odds:7.2},
+          {no:5, waku:3, name:'サイルーン', sexAge:'セ7', style:'差し', weight:57.0, jockey:'大野拓弥', odds:30.5},
+          {no:4, waku:2, name:'フォルテアンジェロ', sexAge:'牡3', style:'追込', weight:55.0, jockey:'D.レーン', odds:4.7},
+          {no:11, waku:6, name:'クランフォード', sexAge:'牝5', style:'先行', weight:55.0, jockey:'菊沢一樹', odds:18.2},
+          {no:12, waku:6, name:'ディールメーカー', sexAge:'牡3', style:'差し', weight:54.0, jockey:'横山武史', odds:11.9},
+          {no:2, waku:1, name:'ミナデオロ', sexAge:'牡5', style:'追込', weight:56.0, jockey:'M.デムーロ', odds:11.5},
+          {no:1, waku:1, name:'クルゼイロドスル', sexAge:'牡6', style:'追込', weight:57.0, jockey:'小崎綾也', odds:71.7},
+          {no:9, waku:5, name:'レザベーション', sexAge:'牡3', style:'差し', weight:55.0, jockey:'原優介', odds:5.8},
+          {no:14, waku:7, name:'リラボニート', sexAge:'牝5', style:'差し', weight:54.0, jockey:'丸山元気', odds:87.8},
+          {no:15, waku:8, name:'テレサ', sexAge:'牝4', style:'先行', weight:55.0, jockey:'津村明秀', odds:76.7},
+          {no:16, waku:8, name:'ラケマーダ', sexAge:'牡6', style:'追込', weight:56.0, jockey:'杉原誠人', odds:295.8},
+          {no:13, waku:7, name:'メタルスピード', sexAge:'牡6', style:'逃げ', weight:55.0, jockey:'田辺裕信', odds:34.3},
+          {no:10, waku:5, name:'ヴァルキリーバース', sexAge:'牝4', style:'追込', weight:55.5, jockey:'C.ルメール', odds:6.2},
+        ]) }) },
+      { id:'hanshin-0905',  ...makeCard('阪神','4回阪神1日', {name:'エニフステークス', grade:'L', surface:'ダート', distance:1400, cond:'3歳以上オープン・ハンデ', horses: withScore([
+          {no:4, waku:4, name:'ゴッドブルービー', sexAge:'牡6', style:'差し', sire:'パイロ（米）', dam:'ゴッドビラブドミー', damsire:'ブライアンズタイム', weight:55.0, jockey:'松山弘平', odds:7.0},
+          {no:2, waku:2, name:'ノーブルロジャー', sexAge:'牡5', style:'差し', weight:58.0, jockey:'岩田望来', odds:6.8},
+          {no:3, waku:3, name:'フェルヴェンテ', sexAge:'牡6', style:'先行', weight:55.0, jockey:'秋山稔樹', odds:19.3},
+          {no:10, waku:7, name:'ルークススペイ', sexAge:'牡4', style:'先行', weight:56.0, jockey:'川田将雅', odds:4.2},
+          {no:7, waku:6, name:'グランキングオー', sexAge:'牡4', style:'先行', weight:54.0, jockey:'幸英明', odds:11.7},
+          {no:8, waku:6, name:'トリリオンボーイ', sexAge:'セ4', style:'追込', weight:54.0, jockey:'中井裕二', odds:21.4},
+          {no:11, waku:8, name:'リジル', sexAge:'牝5', style:'先行', weight:53.0, jockey:'団野大成', odds:5.8},
+          {no:9, waku:7, name:'エスカル', sexAge:'牡5', style:'先行', weight:55.0, jockey:'吉村誠之助', odds:93.6},
+          {no:1, waku:1, name:'タイセイブレイズ', sexAge:'牡8', style:'追込', weight:55.0, jockey:'国分恭介', odds:53.6},
+          {no:5, waku:5, name:'マニバドラ', sexAge:'牡6', style:'逃げ', weight:57.0, jockey:'西村淳也', odds:10.3},
+          {no:6, waku:5, name:'ペイシャケイプ', sexAge:'牡4', style:'追込', weight:56.0, jockey:'横山典弘', odds:4.4},
+          {no:12, waku:8, name:'ムイ', sexAge:'牝4', style:'差し', weight:52.0, jockey:'富田暁', odds:48.3},
+        ]) }) },
+    ]
+  },
 ];
 
 /* =========================================================
@@ -485,7 +535,7 @@ const TRACK_RECORD = {
 const view = document.getElementById('view');
 const crumb = document.getElementById('crumb');
 const SITE_ORIGIN = 'https://deep-yosou-shimbun-haruikintv.vercel.app';
-function setMeta(title, description, path){
+function setMeta(title, description, path, noindex){
   document.title = title;
   const url = SITE_ORIGIN + path;
   const set = (sel, attr, val) => { const el = document.querySelector(sel); if(el) el.setAttribute(attr, val); };
@@ -496,6 +546,7 @@ function setMeta(title, description, path){
   set('meta[property="og:url"]', 'content', url);
   set('meta[name="twitter:title"]', 'content', title);
   set('meta[name="twitter:description"]', 'content', description);
+  set('meta[name="robots"]', 'content', noindex ? 'noindex,follow' : 'index,follow');
 }
 function navigate(path){
   if(location.pathname + location.search !== path){
@@ -533,13 +584,13 @@ window.addEventListener('popstate', router);
 /* ---------- HOME ---------- */
 function renderHome(){
   crumb.textContent = '';
-  setMeta('全レース競馬予想｜JRA全場・全レースの予想印と買い目ガイド',
+  setMeta('競馬予想｜JRA全場・全レースの予想印と買い目ガイド',
     'JRA全場・全レースを対象に、単勝オッズと騎手成績・コース傾向から算出した予想印（◎○▲△注）と、予算に応じた買い目パターンを毎週金曜に自動更新。根拠を全て開示する透明な予想サイトです。', '/');
   let html = '';
   const ACCENTS = ['var(--brand)','var(--info)','var(--turf)','var(--gold)','var(--dirt)'];
   let vi = 0;
   MEETS.forEach(meet=>{
-    html += `<div class="meet-date"><span class="bar"></span><span class="t">${meet.dateLabel}</span></div><div class="venue-grid">`;
+    html += `<div class="meet-date"><span class="bar"></span><span class="t">${meet.dateLabel}</span>${meet.demo?'<span class="demo-badge">デモ表示</span>':''}</div><div class="venue-grid">`;
     meet.venues.forEach(v=>{
       const confirmedCount = v.races.filter(r=>r.horses.length>0).length;
       const feat = v.races[10];
@@ -572,11 +623,12 @@ function renderVenue(id){
   const found = findVenue(id);
   if(!found){ view.innerHTML = '<p>開催情報が見つかりませんでした。</p>'; return; }
   const { meet, venue } = found;
-  crumb.innerHTML = `<button id="crumbHome">全レース競馬予想</button> ／ ${meet.dateLabel} ${venue.name}競馬場`;
+  crumb.innerHTML = `<button id="crumbHome">競馬予想</button> ／ ${meet.dateLabel} ${venue.name}競馬場`;
   document.getElementById('crumbHome').addEventListener('click', ()=> navigate('/'));
-  setMeta(`${venue.name}競馬場 ${meet.dateLabel}の予想｜全レース競馬予想`,
-    `${meet.dateLabel}に開催される${venue.name}競馬場・全12レースの予想印と買い目ガイド一覧。`, '/venue/'+venue.id);
+  setMeta(`${venue.name}競馬場 ${meet.dateLabel}の予想｜競馬予想`,
+    `${meet.dateLabel}に開催される${venue.name}競馬場・全12レースの予想印と買い目ガイド一覧。`, '/venue/'+venue.id, meet.demo);
   let html = `
+    ${meet.demo?`<div class="demo-note"><b>これはデモ表示です。</b>実際に公開済みの過去のJRAレース（出走馬・オッズ・騎手データは実データ）を使い、出走馬確定後にサイトがどのような見た目・予想内容になるかをご覧いただくためのサンプルです。投票対象のレースではありません。</div>`:''}
     <div class="panel">
       <div class="panel-head">${venue.name}競馬場<span class="sub">${meet.dateLabel}・${venue.meetLabel}</span></div>
       <div class="race-table">`;
@@ -683,13 +735,13 @@ function renderRace(venueId, no){
   if(!found){ view.innerHTML = '<p>開催情報が見つかりませんでした。</p>'; return; }
   const { meet, venue } = found;
   const race = venue.races.find(r=>r.no===no);
-  crumb.innerHTML = `<button id="crumbHome">全レース競馬予想</button> ／ <button id="crumbVenue">${meet.dateLabel} ${venue.name}競馬場</button> ／ ${no}R`;
+  crumb.innerHTML = `<button id="crumbHome">競馬予想</button> ／ <button id="crumbVenue">${meet.dateLabel} ${venue.name}競馬場</button> ／ ${no}R`;
   document.getElementById('crumbHome').addEventListener('click', ()=> navigate('/'));
   document.getElementById('crumbVenue').addEventListener('click', ()=> navigate('/venue/'+venue.id));
   const raceLabel = race.name ? `${no}R ${race.name}` : `${venue.name}競馬場 ${no}R`;
   setMeta(`${raceLabel}｜${meet.dateLabel} 予想印・買い目ガイド`,
     `${meet.dateLabel}${venue.name}競馬場${no}R${race.name?' '+race.name:''}の予想印（◎○▲△注）と根拠、予算別の買い目ガイド。`,
-    `/race/${venue.id}/${no}`);
+    `/race/${venue.id}/${no}`, meet.demo);
 
   const header = `
     <div class="panel-head">
@@ -722,6 +774,7 @@ function renderRace(venueId, no){
   const popRank = [...race.horses].sort((a,b)=>a.odds-b.odds).reduce((acc,h,i)=>{acc[h.no]=i+1;return acc;},{});
 
   view.innerHTML = `
+    ${meet.demo?`<div class="demo-note"><b>これはデモ表示です。</b>実際に公開済みの過去のJRAレース（出走馬・オッズ・騎手データは実データ）を使い、出走馬確定後にサイトがどのような見た目・予想内容になるかをご覧いただくためのサンプルです。投票対象のレースではありません。</div>`:''}
     <div class="layout2">
       <div style="display:flex;flex-direction:column;gap:18px;">
         <div class="panel">
@@ -907,9 +960,9 @@ function renderRace(venueId, no){
 
 /* ---------- TRACK RECORD (予想実績・検証) ---------- */
 function renderTrackRecord(){
-  crumb.innerHTML = `<button id="crumbHome">全レース競馬予想</button> ／ 予想実績・検証`;
+  crumb.innerHTML = `<button id="crumbHome">競馬予想</button> ／ 予想実績・検証`;
   document.getElementById('crumbHome').addEventListener('click', ()=> navigate('/'));
-  setMeta('予想実績・検証｜全レース競馬予想',
+  setMeta('予想実績・検証｜競馬予想',
     `当サイトの予想ロジックを実際のJRAレース結果で検証した集計値。◎本命の複勝的中率${TRACK_RECORD.marks['◎'].place3}%（検証${TRACK_RECORD.totalRaces}レース、${TRACK_RECORD.lastUpdated}時点）。`,
     '/track-record');
   const tr = TRACK_RECORD;
