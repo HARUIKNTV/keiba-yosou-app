@@ -253,6 +253,8 @@ button{font-family:inherit;}
 .stat-card-head .meta{font-size:11.5px;opacity:.9;overflow-wrap:anywhere;}
 .stat-card-head .close{flex-shrink:0;background:rgba(255,255,255,.2);border:none;color:inherit;font-size:18px;cursor:pointer;line-height:1;padding:4px 9px;border-radius:50%;}
 .stat-card-body{padding:18px;}
+.sub-h{font-size:11px;font-weight:700;color:var(--ink-muted);margin:14px 0 6px;text-transform:uppercase;letter-spacing:.03em;}
+.sub-h:first-child{margin-top:0;}
 .kv-row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:6px 0;border-bottom:1px dotted var(--rule);}
 .kv-row:last-child{border-bottom:none;}
 .kv-row .k{color:var(--ink-muted);flex-shrink:0;}
@@ -262,6 +264,16 @@ button{font-family:inherit;}
 .jockey-stat-cell .k{font-size:10px;color:var(--ink-muted);}
 .jockey-stat-cell .v{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:16px;}
 .comment-line{font-size:12px;background:var(--surface-alt);padding:12px 14px;border-radius:var(--r-sm);line-height:1.6;margin-top:12px;}
+.stat-bars{display:flex;flex-direction:column;gap:8px;margin-bottom:4px;}
+.stat-bar-row{display:grid;grid-template-columns:52px 1fr 44px;align-items:center;gap:8px;font-size:11px;}
+.stat-bar-row .lbl{color:var(--ink-muted);font-weight:700;}
+.stat-bar-row .track{height:8px;border-radius:var(--r-pill);background:var(--surface-alt);overflow:hidden;}
+.stat-bar-row .fill{display:block;height:100%;border-radius:var(--r-pill);}
+.stat-bar-row .pct{font-family:"JetBrains Mono",monospace;font-weight:700;text-align:right;}
+.recent-list{margin:0;padding-left:18px;font-size:11.5px;color:var(--ink-muted);line-height:1.8;}
+.recent-list li{overflow-wrap:anywhere;}
+.wet-note{font-size:12px;background:var(--info-soft);color:var(--ink);padding:12px 14px;border-radius:var(--r-sm);line-height:1.6;margin-top:12px;}
+.wet-note b{color:var(--info);}
 .no-profile{font-size:11.5px;color:var(--ink-muted);font-style:italic;}
 
 .stat-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;padding:14px;}
@@ -385,15 +397,15 @@ function makeCard(name, meetLabel, feature){
 // 騎手データ：2026年JRA成績（2026/7/31時点、出典：keibadrive.com「2026年 JRAリーディングジョッキー」／JRA公式リーディング情報）
 // 週次ジョブは、その週末の出走馬に登場する騎手分をここに追記していく想定。
 const JOCKEYS = {
-  '武豊':      {stable:'栗東', leadingRank:11, wins:48, seconds:43, thirds:52, rides:353, winRate:.136, top3Rate:.405},
+  '武豊':      {stable:'栗東', leadingRank:11, wins:48, seconds:43, thirds:52, rides:353, winRate:.136, top3Rate:.405, debut:1987, careerWins:4681, gWins:119, stakesWins:496, notable:'JRA通算最多勝記録保持者。初G1勝利は1988年菊花賞（スーパークリーク）。'},
   '小崎綾也':   {stable:'栗東', leadingRank:47, wins:13, seconds:11, thirds:20, rides:256, winRate:.051, top3Rate:.172},
-  '松山弘平':   {stable:'栗東', leadingRank:3,  wins:79, seconds:60, thirds:59, rides:497, winRate:.159, top3Rate:.398},
+  '松山弘平':   {stable:'栗東', leadingRank:3,  wins:79, seconds:60, thirds:59, rides:497, winRate:.159, top3Rate:.398, debut:2009, careerWins:1459, gWins:15, stakesWins:86, notable:'初G1勝利は2017年皐月賞（アルアイン）。'},
   '田口貫太':   {stable:'栗東', leadingRank:29, wins:22, seconds:21, thirds:36, rides:397, winRate:.055, top3Rate:.199},
-  '川田将雅':   {stable:'栗東', leadingRank:5,  wins:63, seconds:51, thirds:37, rides:281, winRate:.224, top3Rate:.537},
+  '川田将雅':   {stable:'栗東', leadingRank:5,  wins:63, seconds:51, thirds:37, rides:281, winRate:.224, top3Rate:.537, debut:2004, careerWins:2297, gWins:46, stakesWins:223, notable:'初G1勝利は2008年皐月賞（キャプテントゥーレ）。トップジョッキーの一人。'},
   '亀田温心':   {stable:'栗東', leadingRank:70, wins:6, seconds:4, thirds:5, rides:178, winRate:.034, top3Rate:.084},
   '吉村誠之助': {stable:'栗東', leadingRank:24, wins:26, seconds:40, thirds:46, rides:521, winRate:.050, top3Rate:.215},
   'D.レーン':   {stable:'海外', leadingRank:29, wins:22, seconds:23, thirds:14, rides:109, winRate:.202, top3Rate:.541},
-  '岩田望来':   {stable:'栗東', leadingRank:2,  wins:83, seconds:57, thirds:46, rides:445, winRate:.187, top3Rate:.418},
+  '岩田望来':   {stable:'栗東', leadingRank:2,  wins:83, seconds:57, thirds:46, rides:445, winRate:.187, top3Rate:.418, debut:2019, careerWins:701, gWins:3, stakesWins:31, notable:'初G1勝利は2024年阪神ジュベナイルフィリーズ（アルマヴェローチェ）。若手を代表するトップジョッキー。'},
   '田山旺佑':   {stable:'栗東', leadingRank:18, wins:34, seconds:36, thirds:29, rides:458, winRate:.074, top3Rate:.216},
   '田辺裕信':   {stable:'美浦', leadingRank:35, wins:19, seconds:18, thirds:19, rides:223, winRate:.085, top3Rate:.251},
   '酒井学':     {stable:'栗東', leadingRank:35, wins:19, seconds:16, thirds:12, rides:324, winRate:.059, top3Rate:.145},
@@ -402,16 +414,16 @@ const JOCKEYS = {
   'M.デムーロ': {stable:'栗東', leadingRank:70, wins:6, seconds:3, thirds:7, rides:113, winRate:.053, top3Rate:.142},
   '池添謙一':   {stable:'栗東', leadingRank:33, wins:20, seconds:18, thirds:18, rides:265, winRate:.075, top3Rate:.211},
   'C.ルメール': {stable:'栗東', leadingRank:1,  wins:91, seconds:58, thirds:45, rides:323, winRate:.282, top3Rate:.601},
-  '鮫島克駿':   {stable:'栗東', leadingRank:16, wins:38, seconds:37, thirds:36, rides:412, winRate:.092, top3Rate:.269},
-  '佐々木大輔': {stable:'美浦', leadingRank:19, wins:33, seconds:50, thirds:34, rides:494, winRate:.067, top3Rate:.237},
+  '鮫島克駿':   {stable:'栗東', leadingRank:16, wins:38, seconds:37, thirds:36, rides:412, winRate:.092, top3Rate:.269, debut:2015, careerWins:641, gWins:0, stakesWins:17, notable:'2026年 札幌2歳S（ショウナンガレオン）で重賞制覇。GI初勝利はまだない。'},
+  '佐々木大輔': {stable:'美浦', leadingRank:19, wins:33, seconds:50, thirds:34, rides:494, winRate:.067, top3Rate:.237, debut:2022, careerWins:276, gWins:0, stakesWins:6, notable:'2022年デビューの若手。2024年函館2歳S（サトノカルナバル）で重賞初制覇。'},
   '横山和生':   {stable:'美浦', leadingRank:11, wins:48, seconds:30, thirds:33, rides:360, winRate:.133, top3Rate:.308},
   '古川吉洋':   {stable:'栗東', leadingRank:54, wins:10, seconds:5,  thirds:13, rides:243, winRate:.041, top3Rate:.115},
   '丹内祐次':   {stable:'美浦', leadingRank:8,  wins:57, seconds:54, thirds:49, rides:562, winRate:.101, top3Rate:.285},
   '松本大輝':   {stable:'栗東', leadingRank:61, wins:8,  seconds:8,  thirds:11, rides:197, winRate:.041, top3Rate:.137},
   '吉田隼人':   {stable:'美浦', leadingRank:39, wins:17, seconds:14, thirds:17, rides:187, winRate:.091, top3Rate:.257},
   '古川奈穂':   {stable:'栗東', leadingRank:82, wins:5,  seconds:8,  thirds:7,  rides:164, winRate:.030, top3Rate:.122},
-  '三浦皇成':   {stable:'美浦', leadingRank:20, wins:30, seconds:26, thirds:35, rides:325, winRate:.092, top3Rate:.280},
-  '岩田康誠':   {stable:'栗東', leadingRank:44, wins:14, seconds:19, thirds:29, rides:330, winRate:.042, top3Rate:.188},
+  '三浦皇成':   {stable:'美浦', leadingRank:20, wins:30, seconds:26, thirds:35, rides:325, winRate:.092, top3Rate:.280, debut:2008, careerWins:1172, gWins:4, stakesWins:29, notable:'初G1勝利は2025年スプリンターズS（ウインカーネリアン）。'},
+  '岩田康誠':   {stable:'栗東', leadingRank:44, wins:14, seconds:19, thirds:29, rides:330, winRate:.042, top3Rate:.188, debut:1999, careerWins:1866, gWins:30, stakesWins:209, notable:'初G1勝利は2004年菊花賞（デルタブルース）。ベテランの実力派。'},
   '戸崎圭太':   {stable:'美浦', leadingRank:9,  wins:54, seconds:62, thirds:54, rides:387, winRate:.140, top3Rate:.439},
   '大野拓弥':   {stable:'美浦', leadingRank:50, wins:11, seconds:25, thirds:25, rides:301, winRate:.037, top3Rate:.203},
   '菊沢一樹':   {stable:'美浦', leadingRank:24, wins:26, seconds:24, thirds:29, rides:487, winRate:.053, top3Rate:.162},
@@ -451,8 +463,14 @@ const MEETS = [
   },
   { date:'2026-09-05', dateLabel:'2026年9月5日（土）', demo:true, venues:[
       { id:'sapporo-0905',  ...makeCard('札幌','2回札幌5日', {name:'札幌2歳ステークス', grade:'GIII', surface:'芝', distance:1800, cond:'2歳オープン・馬齢', horses: withScore([
-          {no:2, waku:2, name:'ショウナンガレオン', sexAge:'牡2', style:'先行', sire:'Flightline（米）', dam:'タングリトナ（アルゼンチン）', weight:55.0, jockey:'鮫島克駿', odds:1.1},
-          {no:4, waku:4, name:'コスモハナミズキ', sexAge:'牝2', style:'逃げ', weight:55.0, jockey:'佐々木大輔', odds:9.3},
+          {no:2, waku:2, name:'ショウナンガレオン', sexAge:'牡2', style:'先行', sire:'Flightline（米）', dam:'タングリトナ（アルゼンチン）', trainer:'加藤士津(美浦)', weight:55.0, jockey:'鮫島克駿', odds:1.1,
+            career:{starts:2, wins:2, seconds:0, thirds:0},
+            recentForm:['26/09/05 札幌2歳S(GIII) 芝1800稍 1着（上がり35.9）','26/07/05 2歳新馬 芝1800良 1着（上がり34.5）'],
+            wetNote:'キャリア2戦とも稍重までの経験で連勝中。不良馬場（重い方）の経験はまだなし。'},
+          {no:4, waku:4, name:'コスモハナミズキ', sexAge:'牝2', style:'逃げ', trainer:'菊川正達(美浦)', weight:55.0, jockey:'佐々木大輔', odds:9.3,
+            career:{starts:4, wins:1, seconds:1, thirds:2},
+            recentForm:['26/09/05 札幌2歳S(GIII) 芝1800稍 2着','26/08/15 コスモス賞(OP) 芝1800良 3着','26/07/04 2歳未勝利 芝1800稍 1着'],
+            wetNote:'稍重で2戦2連対（1着1回・2着1回）と崩れていない。重馬場（不良）の経験はまだなし。'},
           {no:3, waku:3, name:'デザートスピリット', sexAge:'牡2', style:'差し', weight:55.0, jockey:'横山和生', odds:18.0},
           {no:5, waku:5, name:'ランダムナンバー', sexAge:'牡2', style:'先行', weight:55.0, jockey:'古川吉洋', odds:101.1},
           {no:8, waku:8, name:'テンカタイヘイ', sexAge:'牡2', style:'先行', weight:55.0, jockey:'丹内祐次', odds:7.9},
@@ -462,9 +480,18 @@ const MEETS = [
           {no:9, waku:8, name:'ロゼハイスクール', sexAge:'牝2', style:'追込', weight:55.0, jockey:'古川奈穂', odds:204.0},
         ]) }) },
       { id:'nakayama-0905', ...makeCard('中山','4回中山1日', {name:'京成杯オータムハンデキャップ', grade:'GIII', surface:'芝（外）', distance:1600, cond:'3歳以上オープン・ハンデ', horses: withScore([
-          {no:8, waku:4, name:'ピコローズ', sexAge:'牝4', style:'差し', sire:'サトノダイヤモンド', dam:'ルージュノアール', keyWin:'2026年 新潟日報賞', weight:53.0, jockey:'三浦皇成', odds:19.6},
-          {no:7, waku:4, name:'エコロブルーム', sexAge:'牡5', style:'先行', weight:58.0, jockey:'武豊', odds:8.4},
-          {no:3, waku:2, name:'ドロップオブライト', sexAge:'牝7', style:'先行', weight:56.5, jockey:'岩田康誠', odds:14.1},
+          {no:8, waku:4, name:'ピコローズ', sexAge:'牝4', style:'差し', sire:'サトノダイヤモンド', dam:'ルージュノアール', keyWin:'2026年 新潟日報賞', trainer:'伊藤大士(美浦)', weight:53.0, jockey:'三浦皇成', odds:19.6,
+            career:{starts:16, wins:5, seconds:3, thirds:1},
+            recentForm:['26/07/25 新潟日報賞(3勝クラス) 芝1400良 1着','26/05/24 フリーウェイS(3勝クラス) 芝1400良 8着','26/03/14 幕張S(3勝クラス) 芝1600良 6着'],
+            wetNote:'雨馬場での実績が明確。2025年に稍重・重の2戦でいずれも連対（1着1回・2着1回）と得意な部類。'},
+          {no:7, waku:4, name:'エコロブルーム', sexAge:'牡5', style:'先行', keyWin:'2024年 ニュージーランドT（GII）', trainer:'加藤征弘(美浦)', weight:58.0, jockey:'武豊', odds:8.4,
+            career:{starts:7, wins:3, seconds:2, thirds:1},
+            recentForm:['26/05/31 安土城S(L) 芝1400良 1着','25/05/11 谷川岳S(L) 芝1400稍 4着','24/04/06 ニュージーランドT(GII) 芝1600稍 1着'],
+            wetNote:'稍重のGII（ニュージーランドT）を勝っており、多少の悪化は苦にしない。重馬場（不良）の経験はまだなし。'},
+          {no:3, waku:2, name:'ドロップオブライト', sexAge:'牝7', style:'先行', keyWin:'2024年 CBC賞（GIII）', trainer:'福永祐一(栗東)', weight:56.5, jockey:'岩田康誠', odds:14.1,
+            career:{starts:34, wins:6, seconds:4, thirds:5},
+            recentForm:['26/07/26 関屋記念(GIII) 芝1600不 12着','26/05/17 ヴィクトリアマイル(GI) 芝1600良 18着','26/03/22 愛知杯(GIII) 芝1400良 10着'],
+            wetNote:'2026年の関屋記念（不良馬場）で12着に大敗しており、重い馬場は苦手な可能性がある。ベテランで参考データは豊富。'},
           {no:6, waku:3, name:'ファンダム', sexAge:'牡4', style:'追込', weight:57.0, jockey:'戸崎圭太', odds:7.2},
           {no:5, waku:3, name:'サイルーン', sexAge:'セ7', style:'差し', weight:57.0, jockey:'大野拓弥', odds:30.5},
           {no:4, waku:2, name:'フォルテアンジェロ', sexAge:'牡3', style:'追込', weight:55.0, jockey:'D.レーン', odds:4.7},
@@ -480,10 +507,19 @@ const MEETS = [
           {no:10, waku:5, name:'ヴァルキリーバース', sexAge:'牝4', style:'追込', weight:55.5, jockey:'C.ルメール', odds:6.2},
         ]) }) },
       { id:'hanshin-0905',  ...makeCard('阪神','4回阪神1日', {name:'エニフステークス', grade:'L', surface:'ダート', distance:1400, cond:'3歳以上オープン・ハンデ', horses: withScore([
-          {no:4, waku:4, name:'ゴッドブルービー', sexAge:'牡6', style:'差し', sire:'パイロ（米）', dam:'ゴッドビラブドミー', damsire:'ブライアンズタイム', weight:55.0, jockey:'松山弘平', odds:7.0},
-          {no:2, waku:2, name:'ノーブルロジャー', sexAge:'牡5', style:'差し', weight:58.0, jockey:'岩田望来', odds:6.8},
+          {no:4, waku:4, name:'ゴッドブルービー', sexAge:'牡6', style:'差し', sire:'パイロ（米）', dam:'ゴッドビラブドミー', damsire:'ブライアンズタイム', keyWin:'2026年 エニフステークス（L）', trainer:'角田晃一(栗東)', weight:55.0, jockey:'松山弘平', odds:7.0,
+            career:{starts:29, wins:5, seconds:7, thirds:0},
+            recentForm:['26/07/12 阿蘇S(OP) ダ1700良 5着','26/06/27 薩摩S(3勝クラス) ダ1700重 1着','26/05/03 東大路S(3勝クラス) ダ1400稍 6着'],
+            wetNote:'2026年の薩摩S（重馬場）を勝っており、ダートが悪化しても崩れにくいタイプ。'},
+          {no:2, waku:2, name:'ノーブルロジャー', sexAge:'牡5', style:'差し', keyWin:'2024年 シンザン記念（GIII）', trainer:'吉岡辰弥(栗東)', weight:58.0, jockey:'岩田望来', odds:6.8,
+            career:{starts:21, wins:3, seconds:2, thirds:3},
+            recentForm:['26/07/26 東海S(GIII) ダ1400良 7着','26/06/20 天保山S(OP) ダ1400重 5着','26/05/23 欅S(OP) ダ1400稍 3着'],
+            wetNote:'重馬場の天保山S（2026年）は5着。極端な得意・不得意は見られない。'},
           {no:3, waku:3, name:'フェルヴェンテ', sexAge:'牡6', style:'先行', weight:55.0, jockey:'秋山稔樹', odds:19.3},
-          {no:10, waku:7, name:'ルークススペイ', sexAge:'牡4', style:'先行', weight:56.0, jockey:'川田将雅', odds:4.2},
+          {no:10, waku:7, name:'ルークススペイ', sexAge:'牡4', style:'先行', keyWin:'2026年 天満橋ステークス（3勝クラス）', trainer:'伊藤圭三(美浦)', weight:56.0, jockey:'川田将雅', odds:4.2,
+            career:{starts:20, wins:4, seconds:3, thirds:4},
+            recentForm:['26/06/20 天保山S(OP) ダ1400重 6着','26/05/17 栗東S(L) ダ1400良 4着','26/04/05 天満橋S(3勝クラス) ダ1400重 1着'],
+            wetNote:'2026年の天満橋S（重馬場）を勝っており、ダートの悪化馬場は苦にしないタイプ。'},
           {no:7, waku:6, name:'グランキングオー', sexAge:'牡4', style:'先行', weight:54.0, jockey:'幸英明', odds:11.7},
           {no:8, waku:6, name:'トリリオンボーイ', sexAge:'セ4', style:'追込', weight:54.0, jockey:'中井裕二', odds:21.4},
           {no:11, waku:8, name:'リジル', sexAge:'牝5', style:'先行', weight:53.0, jockey:'団野大成', odds:5.8},
@@ -1021,7 +1057,39 @@ function closeModal(){ modalBackdrop.classList.remove('open'); }
 modalBackdrop.addEventListener('click', e=>{ if(e.target===modalBackdrop) closeModal(); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
+function statBar(label, pct, color){
+  return `<div class="stat-bar-row">
+    <span class="lbl">${label}</span>
+    <span class="track"><span class="fill" style="width:${Math.min(100,pct)}%;background:${color};"></span></span>
+    <span class="pct">${pct.toFixed(1)}%</span>
+  </div>`;
+}
 function openHorseCard(h, popRank){
+  const c = h.career;
+  let statsHtml = '';
+  if(c){
+    const other = c.starts - c.wins - c.seconds - c.thirds;
+    const winRate = c.wins/c.starts*100;
+    const place2 = (c.wins+c.seconds)/c.starts*100;
+    const place3 = (c.wins+c.seconds+c.thirds)/c.starts*100;
+    statsHtml = `
+      <div class="sub-h">通算成績（実データ）</div>
+      <div class="jockey-stat-grid">
+        <div class="jockey-stat-cell"><div class="k">出走</div><div class="v">${c.starts}</div></div>
+        <div class="jockey-stat-cell"><div class="k">1着</div><div class="v">${c.wins}</div></div>
+        <div class="jockey-stat-cell"><div class="k">2着</div><div class="v">${c.seconds}</div></div>
+        <div class="jockey-stat-cell"><div class="k">3着</div><div class="v">${c.thirds}</div></div>
+        <div class="jockey-stat-cell"><div class="k">着外</div><div class="v">${other}</div></div>
+      </div>
+      <div class="stat-bars">
+        ${statBar('勝率', winRate, 'var(--brand)')}
+        ${statBar('連対率', place2, 'var(--info)')}
+        ${statBar('複勝率', place3, 'var(--turf)')}
+      </div>`;
+  }
+  const recentHtml = (h.recentForm && h.recentForm.length) ? `
+    <div class="sub-h">近走成績（実データ）</div>
+    <ul class="recent-list">${h.recentForm.map(r=>`<li>${r}</li>`).join('')}</ul>` : '';
   statCard.innerHTML = `
     <div class="stat-card-head">
       <div><h2>${h.name}</h2><div class="meta"><button class="jockey-btn" data-jockey="${h.jockey}" style="color:inherit;border-color:currentColor;">${h.jockey}</button>騎乗 ／ ${popRank[h.no]}人気　単勝${h.odds.toFixed(1)}倍</div></div>
@@ -1036,7 +1104,10 @@ function openHorseCard(h, popRank){
       ${h.damsire?`<div class="kv-row"><span class="k">母父</span><span class="v">${h.damsire}</span></div>`:''}
       ${h.keyWin?`<div class="kv-row"><span class="k">主な勝鞍</span><span class="v">${h.keyWin}</span></div>`:''}
       ${h.style?`<div style="font-size:10px;color:var(--ink-muted);margin-top:-2px;">※脚質は近走までのレース内容をもとにした参考値です。</div>`:''}
-      ${(!h.sire && !h.keyWin) ? '<div class="no-profile">血統・過去の実績は調査中です。</div>' : ''}
+      ${(!h.sire && !h.keyWin && !c) ? '<div class="no-profile">血統・過去の実績は調査中です。</div>' : ''}
+      ${statsHtml}
+      ${recentHtml}
+      ${h.wetNote?`<div class="wet-note"><b>🌧 馬場適性（雨・重馬場）：</b>${h.wetNote}</div>`:''}
       ${h.note?`<div class="comment-line">${h.note}</div>`:''}
     </div>`;
   modalBackdrop.classList.add('open');
@@ -1054,10 +1125,11 @@ function openJockeyCard(name){
   } else {
     statCard.innerHTML = `
       <div class="stat-card-head jockey-card-head">
-        <div><h2>${name}</h2><div class="meta">${j.stable||''}所属 ／ JRAリーディング${j.leadingRank||'―'}位</div></div>
+        <div><h2>${name}</h2><div class="meta">${j.stable||''}所属 ／ JRAリーディング${j.leadingRank||'―'}位${j.debut?`　／　${j.debut}年デビュー`:''}</div></div>
         <button class="close" id="statClose" aria-label="閉じる">&times;</button>
       </div>
       <div class="stat-card-body">
+        <div class="sub-h">今シーズン成績</div>
         <div class="jockey-stat-grid">
           <div class="jockey-stat-cell"><div class="k">1着</div><div class="v">${j.wins}</div></div>
           <div class="jockey-stat-cell"><div class="k">2着</div><div class="v">${j.seconds}</div></div>
@@ -1065,6 +1137,13 @@ function openJockeyCard(name){
           <div class="jockey-stat-cell"><div class="k">勝率</div><div class="v">${(j.winRate*100).toFixed(1)}%</div></div>
           <div class="jockey-stat-cell"><div class="k">複勝率</div><div class="v">${(j.top3Rate*100).toFixed(1)}%</div></div>
         </div>
+        ${j.careerWins!=null?`
+        <div class="sub-h">通算成績（中央競馬）</div>
+        <div class="kv-row"><span class="k">通算勝利数</span><span class="v">${j.careerWins.toLocaleString()}勝</span></div>
+        <div class="kv-row"><span class="k">GI勝利数</span><span class="v">${j.gWins}勝</span></div>
+        <div class="kv-row"><span class="k">重賞勝利数</span><span class="v">${j.stakesWins}勝</span></div>
+        `:''}
+        ${j.notable?`<div class="comment-line">${j.notable}</div>`:''}
         ${j.note?`<div class="comment-line">${j.note}</div>`:''}
       </div>`;
   }
