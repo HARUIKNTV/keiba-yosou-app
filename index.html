@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%87%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>競馬予想｜JRA全場・全レースの予想印と買い目ガイド</title>
 <meta name="description" content="JRA全場・全レースを対象に、単勝オッズと騎手成績・コース傾向から算出した予想印（◎○▲△注）と、予算に応じた買い目パターンを毎週金曜に自動更新。根拠を全て開示する透明な予想サイトです。">
 <link rel="canonical" href="https://deep-yosou-shimbun-haruikintv.vercel.app/">
@@ -18,6 +21,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","name":"競馬予想","url":"https://deep-yosou-shimbun-haruikintv.vercel.app/"}
 </script>
+<script type="application/ld+json" id="ldDynamic"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
@@ -78,8 +82,9 @@ button{font-family:inherit;}
 .masthead{background:var(--surface);box-shadow:var(--shadow);position:sticky;top:0;z-index:20;}
 .masthead-top{background:var(--brand);color:var(--brand-ink);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px 16px;font-size:11px;font-weight:700;letter-spacing:.02em;padding:6px 20px;}
 .masthead-main{padding:12px 20px;display:flex;align-items:center;gap:10px;}
-.masthead h1{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:clamp(20px,3.6vw,28px);margin:0;letter-spacing:.01em;}
-.masthead h1 button{background:none;border:none;color:var(--ink);font:inherit;font-weight:inherit;cursor:pointer;padding:0;display:flex;align-items:center;gap:8px;}
+.masthead .brand{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:clamp(20px,3.6vw,28px);margin:0;letter-spacing:.01em;}
+.masthead .brand button{background:none;border:none;color:var(--ink);font:inherit;font-weight:inherit;cursor:pointer;padding:0;display:flex;align-items:center;gap:8px;}
+.panel-head h1,.panel-head h2{margin:0;font:inherit;display:inline;}
 .masthead .logo-mark{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:var(--r-sm);background:var(--brand);color:#fff;font-size:18px;flex-shrink:0;}
 .crumb{font-size:11.5px;color:var(--ink-muted);padding:0 20px 10px;overflow-wrap:anywhere;}
 .crumb button{background:none;border:none;color:var(--brand);cursor:pointer;font:inherit;padding:0;font-weight:700;}
@@ -308,6 +313,7 @@ footer{text-align:center;padding:26px 20px;font-size:11px;color:var(--ink-muted)
 footer a{color:var(--brand);text-decoration:none;font-weight:700;}
 footer a:hover{text-decoration:underline;}
 [hidden]{display:none!important;}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 
 /* ---- mobile ---- */
 @media (max-width:600px){
@@ -354,18 +360,18 @@ footer a:hover{text-decoration:underline;}
     <span id="todayStr"></span>
   </div>
   <div class="masthead-main">
-    <h1><button id="titleHome" type="button"><span class="logo-mark">🏇</span>競馬予想</button></h1>
+    <p class="brand"><button id="titleHome" type="button"><span class="logo-mark">🏇</span>競馬予想</button></p>
   </div>
   <div class="crumb" id="crumb"></div>
 </div>
 
-<div class="wrap">
+<main class="wrap">
   <div class="demo-banner" id="topBanner">
     このサイトは<b>投票前の予想検討に特化した参考サイト</b>です（レース結果・払戻情報は掲載していません）。予想印・買い目ガイドは<b>当サイト独自の透明なロジック</b>（単勝オッズ・騎手成績・コース傾向から機械的に算出）によるもので、どの数値をもとにその印が付いたかを各馬の下に表示しています。専門家による予想や的中を保証するものではありません。最新の出走馬・オッズは必ず<a href="https://www.jra.go.jp/" target="_blank" rel="noopener">JRA公式サイト</a>でご確認ください。馬券の購入は20歳になってから。
     <div style="margin-top:6px;"><a href="/track-record" class="js-nav" data-path="/track-record">→ 予想ロジックの実績を実際のレース結果で検証（毎週更新）</a></div>
   </div>
   <div id="view"></div>
-</div>
+</main>
 
 <footer>
   競馬予想 &mdash; 毎週金曜19時ごろ、その週末に開催されるJRA全場・全レースの出馬表とオッズを取得し自動更新します。<br>
@@ -837,6 +843,14 @@ function setMeta(title, description, path, noindex){
   set('meta[name="twitter:description"]', 'content', description);
   set('meta[name="robots"]', 'content', noindex ? 'noindex,follow' : 'index,follow');
 }
+function setLD(obj){
+  const el = document.getElementById('ldDynamic');
+  if(el) el.textContent = obj ? JSON.stringify(obj) : '';
+}
+function breadcrumbLD(items){
+  return {"@context":"https://schema.org","@type":"BreadcrumbList",
+    "itemListElement": items.map((it,i)=>({"@type":"ListItem","position":i+1,"name":it.name,"item":SITE_ORIGIN+it.path}))};
+}
 function navigate(path){
   if(location.pathname + location.search !== path){
     history.pushState(null, '', path);
@@ -875,7 +889,8 @@ function renderHome(){
   crumb.textContent = '';
   setMeta('競馬予想｜JRA全場・全レースの予想印と買い目ガイド',
     'JRA全場・全レースを対象に、単勝オッズと騎手成績・コース傾向から算出した予想印（◎○▲△注）と、予算に応じた買い目パターンを毎週金曜に自動更新。根拠を全て開示する透明な予想サイトです。', '/');
-  let html = '';
+  setLD(null);
+  let html = '<h1 class="visually-hidden">JRA競馬予想｜全場・全レースの予想印と買い目ガイド</h1>';
   const ACCENTS = ['var(--brand)','var(--info)','var(--turf)','var(--gold)','var(--dirt)'];
   let vi = 0;
   MEETS.forEach(meet=>{
@@ -916,10 +931,11 @@ function renderVenue(id){
   document.getElementById('crumbHome').addEventListener('click', ()=> navigate('/'));
   setMeta(`${venue.name}競馬場 ${meet.dateLabel}の予想｜競馬予想`,
     `${meet.dateLabel}に開催される${venue.name}競馬場・全12レースの予想印と買い目ガイド一覧。`, '/venue/'+venue.id, meet.demo);
+  setLD(breadcrumbLD([{name:'競馬予想', path:'/'}, {name:`${venue.name}競馬場 ${meet.dateLabel}`, path:'/venue/'+venue.id}]));
   let html = `
     ${meet.demo?`<div class="demo-note"><b>これはデモ表示です。</b>実際に公開済みの過去のJRAレース（出走馬・オッズ・騎手データは実データ）を使い、出走馬確定後にサイトがどのような見た目・予想内容になるかをご覧いただくためのサンプルです。投票対象のレースではありません。</div>`:''}
     <div class="panel">
-      <div class="panel-head">${venue.name}競馬場<span class="sub">${meet.dateLabel}・${venue.meetLabel}</span></div>
+      <div class="panel-head"><h1>${venue.name}競馬場</h1><span class="sub">${meet.dateLabel}・${venue.meetLabel}</span></div>
       <div class="race-table">`;
   venue.races.forEach(r=>{
     const confirmed = r.horses.length>0;
@@ -1031,10 +1047,21 @@ function renderRace(venueId, no){
   setMeta(`${raceLabel}｜${meet.dateLabel} 予想印・買い目ガイド`,
     `${meet.dateLabel}${venue.name}競馬場${no}R${race.name?' '+race.name:''}の予想印（◎○▲△注）と根拠、予算別の買い目ガイド。`,
     `/race/${venue.id}/${no}`, meet.demo);
+  const breadcrumb = [{name:'競馬予想', path:'/'}, {name:`${venue.name}競馬場 ${meet.dateLabel}`, path:'/venue/'+venue.id}, {name:`${no}R`, path:`/race/${venue.id}/${no}`}];
+  if(race.name && race.horses.length>0 && !meet.demo){
+    setLD({"@context":"https://schema.org","@type":"SportsEvent","name":race.name,
+      "sport":"Horse Racing","startDate":meet.date,
+      "location":{"@type":"Place","name":venue.name+'競馬場'},
+      "organizer":{"@type":"Organization","name":"JRA"},
+      "eventStatus":"https://schema.org/EventScheduled",
+      "url":SITE_ORIGIN+`/race/${venue.id}/${no}`});
+  } else {
+    setLD(breadcrumbLD(breadcrumb));
+  }
 
   const header = `
     <div class="panel-head">
-      ${no}R ${race.name || '（詳細準備中）'}
+      <h1>${no}R ${race.name || '（詳細準備中）'}</h1>
       <span class="sub">${meet.dateLabel} ${venue.name}競馬場</span>
     </div>
     <div style="padding:10px 14px 0;">
@@ -1263,11 +1290,12 @@ function renderTrackRecord(){
   setMeta('予想実績・検証｜競馬予想',
     `当サイトの予想ロジックを実際のJRAレース結果で検証した集計値。◎本命の複勝的中率${TRACK_RECORD.marks['◎'].place3}%（検証${TRACK_RECORD.totalRaces}レース、${TRACK_RECORD.lastUpdated}時点）。`,
     '/track-record');
+  setLD(breadcrumbLD([{name:'競馬予想', path:'/'}, {name:'予想実績・検証', path:'/track-record'}]));
   const tr = TRACK_RECORD;
   const syms = ['◎','○','▲','△','注'];
   view.innerHTML = `
     <div class="panel">
-      <div class="panel-head">予想実績・検証<span class="sub">検証${tr.totalRaces}レース・${tr.lastUpdated}時点</span></div>
+      <div class="panel-head"><h1>予想実績・検証</h1><span class="sub">検証${tr.totalRaces}レース・${tr.lastUpdated}時点</span></div>
       <div class="track-note">
         <b>これは何か：</b>当サイトの予想印（◎○▲△注）は <code style="font-family:'JetBrains Mono',monospace;">score = (1/単勝オッズ)×(1+騎手複勝率)×コース適性係数</code> という現行ロジックで機械的に算出しています。このページは、そのロジックを実際に開催済みのJRAレースへ後から当てはめ（バックテスト）、各印が実際に何着だったかを集計した結果です。<b>個々の馬の着順など生データは保持せず、集計された的中率のみを公開</b>しています。数値は毎週の自動更新のたびに検証レース数を積み増して更新されます。
         <br><br>
